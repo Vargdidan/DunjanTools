@@ -14,45 +14,48 @@ func _ready():
 	
 
 func _player_connected(id):
-	var root = get_tree().get_root()
-	var current_scene = root.get_child(root.get_child_count() - 1)
+	if (get_tree().get_network_peer() != null && get_tree().is_network_server()):
+		rpc_id(id, "register_player", ClientVariables.inserted_tokens, ClientVariables.current_map, ClientVariables.connected_players)
 	
-	for token in ClientVariables.inserted_tokens:
-		var array = ClientVariables.inserted_tokens.get(token)
-		var temp = current_scene.get_node("Tokens").get_node(token)
-		ClientVariables.inserted_tokens.get(token)[1] = temp.get_node("Sprite").get_global_position()
-	
-	rpc_id(id, "register_player", ClientVariables.inserted_tokens, ClientVariables.current_map)
 
-remote func register_player(tokens, map):
+remote func register_player(tokens, map, players):
+	print(players)
 	var root = get_tree().get_root()
 	var current_scene = root.get_child(root.get_child_count() - 1)
-	
 	current_scene.change_map(map)
 	
 	for token in tokens:
 		var array = tokens.get(token)
-		current_scene.create_token(array[0], array[1])
+		current_scene.create_token(array[0], array[1], Vector2(0,0))
 	
+	for player in players:
+		var array = players.get(player)
+		current_scene.add_player(array[0], array[1])
 
 func _player_disconnected(id):
-	pass # Erase player from info.
+	var root = get_tree().get_root()
+	var current_scene = root.get_child(root.get_child_count() - 1)
+	current_scene.rpc("remove_player", id)
 
+# Only called on clients, not server.
 func _connected_ok():
-	# Only called on clients, not server. Will go unused; not useful here.
 	Global.goto_scene("res://Session/Battlemap.tscn")
 
-func _server_disconnected():
+# Server kicked us; show error and abort.
+func _server_disconnected(): 
 	Global.goto_scene("res://GUI/MainMenu.tscn")
-	pass # Server kicked us; show error and abort.
+	get_tree().network_peer = null
 
+ # Could not even connect to server; abort.
 func _connected_fail():
-	pass # Could not even connect to server; abort.
+	get_tree().network_peer = null 
 
 func _on_Host_pressed():
-	var upnp = UPNP.new()
-	upnp.discover(2000, 2, "InternetGatewayDevice")
-	upnp.add_port_mapping(ClientVariables.port)
+	#var upnp = UPNP.new()
+	#var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
+	#if result_upnp == 0:
+	#	upnp.add_port_mapping(ClientVariables.port)
+	
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_server(ClientVariables.port, MAX_PLAYERS)
 	if (result == OK):

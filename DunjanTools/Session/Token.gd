@@ -12,23 +12,18 @@ func initialize(texture_name, postion):
 	if loaded == OK:
 		texture = ImageTexture.new()
 		texture.create_from_image(image, 0)
-		set_default_size()
-		var target_pos = postion
-		var current_size_x=get_rect().size.x*scale.x
-		var current_size_y=get_rect().size.y*scale.y
-		target_pos.x = stepify(target_pos.x-current_size_x/2, tile_size)
-		target_pos.y = stepify(target_pos.y-current_size_y/2, tile_size)
-		target_position = target_pos
-		global_position = target_position
-		
-		var name = get_parent().name
-		var pos = name.rfindn("@")
-		if (pos != -1):
-			var right = name.right(pos+2)
-			var number = 1 + int(right)
-			token_name.set_text(String(number))
-		else:
-			token_name.set_text("0")
+		token_name.set_text(get_parent().name)
+		if ((get_tree().get_network_peer() == null) || get_tree().is_network_server()):
+			set_default_size()
+			var target_pos = postion
+			var current_size_x=get_rect().size.x*scale.x
+			var current_size_y=get_rect().size.y*scale.y
+			target_pos.x = stepify(target_pos.x-current_size_x/2, tile_size)
+			target_pos.y = stepify(target_pos.y-current_size_y/2, tile_size)
+			target_position = target_pos
+			global_position = target_position
+		elif (get_tree().get_network_peer() != null) && !get_tree().is_network_server():
+			rpc("request_position_scale")
 	
 
 func _process(delta):
@@ -51,8 +46,6 @@ func _process(delta):
 	global_position = lerp(global_position, target_position, 0.2)
 	token_name.set_global_position(global_position)
 	
-	if ((get_tree().get_network_peer() != null) && get_tree().is_network_server()):
-			rset_unreliable("scale", scale)
 	
 
 func check_selection():
@@ -62,14 +55,22 @@ func check_selection():
 	
 
 func move():
-	var LEFT = Input.is_action_just_pressed("ui_move_left")
-	var RIGHT = Input.is_action_just_pressed("ui_move_right")
-	var UP = Input.is_action_just_pressed("ui_move_up")
-	var DOWN = Input.is_action_just_pressed("ui_move_down")
-	target_position.x += (-int(LEFT) + int(RIGHT))*64
-	target_position.y += (-int(UP) + int(DOWN))*64
-	if (get_tree().get_network_peer() != null):
-			rset_unreliable("target_position", target_position)
+	if (Input.is_action_just_pressed("ui_move_left") ||
+		Input.is_action_just_pressed("ui_move_right") ||
+		Input.is_action_just_pressed("ui_move_up") ||
+		Input.is_action_just_pressed("ui_move_down")):
+			var LEFT = Input.is_action_just_pressed("ui_move_left")
+			var RIGHT = Input.is_action_just_pressed("ui_move_right")
+			var UP = Input.is_action_just_pressed("ui_move_up")
+			var DOWN = Input.is_action_just_pressed("ui_move_down")
+			if (get_tree().get_network_peer() != null):
+				var pos = Vector2(target_position.x, target_position.y)
+				pos.x += (-int(LEFT) + int(RIGHT))*64
+				pos.y += (-int(UP) + int(DOWN))*64
+				rpc("request_movement", pos)
+			else:
+				target_position.x += (-int(LEFT) + int(RIGHT))*64
+				target_position.y += (-int(UP) + int(DOWN))*64
 	
 
 func move_mouse():
@@ -80,8 +81,11 @@ func move_mouse():
 			target_pos.x = stepify(target_pos.x-current_size_x/2, tile_size)
 			target_pos.y = stepify(target_pos.y-current_size_y/2, tile_size)
 			target_position = target_pos
+			
 			if (get_tree().get_network_peer() != null):
-				rset_unreliable("target_position", target_position)
+				rpc("request_movement", target_pos)
+			else:
+				target_position = target_pos
 		
 
 func resize():
@@ -89,7 +93,12 @@ func resize():
 		var current_size_x=get_rect().size.x*scale.x
 		var current_size_y=get_rect().size.y*scale.y
 		var sizeto=Vector2(current_size_x+tile_size, current_size_y+tile_size)
-		scale = sizeto/get_rect().size
+		var _scale = sizeto/get_rect().size
+		
+		if (get_tree().get_network_peer() != null):
+			rpc("request_scale", _scale)
+		else:
+			scale = _scale
 		
 	
 	if (Input.is_action_just_released("ui_scroll_down") && Input.is_action_pressed("ui_control")):
@@ -97,10 +106,32 @@ func resize():
 		var current_size_y=get_rect().size.y*scale.y
 		var sizeto=Vector2(current_size_x-tile_size, current_size_y-tile_size)
 		if (sizeto.x > tile_size/2):
-			scale = sizeto/get_rect().size
+			var _scale = sizeto/get_rect().size
+			if (get_tree().get_network_peer() != null):
+				rpc("request_scale", _scale)
+			else:
+				scale = _scale
 		
 	
 
 func set_default_size():
 	var sizeto=Vector2(tile_size, tile_size)
 	scale = sizeto/get_rect().size
+
+remotesync func request_movement(pos):
+	if get_tree().is_network_server():
+		rset("target_position", pos)
+		target_position = pos
+	
+
+remotesync func request_scale(_scale):
+	if get_tree().is_network_server():
+		rset("scale", _scale)
+		scale = _scale
+	
+
+remote func request_position_scale():
+	if get_tree().is_network_server():
+		rset("scale", scale)
+		rset("target_position", target_position)
+	

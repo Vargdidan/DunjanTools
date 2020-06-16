@@ -38,5 +38,5 @@ func resize():
 		scale = Vector2(scale_x, scale_y)
 	
 	if (get_tree().get_network_peer() != null):
-		rset_unreliable("scale", scale)
+		rset("scale", scale)
 	

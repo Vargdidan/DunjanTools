@@ -10,3 +10,6 @@ var current_map = null
 
 var ip_address = '127.0.0.1'
 var port = 31400
+var username = "noname"
+
+var connected_players = {}

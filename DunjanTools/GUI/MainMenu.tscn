@@ -19,6 +19,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label5" type="Label" parent="UI"]
+margin_left = 1.67017
+margin_top = 681.434
+margin_right = 1921.67
+margin_bottom = 744.434
+custom_fonts/font = ExtResource( 1 )
+text = "Username:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Label3" type="Label" parent="UI"]
 margin_top = 64.0
 margin_right = 1920.0
@@ -56,9 +68,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 752.0
-margin_top = 360.0
+margin_top = 323.0
 margin_right = -720.0
-margin_bottom = -651.0
+margin_bottom = -688.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
 text = "Host a game"
@@ -70,9 +82,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 752.0
-margin_top = 448.0
+margin_top = 411.0
 margin_right = -720.0
-margin_bottom = -563.0
+margin_bottom = -600.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
 text = "Connect to a game"
@@ -84,9 +96,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 752.0
-margin_top = 536.0
+margin_top = 499.0
 margin_right = -720.0
-margin_bottom = -475.0
+margin_bottom = -512.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
 text = "Enter offline"
@@ -106,6 +118,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Username" type="TextEdit" parent="UI"]
+margin_left = 791.902
+margin_top = 744.462
+margin_right = 1135.9
+margin_bottom = 816.462
+custom_fonts/font = ExtResource( 1 )
+text = "noname"
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Port" type="TextEdit" parent="UI"]
 margin_left = 1088.0
 margin_top = 1000.0
@@ -119,4 +143,5 @@ __meta__ = {
 }
 [connection signal="pressed" from="UI/Offline" to="." method="_on_Offline_pressed"]
 [connection signal="text_changed" from="UI/IP" to="." method="_on_IP_text_changed"]
+[connection signal="text_changed" from="UI/Username" to="." method="_on_Username_text_changed"]
 [connection signal="text_changed" from="UI/Port" to="." method="_on_Port_text_changed"]

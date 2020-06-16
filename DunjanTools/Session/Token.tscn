@@ -16,9 +16,10 @@ shader_param/outline_color = Color( 1, 0.721569, 0.286275, 1 )
 follow_viewport_enable = true
 
 [node name="token_name" type="Label" parent="UI"]
-visible = false
+margin_top = -16.0
 margin_right = 40.0
-margin_bottom = 26.0
+margin_bottom = 10.0
+rect_scale = Vector2( 0.6, 0.6 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 3 )

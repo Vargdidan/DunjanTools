@@ -16,3 +16,7 @@ func _on_IP_text_changed():
 
 func _on_Port_text_changed():
 	ClientVariables.port = int(get_node("UI/Port").get_text())
+
+
+func _on_Username_text_changed():
+	ClientVariables.username = get_node("UI/Username").get_text()

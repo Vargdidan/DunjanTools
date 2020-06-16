@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Session/TileMap.gd" type="Script" id=1]
 [ext_resource path="res://Session/Battlemap.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=7]
 [ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=8]
 [ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Fonts/MenuSize.tres" type="DynamicFont" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Fog.png 0"
@@ -75,6 +76,21 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = -1016.0
 margin_bottom = -592.0
+
+[node name="Players" type="VBoxContainer" parent="UI"]
+margin_left = -1.0
+margin_top = 858.0
+margin_right = 233.0
+margin_bottom = 1077.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/Players"]
+margin_right = 234.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 10 )
+text = "Players:"
 
 [node name="Map" type="Sprite" parent="."]
 centered = false
