@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Session/TileMap.gd" type="Script" id=1]
+[ext_resource path="res://Session/Battlemap.gd" type="Script" id=2]
+[ext_resource path="res://Session/Camera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Fog.png" type="Texture" id=5]
+[ext_resource path="res://Session/Map.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=7]
+[ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=9]
+
+[sub_resource type="TileSet" id=1]
+0/name = "Fog.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 64, 64 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Fog.png 1"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 64, 0, 64, 64 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
+[node name="Battlemap" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+position = Vector2( 960, 540 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TokenList" parent="UI" instance=ExtResource( 4 )]
+margin_left = 1904.0
+margin_top = 8.0
+margin_right = 1904.0
+margin_bottom = 8.0
+
+[node name="InsertToken" type="Label" parent="UI"]
+margin_left = 800.0
+margin_top = 8.0
+margin_right = 840.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapList" parent="UI" instance=ExtResource( 8 )]
+margin_left = 1488.0
+margin_top = 8.0
+margin_right = 1488.0
+margin_bottom = 8.0
+
+[node name="Controls" parent="UI" instance=ExtResource( 9 )]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -1016.0
+margin_bottom = -592.0
+
+[node name="Map" type="Sprite" parent="."]
+centered = false
+script = ExtResource( 6 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+format = 1
+script = ExtResource( 1 )
+
+[node name="Tokens" type="Node2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+[connection signal="timeout" from="Timer" to="TileMap" method="_on_Timer_timeout"]

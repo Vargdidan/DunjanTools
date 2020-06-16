@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Shader/outline.shader" type="Shader" id=1]
+[ext_resource path="res://Session/Token.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+render_priority = 1
+shader = ExtResource( 1 )
+shader_param/width = 10.0
+shader_param/outline_color = Color( 1, 0.721569, 0.286275, 1 )
+
+[node name="Token" type="Node2D"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="token_name" type="Label" parent="UI"]
+visible = false
+margin_right = 40.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 3 )
+text = "took"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 1 )
+use_parent_material = true
+z_index = 100
+z_as_relative = false
+centered = false
+script = ExtResource( 2 )

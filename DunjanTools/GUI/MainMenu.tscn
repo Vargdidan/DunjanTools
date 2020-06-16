@@ -1,0 +1,122 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Fonts/BigMenu.tres" type="DynamicFont" id=1]
+[ext_resource path="res://GUI/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Fonts/MenuSize.tres" type="DynamicFont" id=3]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+margin_right = 1920.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 1 )
+text = "Welcome to DunjanTools!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI"]
+margin_top = 64.0
+margin_right = 1920.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 3 )
+text = "Explore dungeons with the wizards tools from the school of computing"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="UI"]
+margin_top = 952.0
+margin_right = 1920.0
+margin_bottom = 991.0
+custom_fonts/font = ExtResource( 3 )
+text = "(The host does not need to set the IP. The host must provide external IP and used port)"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI"]
+margin_top = 896.0
+margin_right = 1920.0
+margin_bottom = 959.0
+custom_fonts/font = ExtResource( 1 )
+text = "Connecting to this IP and port in the astral plane:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Host" type="Button" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 752.0
+margin_top = 360.0
+margin_right = -720.0
+margin_bottom = -651.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+text = "Host a game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connect" type="Button" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 752.0
+margin_top = 448.0
+margin_right = -720.0
+margin_bottom = -563.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+text = "Connect to a game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Offline" type="Button" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 752.0
+margin_top = 536.0
+margin_right = -720.0
+margin_bottom = -475.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+text = "Enter offline"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IP" type="TextEdit" parent="UI"]
+margin_left = 680.0
+margin_top = 1000.0
+margin_right = 1024.0
+margin_bottom = 1072.0
+custom_fonts/font = ExtResource( 1 )
+text = "127.0.0.1"
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Port" type="TextEdit" parent="UI"]
+margin_left = 1088.0
+margin_top = 1000.0
+margin_right = 1240.0
+margin_bottom = 1072.0
+custom_fonts/font = ExtResource( 1 )
+text = "31400"
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="UI/Offline" to="." method="_on_Offline_pressed"]
+[connection signal="text_changed" from="UI/IP" to="." method="_on_IP_text_changed"]
+[connection signal="text_changed" from="UI/Port" to="." method="_on_Port_text_changed"]
