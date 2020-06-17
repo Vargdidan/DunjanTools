@@ -51,10 +51,15 @@ func _connected_fail():
 	get_tree().network_peer = null 
 
 func _on_Host_pressed():
-	#var upnp = UPNP.new()
-	#var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
-	#if result_upnp == 0:
-	#	upnp.add_port_mapping(ClientVariables.port)
+	var upnp = UPNP.new()
+	var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
+	if result_upnp == 0:
+		upnp.add_port_mapping(ClientVariables.port)
+	else:
+		upnp.set_discover_ipv6(true)
+		result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
+		if result_upnp == 0:
+			upnp.add_port_mapping(ClientVariables.port)
 	
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_server(ClientVariables.port, MAX_PLAYERS)
