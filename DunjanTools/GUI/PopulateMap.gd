@@ -18,7 +18,6 @@ func dir_contents(path):
 					create_map(name[0], file_name)
 			file_name = dir.get_next()
 	else:
-		dir.make_dir(path)
 		print("An error occurred when trying to access the path.")
 
 func create_map(name, file_name):

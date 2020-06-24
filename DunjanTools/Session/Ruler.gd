@@ -37,4 +37,8 @@ func _draw():
 	if (pos_is_set):
 		var local_start_pos = to_local(Vector2(start_pos.x*64+32,start_pos.y*64+32))
 		var local_end_pos = to_local(Vector2(end_pos.x*64+32, end_pos.y*64+32))
-		draw_line(local_start_pos, local_end_pos, color, 3, true)
+		if (Input.is_action_pressed("circle")):
+			draw_circle(local_start_pos, local_start_pos.distance_to(local_end_pos),color)
+		else:
+			draw_line(local_start_pos, local_end_pos, color, 3, true)
+		
