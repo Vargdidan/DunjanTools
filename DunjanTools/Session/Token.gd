@@ -3,6 +3,7 @@ extends Sprite
 var tile_size = 64 # size in pixels of tiles on the grid
 var target_position = Vector2() # desired position to move toward
 onready var token_name = get_parent().get_node("UI/token_name")
+onready var color = Color(1, 0.2, 0.2)
 
 func initialize(texture_name, postion):
 	rset_config("target_position", MultiplayerAPI.RPC_MODE_REMOTESYNC)
@@ -27,6 +28,8 @@ func initialize(texture_name, postion):
 	
 
 func _process(delta):
+	update()
+	
 	check_selection()
 	if (ClientVariables.selected_token == get_parent()):
 		var dirty = false
@@ -34,25 +37,25 @@ func _process(delta):
 			if !get_rect().has_point(to_local(get_global_mouse_position())):
 				ClientVariables.selected_token = null
 				dirty = true
-		set_use_parent_material(false)
-		token_name.set_visible(true)
 		if (!dirty):
 			move_mouse()
 			move()
 			resize()
-	else:
-		set_use_parent_material(true)
-		token_name.set_visible(false)
 	global_position = lerp(global_position, target_position, 0.2)
 	token_name.set_global_position(global_position)
 	
-	
+
+func _draw():
+	if (ClientVariables.selected_token == get_parent()):
+		draw_rect(get_rect(), color, false, 1.5/scale.x, true)
 
 func check_selection():
-	if (Input.is_action_just_pressed("ui_mouse_click")):
-		if get_rect().has_point(to_local(get_global_mouse_position())):
+	if get_rect().has_point(to_local(get_global_mouse_position())):
+		token_name.set_visible(true)
+		if (Input.is_action_just_pressed("ui_mouse_click")):
 			ClientVariables.selected_token = get_parent()
-	
+	else:
+		token_name.set_visible(false)
 
 func move():
 	if (Input.is_action_just_pressed("ui_move_left") ||

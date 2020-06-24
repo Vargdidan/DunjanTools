@@ -1,14 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Shader/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Session/Token.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=3]
-
-[sub_resource type="ShaderMaterial" id=1]
-render_priority = 1
-shader = ExtResource( 1 )
-shader_param/width = 10.0
-shader_param/outline_color = Color( 1, 0.721569, 0.286275, 1 )
 
 [node name="Token" type="Node2D"]
 
@@ -29,9 +22,5 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 1 )
-use_parent_material = true
-z_index = 100
-z_as_relative = false
 centered = false
 script = ExtResource( 2 )

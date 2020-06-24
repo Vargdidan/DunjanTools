@@ -51,15 +51,16 @@ func _connected_fail():
 	get_tree().network_peer = null 
 
 func _on_Host_pressed():
-	var upnp = UPNP.new()
-	var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
-	if result_upnp == 0:
-		upnp.add_port_mapping(ClientVariables.port)
-	else:
-		upnp.set_discover_ipv6(true)
-		result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
+	if (ClientVariables.use_upnp):
+		var upnp = UPNP.new()
+		var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
 		if result_upnp == 0:
 			upnp.add_port_mapping(ClientVariables.port)
+		else:
+			upnp.set_discover_ipv6(true)
+			result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
+			if result_upnp == 0:
+				upnp.add_port_mapping(ClientVariables.port)
 	
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_server(ClientVariables.port, MAX_PLAYERS)
@@ -75,6 +76,10 @@ func _on_Connect_pressed():
 		get_tree().network_peer = peer
 		
 	
+
+func _on_UPNP_toogled(button_pressed):
+	print(button_pressed)
+	ClientVariables.use_upnp = button_pressed
 
 #func _notification(what):
 	#if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:

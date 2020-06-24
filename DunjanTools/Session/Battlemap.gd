@@ -4,6 +4,7 @@ var token_scene = preload("res://Session/Token.tscn")
 onready var token_counter = 0
 onready var tokens = get_node("Tokens")
 onready var map = get_node("Map")
+onready var ping = get_node("Ping")
 
 func _ready():
 	Global.connect("changed_map", self, "_recieved_change_map")
@@ -13,17 +14,30 @@ func _ready():
 	if (get_tree().get_network_peer() != null):
 		get_node("UI/Players").set_visible(true)
 		var id = get_tree().get_network_unique_id()
-		rpc("add_player", id, ClientVariables.username)
+		rpc("request_to_add_player", id, ClientVariables.username)
 
 func _process(delta):
-	if (Input.is_action_just_pressed("delete")):
-		remove_token( ClientVariables.selected_token.name)
-	
-	if ((get_tree().get_network_peer() != null) && !get_tree().is_network_server()):
-		get_node("UI/MapList").set_visible(false)
-	
-	if ((get_tree().get_network_peer() != null) && get_tree().is_network_server()):
-			rset("token_counter", token_counter)
+	if (get_tree().get_network_peer() != null):
+		if (Input.is_action_just_pressed("delete")):
+			rpc("remove_token", ClientVariables.selected_token.name)
+		
+		if (!get_tree().is_network_server()):
+			get_node("UI/MapList").set_visible(false)
+		
+		if (get_tree().is_network_server()):
+				rset("token_counter", token_counter)
+		
+		if (Input.is_action_just_pressed("ping")):
+			if (!ping.is_emitting()):
+				rpc("ping_map", get_global_mouse_position())
+	else:
+		if (Input.is_action_just_pressed("delete")):
+			remove_token( ClientVariables.selected_token.name)
+		
+		if (Input.is_action_just_pressed("ping")):
+			if (!ping.is_emitting()):
+				ping.set_position(get_global_mouse_position())
+				ping.set_emitting(true)
 
 remotesync func create_token(token_name, token_file, position):
 	var token = token_scene.instance()
@@ -36,6 +50,8 @@ remotesync func create_token(token_name, token_file, position):
 	
 
 remotesync func remove_token(token_name):
+	var counter = token_name.split("_")[1]
+	ClientVariables.inserted_tokens.erase(counter)
 	var temp = tokens.get_node(token_name)
 	temp.queue_free()
 
@@ -67,6 +83,10 @@ func on_dropped(files, droppedFrom):
 		create_token(name, file, position)
 	
 
+remotesync func request_to_add_player(id, name):
+	if get_tree().is_network_server():
+		rpc("add_player", id, name)
+
 remotesync func add_player(id, name):
 	var player = Label.new()
 	player.set_name(String(id))
@@ -79,3 +99,7 @@ remotesync func add_player(id, name):
 remotesync func remove_player(id):
 	ClientVariables.connected_players.erase(id)
 	get_node("UI/Players").get_node(String(id)).queue_free()
+
+remotesync func ping_map(positon):
+	ping.set_position(positon)
+	ping.set_emitting(true)

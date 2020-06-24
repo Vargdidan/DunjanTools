@@ -24,6 +24,8 @@ func _input(event):
 		if event is InputEventMouseMotion:
 			move_direction -= event.relative * zoom * 0.1
 		
+	if Input.is_action_pressed("ui_control") && Input.is_action_just_pressed("zero_camera"):
+		global_position = Vector2(960, 540)
 	
 
 func move():

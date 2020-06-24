@@ -78,6 +78,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="UPNP" type="Button" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 640.0
+margin_top = 323.0
+margin_right = -1188.0
+margin_bottom = -688.0
+focus_mode = 0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+toggle_mode = true
+enabled_focus_mode = 0
+text = "UPNP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Connect" type="Button" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0

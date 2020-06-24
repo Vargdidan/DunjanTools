@@ -4,6 +4,7 @@ extends Node2D
 func _ready():
 	get_node("UI/Host").connect("pressed", Network, "_on_Host_pressed")
 	get_node("UI/Connect").connect("pressed", Network, "_on_Connect_pressed")
+	get_node("UI/UPNP").connect("toggled", Network, "_on_UPNP_toogled")
 
 
 func _on_Offline_pressed():
