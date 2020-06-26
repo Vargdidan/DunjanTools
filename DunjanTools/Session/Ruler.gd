@@ -39,12 +39,12 @@ func _draw():
 		
 		var center_start = to_local(Vector2(start_pos.x*64+32,start_pos.y*64+32))
 		var center_end = to_local(Vector2(end_pos.x*64+32, end_pos.y*64+32))
-		var center_length = center_start.distance_to(center_end)
-		var length_ft = round(center_length/64)*5
+		var center_length = get_distance(center_start, center_end)
+		var length_ft = round(get_distance(start_pos, end_pos)*5)
 		
 		var intersect_start = to_local(start_pos_raw.snapped(Vector2(64,64)))
 		var snapped_end_raw = to_local(get_global_mouse_position().snapped(Vector2(64,64)))
-		var intersect_length = intersect_start.distance_to(snapped_end_raw)
+		var intersect_length = get_distance(intersect_start, snapped_end_raw)
 		
 		if (Input.is_action_pressed("circle") && Input.is_action_pressed("ui_control")):
 			length_ft = round(center_length/64)*5
@@ -79,3 +79,9 @@ func _draw():
 		
 		length_label.set_text(String(length_ft) + " ft")
 		
+
+func get_distance(unit_x, unit_y):
+	var distance_x = abs(unit_x.x - unit_y.x)
+	var distance_y = abs(unit_x.y - unit_y.y)
+	var distance = int(max(distance_x, distance_y) + min(distance_x, distance_y)/2)
+	return distance
