@@ -37,45 +37,45 @@ func _draw():
 	if (pos_is_set):
 		length_label.set_visible(true)
 		
-		var local_start_pos = to_local(Vector2(start_pos.x*64+32,start_pos.y*64+32))
-		var local_end_pos = to_local(Vector2(end_pos.x*64+32, end_pos.y*64+32))
-		var length = local_start_pos.distance_to(local_end_pos)
-		var length_ft = round(start_pos.distance_to(end_pos))*5
+		var center_start = to_local(Vector2(start_pos.x*64+32,start_pos.y*64+32))
+		var center_end = to_local(Vector2(end_pos.x*64+32, end_pos.y*64+32))
+		var center_length = center_start.distance_to(center_end)
+		var length_ft = round(center_length/64)*5
 		
-		if (Input.is_action_pressed("circle")):
-			var circle_origin = to_local(start_pos_raw.snapped(Vector2(64,64)))
-			var end_ = to_local(Vector2(end_pos.x*64, end_pos.y*64))
-			var cirle_radius = circle_origin.distance_to(end_)
-			draw_circle(circle_origin, cirle_radius, color)
-			draw_circle(circle_origin, 3, color_origin)
+		var intersect_start = to_local(start_pos_raw.snapped(Vector2(64,64)))
+		var snapped_end_raw = to_local(get_global_mouse_position().snapped(Vector2(64,64)))
+		var intersect_length = intersect_start.distance_to(snapped_end_raw)
+		
+		if (Input.is_action_pressed("circle") && Input.is_action_pressed("ui_control")):
+			length_ft = round(center_length/64)*5
+			draw_circle(center_start, center_length, color)
+			draw_circle(center_start, 3, color_origin)
+		elif (Input.is_action_pressed("circle")):
+			length_ft = round(intersect_length/64)*5
+			draw_circle(intersect_start, intersect_length, color)
+			draw_circle(intersect_start, 3, color_origin)
 		elif (Input.is_action_pressed("cone")):
-			var cone_start_pos = to_local(start_pos_raw.snapped(Vector2(64,64)))
-			var mouse_position = get_global_mouse_position()
-			var cone_end_pos = to_local(mouse_position)
-			var cone_width = cone_start_pos.distance_to(cone_end_pos)/2
+			var cone_end_pos = to_local(get_global_mouse_position())
+			var cone_width = intersect_start.distance_to(cone_end_pos)/2
 			var cone_end_pos_1 = cone_end_pos+cone_end_pos.tangent().normalized()*cone_width
 			var cone_end_pos_2 = cone_end_pos+cone_end_pos.tangent().normalized()*-cone_width
-			length_ft = int((Vector2(cone_start_pos.x/64, cone_start_pos.y/64).distance_to(Vector2(cone_end_pos.x/64, cone_end_pos.y/64)))*5)
-			draw_line(cone_start_pos, cone_end_pos, color, 3, true)
-			draw_line(cone_start_pos, cone_end_pos_1, color, 3, true)
+			length_ft = int((Vector2(intersect_start.x/64, intersect_start.y/64).distance_to(Vector2(cone_end_pos.x/64, cone_end_pos.y/64)))*5)
+			draw_line(intersect_start, cone_end_pos, color, 3, true)
+			draw_line(intersect_start, cone_end_pos_1, color, 3, true)
 			draw_line(cone_end_pos_1, cone_end_pos_2, color, 3, true)
-			draw_line(cone_start_pos, cone_end_pos_2, color, 3, true)
-			draw_circle(cone_start_pos, 3, color_origin)
+			draw_line(intersect_start, cone_end_pos_2, color, 3, true)
+			draw_circle(intersect_start, 3, color_origin)
 		elif (Input.is_action_pressed("box")):
-			var box_origin = to_local(start_pos_raw.snapped(Vector2(64,64)))
-			var end_ = to_local(Vector2(end_pos.x*64, end_pos.y*64))
-			var box_width = box_origin.distance_to(end_)
-			draw_rect(Rect2(box_origin, Vector2(box_width, box_width)),color, true, 3,true)
-			draw_circle(box_origin, 3, color_origin)
+			length_ft = round(intersect_length/64)*5
+			draw_rect(Rect2(intersect_start, Vector2(intersect_length, intersect_length)),color, true, 3,true)
+			draw_circle(intersect_start, 3, color_origin)
 		elif (Input.is_action_pressed("line_aoe")):
-			var line_origin = to_local(start_pos_raw.snapped(Vector2(64,64)))
-			var end_ = to_local(get_global_mouse_position())
-			length_ft = int((Vector2(line_origin.x/64, line_origin.y/64).distance_to(Vector2(end_.x/64, end_.y/64)))*5)
-			draw_line(line_origin, end_, color, 64, true)
-			draw_circle(line_origin, 3, color_origin)
+			length_ft = round(intersect_length/64)*5
+			draw_line(intersect_start, snapped_end_raw, color, 3, true)
+			draw_circle(intersect_start, 3, color_origin)
 		else:
-			draw_circle(local_start_pos, 3, color_origin)
-			draw_line(local_start_pos, local_end_pos, color, 3, true)
+			draw_circle(center_start, 3, color_origin)
+			draw_line(center_start, center_end, color, 3, true)
 		
 		length_label.set_text(String(length_ft) + " ft")
 		
