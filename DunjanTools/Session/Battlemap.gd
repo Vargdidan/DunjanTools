@@ -50,8 +50,13 @@ remotesync func create_token(token_name, token_file, position):
 	
 
 remotesync func remove_token(token_name):
-	var counter = token_name.split("_")[1]
-	ClientVariables.inserted_tokens.erase(counter)
+	var token_key = token_name.rsplit("_",true,1)[1]
+	var temp_dict = {}
+	for token in ClientVariables.inserted_tokens :
+		if (token != int(token_key)) :
+			temp_dict[token] = ClientVariables.inserted_tokens.get(token)
+	ClientVariables.inserted_tokens.clear()
+	ClientVariables.inserted_tokens = temp_dict
 	var temp = tokens.get_node(token_name)
 	temp.queue_free()
 
