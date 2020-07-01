@@ -2,7 +2,7 @@ extends Sprite
 
 var tile_size = 64 # size in pixels of tiles on the grid
 var target_position = Vector2() # desired position to move toward
-onready var token_name = get_parent().get_node("UI/token_name")
+onready var token_name = get_parent().get_node("token_name")
 onready var color = Color(1, 0.2, 0.2)
 
 func initialize(texture_name, postion):

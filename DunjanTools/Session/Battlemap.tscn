@@ -13,6 +13,7 @@
 [ext_resource path="res://Session/Ruler.gd" type="Script" id=11]
 
 [sub_resource type="TileSet" id=1]
+resource_local_to_scene = true
 0/name = "Fog.png 0"
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
@@ -112,12 +113,12 @@ text = "Players:"
 centered = false
 script = ExtResource( 6 )
 
+[node name="Tokens" type="Node2D" parent="."]
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 format = 1
 script = ExtResource( 1 )
-
-[node name="Tokens" type="Node2D" parent="."]
 
 [node name="Ruler" type="Node2D" parent="."]
 script = ExtResource( 11 )
