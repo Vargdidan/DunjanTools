@@ -5,10 +5,11 @@
 
 [node name="Token" type="Node2D"]
 
-[node name="UI" type="CanvasLayer" parent="."]
-follow_viewport_enable = true
+[node name="Sprite" type="Sprite" parent="."]
+centered = false
+script = ExtResource( 2 )
 
-[node name="token_name" type="Label" parent="UI"]
+[node name="token_name" type="Label" parent="."]
 margin_top = -16.0
 margin_right = 40.0
 margin_bottom = 10.0
@@ -20,7 +21,3 @@ text = "took"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="."]
-centered = false
-script = ExtResource( 2 )

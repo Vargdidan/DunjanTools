@@ -40,7 +40,7 @@ func move_mouse():
 		var target_pos = get_global_mouse_position()
 		target_pos.x = stepify(target_pos.x-tilemap_cell_size.x/2, tilemap_cell_size.x)
 		target_pos.y = stepify(target_pos.y-tilemap_cell_size.y/2, tilemap_cell_size.y)
-		self.set_cell(target_pos.x/64, target_pos.y/64, 0)
+		self.set_cell(target_pos.x/64, target_pos.y/64, 1)
 	
 	if (Input.is_action_pressed("ui_mouse_click") && Input.is_action_pressed("ui_shift")):
 		var target_pos = get_global_mouse_position()
@@ -54,7 +54,7 @@ func show_hide_map():
 		var tiles_y = int(map.get_rect().size.y*map.scale.y/tilemap_cell_size.y)+1
 		for x in tiles_x:
 			for y in tiles_y:
-				set_cell(x, y, 0)
+				set_cell(x, y, 1)
 		showing_map = false
 	elif (!showing_map && Input.is_action_just_pressed("ui_hide")):
 		var tiles_x = get_used_rect().size.x
