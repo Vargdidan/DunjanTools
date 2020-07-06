@@ -115,4 +115,5 @@ func _on_BackButton_pressed():
 		var peer = NetworkedMultiplayerENet.new()
 		peer.close_connection()
 		get_tree().network_peer = null
+	ClientVariables.reset_variables()
 	Global.goto_scene("res://GUI/MainMenu.tscn")
