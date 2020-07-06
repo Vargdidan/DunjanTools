@@ -4,6 +4,15 @@ var current_scene = null
 signal changed_map
 
 func _ready():
+	OS.set_window_maximized(true)
+	
+	var dir = Directory.new()
+	if dir.open(ClientVariables.token_path) != OK:
+		dir.make_dir(ClientVariables.token_path)
+	
+	if dir.open(ClientVariables.map_path) != OK:
+		dir.make_dir(ClientVariables.map_path)
+	
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
 

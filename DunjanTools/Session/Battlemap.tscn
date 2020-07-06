@@ -6,10 +6,10 @@
 [ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Fog.png" type="Texture" id=5]
 [ext_resource path="res://Session/Map.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=7]
 [ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=8]
 [ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Assets/Fonts/MenuSize.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Session/Ruler.gd" type="Script" id=11]
 
 [sub_resource type="TileSet" id=1]
@@ -66,10 +66,10 @@ position = Vector2( 960, 540 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="TokenList" parent="UI" instance=ExtResource( 4 )]
-margin_left = 1904.0
-margin_top = 8.0
-margin_right = 1904.0
-margin_bottom = 8.0
+margin_left = 1919.12
+margin_top = 0.440491
+margin_right = 1919.12
+margin_bottom = 0.440491
 
 [node name="InsertToken" type="Label" parent="UI"]
 margin_left = 800.0
@@ -82,32 +82,44 @@ __meta__ = {
 }
 
 [node name="MapList" parent="UI" instance=ExtResource( 8 )]
-margin_left = 1488.0
-margin_top = 8.0
-margin_right = 1488.0
-margin_bottom = 8.0
+margin_left = 1512.0
+margin_top = 0.440491
+margin_right = 1512.0
+margin_bottom = 0.440491
 
 [node name="Controls" parent="UI" instance=ExtResource( 9 )]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -1016.0
-margin_bottom = -552.0
+margin_top = 0.440491
+margin_right = -1024.0
+margin_bottom = -559.56
 
 [node name="Players" type="VBoxContainer" parent="UI"]
 visible = false
-margin_left = -1.0
+margin_left = 8.0
 margin_top = 858.0
-margin_right = 233.0
+margin_right = 241.0
 margin_bottom = 1077.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="UI/Players"]
-margin_right = 234.0
-margin_bottom = 39.0
+margin_right = 233.0
+margin_bottom = 41.0
 custom_fonts/font = ExtResource( 10 )
 text = "Players:"
+
+[node name="BackButton" type="Button" parent="UI"]
+margin_left = 1826.38
+margin_top = 1043.18
+margin_right = 1918.38
+margin_bottom = 1078.18
+focus_mode = 0
+custom_fonts/font = ExtResource( 7 )
+enabled_focus_mode = 0
+text = "Go Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Map" type="Sprite" parent="."]
 centered = false
@@ -146,4 +158,5 @@ speed_scale = 2.0
 visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
 process_material = SubResource( 2 )
+[connection signal="pressed" from="UI/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="timeout" from="Timer" to="TileMap" method="_on_Timer_timeout"]

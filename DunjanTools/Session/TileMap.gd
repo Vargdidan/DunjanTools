@@ -12,7 +12,7 @@ var showing_map = true
 func _ready():
 	rset_config("changed_cells", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 
-func _process(delta):
+func _process(_delta):
 	update()
 	
 	if (get_tree().get_network_peer() != null):

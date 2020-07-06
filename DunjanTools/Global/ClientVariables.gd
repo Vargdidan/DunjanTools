@@ -13,3 +13,13 @@ var port = 31400
 var username = "noname"
 
 var connected_players = {}
+
+func reset_variables():
+	selected_token = null
+	inserted_tokens = {}
+	current_map = null
+	use_upnp = false
+	ip_address = '127.0.0.1'
+	port = 31400
+	username = "noname"
+	connected_players = {}

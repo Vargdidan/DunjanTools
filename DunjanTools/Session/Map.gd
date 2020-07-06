@@ -9,7 +9,7 @@ func initialize(texture_name):
 		texture = ImageTexture.new()
 		texture.create_from_image(image, 0)
 
-func _process(delta):
+func _process(_delta):
 	if (get_tree().get_network_peer() != null):
 		if (get_tree().is_network_server()):
 			resize()

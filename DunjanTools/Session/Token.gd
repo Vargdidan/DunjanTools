@@ -27,7 +27,7 @@ func initialize(texture_name, postion):
 			rpc("request_position_scale")
 	
 
-func _process(delta):
+func _process(_delta):
 	update()
 	
 	check_selection()

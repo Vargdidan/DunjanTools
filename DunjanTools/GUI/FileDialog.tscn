@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="FileDialog" type="FileDialog"]
+margin_right = 315.0
+margin_bottom = 130.0
+window_title = "Open a File or Directory"
+resizable = true
+mode = 3
+access = 2
+current_dir = "/Users/jvru/Documents/Personlig/Stuff/DunjanTools-master/DunjanTools"
+current_path = "/Users/jvru/Documents/Personlig/Stuff/DunjanTools-master/DunjanTools/"
+__meta__ = {
+"_edit_use_anchors_": false
+}

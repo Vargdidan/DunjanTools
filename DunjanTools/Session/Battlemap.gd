@@ -2,9 +2,9 @@ extends Node2D
 
 var token_scene = preload("res://Session/Token.tscn")
 onready var token_counter = 0
-onready var tokens = get_node("Tokens")
-onready var map = get_node("Map")
-onready var ping = get_node("Ping")
+onready var tokens = $Tokens
+onready var map = $Map
+onready var ping = $Ping
 
 func _ready():
 	Global.connect("changed_map", self, "_recieved_change_map")
@@ -16,7 +16,7 @@ func _ready():
 		var id = get_tree().get_network_unique_id()
 		rpc("request_to_add_player", id, ClientVariables.username)
 
-func _process(delta):
+func _process(_delta):
 	if (get_tree().get_network_peer() != null):
 		if (Input.is_action_just_pressed("delete")):
 			rpc("remove_token", ClientVariables.selected_token.name)
@@ -66,11 +66,11 @@ func _recieved_change_map():
 	else:
 		change_map(ClientVariables.current_map)
 
-remotesync func change_map(map):
-	get_node("Map").initialize(map)
+remotesync func change_map(_map):
+	map.initialize(_map)
 	
 
-func on_dropped(files, droppedFrom):
+func on_dropped(files, _droppedFrom):
 	var file_path = files[0]
 	var pos = file_path.rfindn("Tokens\\")
 	var file = file_path.right(pos+7)
@@ -96,7 +96,7 @@ remotesync func add_player(id, name):
 	var player = Label.new()
 	player.set_name(String(id))
 	player.set_text(name)
-	player.add_font_override("font", load("res://Assets/Fonts/DefaultFont.tres"))
+	player.add_font_override("font", load("res://Assets/Fonts/Default.tres"))
 	get_node("UI/Players").add_child(player)
 	ClientVariables.connected_players[id] = [id, name]
 	
@@ -108,3 +108,11 @@ remotesync func remove_player(id):
 remotesync func ping_map(positon):
 	ping.set_position(positon)
 	ping.set_emitting(true)
+
+
+func _on_BackButton_pressed():
+	if (get_tree().network_peer != null):
+		var peer = NetworkedMultiplayerENet.new()
+		peer.close_connection()
+		get_tree().network_peer = null
+	Global.goto_scene("res://GUI/MainMenu.tscn")

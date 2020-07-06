@@ -25,7 +25,7 @@ func create_map(name, file_name):
 	token.text = name
 	token.set_text_align(Button.ALIGN_RIGHT)
 	token.set_enabled_focus_mode(FOCUS_NONE)
-	token.add_font_override("font", load("res://Assets/Fonts/DefaultFont.tres"))
+	token.add_font_override("font", load("res://Assets/Fonts/Default.tres"))
 	token.connect("pressed", self, "_selected_map", [file_name])
 	add_child(token)
 

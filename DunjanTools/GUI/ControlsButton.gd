@@ -1,12 +1,12 @@
 extends Button
 
-onready var controls_container = get_parent().get_node("ControlsContainer")
+onready var controls_info = get_parent().get_node("Panel")
 
 func _ready():
-	controls_container.set_visible(false)
+	controls_info.set_visible(false)
 
 
 func _on_TokenButton_pressed():
-	var visible = controls_container.is_visible()
+	var visible = controls_info.is_visible()
 	visible = !visible
-	controls_container.set_visible(visible)
+	controls_info.set_visible(visible)

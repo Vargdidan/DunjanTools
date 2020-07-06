@@ -17,7 +17,8 @@ _global_script_class_icons={
 
 config/name="DunjanTools"
 run/main_scene="res://GUI/MainMenu.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://Assets/Splash.png"
+config/icon="res://Assets/DJT.png"
 
 [autoload]
 
@@ -174,10 +175,16 @@ line_aoe={
  ]
 }
 
+[logging]
+
+file_logging/enable_file_logging=true
+
 [rendering]
 
+quality/2d/use_nvidia_rect_flicker_workaround=true
 quality/2d/use_pixel_snap=true
 quality/filters/use_nearest_mipmap_filter=true
+environment/default_clear_color=Color( 0.262745, 0.231373, 0.192157, 1 )
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
 quality/2d/gles2_use_nvidia_rect_flicker_workaround=true
