@@ -18,7 +18,8 @@ _global_script_class_icons={
 config/name="DunjanTools"
 run/main_scene="res://GUI/MainMenu.tscn"
 boot_splash/image="res://Assets/Splash.png"
-config/icon="res://Assets/DJT.png"
+config/icon="res://Assets/Splash.png"
+config/windows_native_icon="res://Assets/DunjanTools.ico"
 
 [autoload]
 
