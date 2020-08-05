@@ -42,7 +42,7 @@ func _connected_ok():
 	Global.goto_scene("res://Session/Battlemap.tscn")
 
 # Server kicked us; show error and abort.
-func _server_disconnected(): 
+func _server_disconnected():
 	Global.goto_scene("res://GUI/MainMenu.tscn")
 	get_tree().network_peer = null
 
@@ -51,6 +51,7 @@ func _connected_fail():
 	get_tree().network_peer = null 
 
 func _on_Host_pressed():
+	ClientVariables.save_main_menu()
 	if (ClientVariables.use_upnp):
 		var upnp = UPNP.new()
 		var result_upnp = upnp.discover(2000, 2, "InternetGatewayDevice")
@@ -70,6 +71,7 @@ func _on_Host_pressed():
 
 
 func _on_Connect_pressed():
+	ClientVariables.save_main_menu()
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_client(ClientVariables.ip_address, ClientVariables.port)
 	if (result == OK):

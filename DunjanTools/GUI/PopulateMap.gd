@@ -30,5 +30,5 @@ func create_map(name, file_name):
 	add_child(token)
 
 func _selected_map(name):
-	ClientVariables.current_map = name
+	ClientVariables.selected_map = name
 	Global.change_map()

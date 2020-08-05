@@ -13,6 +13,9 @@ func _ready():
 	if dir.open(ClientVariables.map_path) != OK:
 		dir.make_dir(ClientVariables.map_path)
 	
+	if dir.open(ClientVariables.data_path) != OK:
+		dir.make_dir(ClientVariables.data_path)
+	
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
 

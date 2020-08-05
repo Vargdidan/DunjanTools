@@ -3,27 +3,32 @@ extends Sprite
 var tile_size = 64 # size in pixels of tiles on the grid
 var target_position = Vector2() # desired position to move toward
 onready var token_name = get_parent().get_node("token_name")
-onready var color = Color(1, 0.2, 0.2)
+onready var color = Color(1, 0.2, 0.2, 0.2)
+var texture_name = ""
 
-func initialize(texture_name, postion):
+func initialize(_texture_name, postion, _scale):
 	rset_config("target_position", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 	rset_config("scale", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+	texture_name = _texture_name
 	var image = Image.new()
 	var loaded = image.load(ClientVariables.token_path + texture_name)
 	if loaded == OK:
 		texture = ImageTexture.new()
 		texture.create_from_image(image, 0)
 		token_name.set_text(get_parent().name)
-		if ((get_tree().get_network_peer() == null) || get_tree().is_network_server()):
+		
+		if _scale == null:
 			set_default_size()
-			var target_pos = postion
-			var current_size_x=get_rect().size.x*scale.x
-			var current_size_y=get_rect().size.y*scale.y
-			target_pos.x = stepify(target_pos.x-current_size_x/2, tile_size)
-			target_pos.y = stepify(target_pos.y-current_size_y/2, tile_size)
-			target_position = target_pos
-			global_position = target_position
-		elif (get_tree().get_network_peer() != null) && !get_tree().is_network_server():
+		else:
+			scale = _scale
+		
+		var target_pos = postion
+		target_pos.x = stepify(target_pos.x, tile_size)
+		target_pos.y = stepify(target_pos.y, tile_size)
+		target_position = target_pos
+		global_position = target_position
+		
+		if (get_tree().get_network_peer() != null) && !get_tree().is_network_server():
 			rpc("request_position_scale")
 	
 
@@ -47,12 +52,12 @@ func _process(_delta):
 
 func _draw():
 	if (ClientVariables.selected_token == get_parent()):
-		draw_rect(get_rect(), color, false, 1.5/scale.x, true)
+		draw_rect(get_rect(), color, true)
 
 func check_selection():
 	if get_rect().has_point(to_local(get_global_mouse_position())):
 		token_name.set_visible(true)
-		if (Input.is_action_just_pressed("ui_mouse_click")):
+		if (Input.is_action_just_released("ui_mouse_click")):
 			ClientVariables.selected_token = get_parent()
 	else:
 		token_name.set_visible(false)
@@ -138,3 +143,14 @@ remote func request_position_scale():
 		rset("scale", scale)
 		rset("target_position", target_position)
 	
+
+func save_token():
+	var save_dict = {
+		"name" : token_name.get_text(),
+		"texture_name" : texture_name,
+		"pos_x" : global_position.x,
+		"pos_y" : global_position.y,
+		"scale_x" : scale.x,
+		"scale_y" : scale.y
+	}
+	return save_dict
