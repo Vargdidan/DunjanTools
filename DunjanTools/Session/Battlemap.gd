@@ -15,14 +15,14 @@ func _ready():
 		get_node("UI/Players").set_visible(true)
 		var id = get_tree().get_network_unique_id()
 		rpc("request_to_add_player", id, ClientVariables.username)
+		
+		if (!ClientVariables.dm):
+			get_node("UI/MapList").set_visible(false)
 
 func _process(_delta):
 	if (get_tree().get_network_peer() != null):
 		if (Input.is_action_just_pressed("delete")):
 			rpc("remove_token", ClientVariables.selected_token.name)
-		
-		if (!get_tree().is_network_server()):
-			get_node("UI/MapList").set_visible(false)
 		
 		if (get_tree().is_network_server()):
 				rset("token_counter", token_counter)
@@ -62,9 +62,9 @@ remotesync func remove_token(token_name):
 
 func _recieved_change_map():
 	if (get_tree().get_network_peer() != null):
-		if get_tree().is_network_server():
+		if ClientVariables.dm:
 			save_battlemap()
-		rpc("change_map", ClientVariables.selected_map)
+			rpc("change_map", ClientVariables.selected_map)
 	else:
 		save_battlemap()
 		change_map(ClientVariables.selected_map)
@@ -77,7 +77,7 @@ remotesync func change_map(_map):
 	map.initialize(_map)
 	
 	if (get_tree().get_network_peer() != null):
-		if get_tree().is_network_server():
+		if ClientVariables.dm:
 			load_battlemap()
 	else:
 		load_battlemap()
@@ -123,11 +123,14 @@ remotesync func ping_map(positon):
 	ping.set_emitting(true)
 
 func _on_BackButton_pressed():
-	save_battlemap()
 	if (get_tree().network_peer != null):
+		if ClientVariables.dm:
+			save_battlemap()
 		var peer = NetworkedMultiplayerENet.new()
 		peer.close_connection()
 		get_tree().network_peer = null
+	else:
+		save_battlemap()
 	Global.goto_scene("res://GUI/MainMenu.tscn")
 
 func save_battlemap():
@@ -171,7 +174,7 @@ func load_battlemap():
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		if (get_tree().get_network_peer() != null):
-			if get_tree().is_network_server():
+			if ClientVariables.dm:
 				save_battlemap()
 		else:
 			save_battlemap()

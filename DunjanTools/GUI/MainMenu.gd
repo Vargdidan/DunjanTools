@@ -5,6 +5,7 @@ func _ready():
 	$UI/OnlinePanel/Host.connect("pressed", Network, "_on_Host_pressed")
 	$UI/OnlinePanel/Connect.connect("pressed", Network, "_on_Connect_pressed")
 	$UI/OnlinePanel/UPNP.connect("toggled", Network, "_on_UPNP_toogled")
+	$UI/OnlinePanel/DM.connect("toggled", Network, "_on_DM_toogled")
 	
 	ClientVariables.reset_variables()
 	
@@ -14,6 +15,7 @@ func _ready():
 		$UI/OnlinePanel/IP.set_text(ClientVariables.ip_address)
 	if(ClientVariables.port != 31400):
 		$UI/OnlinePanel/Port.set_text(String(ClientVariables.port))
+	$UI/OnlinePanel/DM.set_pressed(ClientVariables.dm)
 
 
 func _on_Offline_pressed():

@@ -10,6 +10,7 @@ var use_upnp = false
 var ip_address = '127.0.0.1'
 var port = 31400
 var username = "noname"
+var dm = false
 
 # Session variables
 var connected_players = {}
@@ -22,6 +23,7 @@ func reset_variables():
 	ip_address = '127.0.0.1'
 	port = 31400
 	username = "noname"
+	dm = false
 	
 	selected_token = null
 	inserted_tokens = {}
@@ -38,7 +40,8 @@ func save_main_menu():
 	var main_menu_dict = {
 		"ip" : ip_address,
 		"port" : port,
-		"username" : username
+		"username" : username,
+		"dm" : dm
 	}
 	
 	var main_menu_file = File.new()
@@ -56,4 +59,6 @@ func load_main_menu():
 	ip_address = data["ip"]
 	port = data["port"]
 	username = data["username"]
+	if (data.has("dm")):
+		dm = data["dm"]
 	main_menu_file.close()

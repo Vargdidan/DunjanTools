@@ -15,14 +15,14 @@ func _ready():
 
 func _player_connected(id):
 	if (get_tree().get_network_peer() != null && get_tree().is_network_server()):
-		rpc_id(id, "register_player", ClientVariables.inserted_tokens, ClientVariables.current_map, ClientVariables.connected_players)
+		rpc_id(id, "register_player", ClientVariables.inserted_tokens, ClientVariables.selected_map, ClientVariables.connected_players)
 	
 
 remote func register_player(tokens, map, players):
-	print(players)
 	var root = get_tree().get_root()
 	var current_scene = root.get_child(root.get_child_count() - 1)
-	current_scene.change_map(map)
+	if (map != null):
+		current_scene.change_map(map)
 	
 	for token in tokens:
 		var array = tokens.get(token)
@@ -80,8 +80,10 @@ func _on_Connect_pressed():
 	
 
 func _on_UPNP_toogled(button_pressed):
-	print(button_pressed)
 	ClientVariables.use_upnp = button_pressed
+
+func _on_DM_toogled(button_pressed):
+	ClientVariables.dm = button_pressed
 
 #func _notification(what):
 	#if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
