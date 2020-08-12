@@ -1,6 +1,6 @@
 extends Node
 
-const MAX_PLAYERS = 5
+const MAX_PLAYERS = 10
 
 var battlemap_scene = preload("res://Session/Battlemap.tscn")
 
@@ -22,11 +22,16 @@ remote func register_player(tokens, map, players):
 	var root = get_tree().get_root()
 	var current_scene = root.get_child(root.get_child_count() - 1)
 	if (map != null):
-		current_scene.change_map(map)
+		if !ClientVariables.dm:
+			current_scene.change_map(map)
+		else:
+			ClientVariables.selected_map = map
+			Global.change_map()
 	
-	for token in tokens:
-		var array = tokens.get(token)
-		current_scene.create_token(array[0], array[1], Vector2(0,0))
+	if !ClientVariables.dm:
+		for token in tokens:
+			var array = tokens.get(token)
+			current_scene.create_token(array[0], array[1], Vector2(0,0), null)
 	
 	for player in players:
 		var array = players.get(player)
@@ -43,6 +48,10 @@ func _connected_ok():
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
+	if ClientVariables.dm:
+		var root = get_tree().get_root()
+		var current_scene = root.get_child(root.get_child_count() - 1)
+		current_scene.save_battlemap()
 	Global.goto_scene("res://GUI/MainMenu.tscn")
 	get_tree().network_peer = null
 

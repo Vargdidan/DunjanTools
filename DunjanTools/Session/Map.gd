@@ -6,12 +6,6 @@ func initialize(texture_name):
 	current_map = texture_name
 	rset_config("scale", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 	
-	var _scale = Vector2(1, 1)
-	if (get_tree().get_network_peer() != null):
-		rpc("request_scale", _scale)
-	else:
-		scale = _scale
-	
 	var image = Image.new()
 	var loaded = image.load(ClientVariables.map_path + texture_name)
 	if loaded == OK:
@@ -48,22 +42,16 @@ func resize():
 		_scale = Vector2(scale_x, scale_y)
 	
 	if (get_tree().get_network_peer() != null):
-		rpc("request_scale", _scale)
+		rset("scale", _scale)
 	else:
 		scale = _scale
 	
 
 func set_scale(_scale):
 	if (get_tree().get_network_peer() != null):
-		rpc("request_scale", _scale)
+		rset("scale", _scale)
 	else:
 		scale = _scale
-
-remotesync func request_scale(_scale):
-	if get_tree().is_network_server():
-		rset("scale", _scale)
-		scale = _scale
-	
 
 func save_map():
 	var save_dict = {

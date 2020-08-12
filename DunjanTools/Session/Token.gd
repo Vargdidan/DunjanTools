@@ -129,13 +129,11 @@ func set_default_size():
 remotesync func request_movement(pos):
 	if get_tree().is_network_server():
 		rset("target_position", pos)
-		target_position = pos
 	
 
 remotesync func request_scale(_scale):
 	if get_tree().is_network_server():
 		rset("scale", _scale)
-		scale = _scale
 	
 
 remote func request_position_scale():

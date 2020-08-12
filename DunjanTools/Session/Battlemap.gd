@@ -71,6 +71,7 @@ func _recieved_change_map():
 
 remotesync func change_map(_map):
 	ClientVariables.reset_tokens()
+	ClientVariables.selected_map = _map
 	token_counter = 0
 	for token in tokens.get_children():
 		token.queue_free()
