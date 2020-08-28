@@ -3,13 +3,30 @@ using System;
 
 public class Global : Node
 {
-    public Node CurrentScene { get; set; }
+    public Node CurrentScene {get; set;}
+    private Directory ImportantFolders;
 
     public override void _Ready()
     {
         OS.WindowMaximized = true;
 
         //Do directory stuff
+        var ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
+        
+        if (ImportantFolders.Open(ClientVariables.TokenPath) != Godot.Error.Ok)
+        {
+            ImportantFolders.MakeDir(ClientVariables.TokenPath);
+        }
+
+        if (ImportantFolders.Open(ClientVariables.MapPath) != Godot.Error.Ok)
+        {
+            ImportantFolders.MakeDir(ClientVariables.MapPath);
+        }
+
+        if (ImportantFolders.Open(ClientVariables.DataPath) != Godot.Error.Ok)
+        {
+            ImportantFolders.MakeDir(ClientVariables.DataPath);
+        }
 
         Viewport root = GetTree().Root;
         CurrentScene = root.GetChild(root.GetChildCount() - 1);

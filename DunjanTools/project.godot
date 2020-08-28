@@ -23,8 +23,8 @@ config/windows_native_icon="res://Assets/DunjanTools.ico"
 
 [autoload]
 
-Global="*res://Global/Global.gd"
-ClientVariables="*res://Global/ClientVariables.gd"
+ClientVariables="*res://Scripts/Singletons/ClientVariables.cs"
+Global="*res://Scripts/Singletons/Global.cs"
 Network="*res://Global/Network.gd"
 
 [display]
