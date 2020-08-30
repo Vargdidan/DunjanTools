@@ -4,24 +4,24 @@ using System;
 public class Global : Node
 {
     public Node CurrentScene {get; set;}
-    private Directory ImportantFolders;
 
     public override void _Ready() {
         OS.WindowMaximized = true;
 
         //Do directory stuff
-        var ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
+        ClientVariables clientVariables = (ClientVariables)GetNode("/root/ClientVariables");
+        Directory ImportantFolders = new Directory();
         
-        if (ImportantFolders.Open(ClientVariables.TokenPath) != Godot.Error.Ok) {
-            ImportantFolders.MakeDir(ClientVariables.TokenPath);
+        if (ImportantFolders.Open(clientVariables.TokenPath) != Godot.Error.Ok) {
+            ImportantFolders.MakeDir(clientVariables.TokenPath);
         }
 
-        if (ImportantFolders.Open(ClientVariables.MapPath) != Godot.Error.Ok) {
-            ImportantFolders.MakeDir(ClientVariables.MapPath);
+        if (ImportantFolders.Open(clientVariables.MapPath) != Godot.Error.Ok) {
+            ImportantFolders.MakeDir(clientVariables.MapPath);
         }
 
-        if (ImportantFolders.Open(ClientVariables.DataPath) != Godot.Error.Ok) {
-            ImportantFolders.MakeDir(ClientVariables.DataPath);
+        if (ImportantFolders.Open(clientVariables.DataPath) != Godot.Error.Ok) {
+            ImportantFolders.MakeDir(clientVariables.DataPath);
         }
 
         Viewport root = GetTree().Root;

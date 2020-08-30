@@ -7,15 +7,15 @@ func _ready():
 	$UI/OnlinePanel/UPNP.connect("toggled", Network, "_on_UPNP_toogled")
 	$UI/OnlinePanel/DM.connect("toggled", Network, "_on_DM_toogled")
 	
-	ClientVariables.reset_variables()
+	ClientVariables.ResetVariables()
 	
-	if(ClientVariables.username != "noname"):
-		$UI/OnlinePanel/Username.set_text(ClientVariables.username)
-	if(ClientVariables.ip_address != '127.0.0.1'):
-		$UI/OnlinePanel/IP.set_text(ClientVariables.ip_address)
-	if(ClientVariables.port != 31400):
-		$UI/OnlinePanel/Port.set_text(String(ClientVariables.port))
-	$UI/OnlinePanel/DM.set_pressed(ClientVariables.dm)
+	if(ClientVariables.Username != "Incognito"):
+		$UI/OnlinePanel/Username.set_text(ClientVariables.Username)
+	if(ClientVariables.IPAddress != '127.0.0.1'):
+		$UI/OnlinePanel/IP.set_text(ClientVariables.IPAddress)
+	if(ClientVariables.Port != 31400):
+		$UI/OnlinePanel/Port.set_text(String(ClientVariables.Port))
+	$UI/OnlinePanel/DM.set_pressed(ClientVariables.DMRole)
 
 
 func _on_Offline_pressed():
@@ -23,12 +23,12 @@ func _on_Offline_pressed():
 
 
 func _on_IP_text_changed(text):
-	ClientVariables.ip_address = text
+	ClientVariables.IPAddress = text
 
 
 func _on_Port_text_changed(text):
-	ClientVariables.port = int(text)
+	ClientVariables.Port = int(text)
 
 
 func _on_Username_text_changed(text):
-	ClientVariables.username = text
+	ClientVariables.Username = text

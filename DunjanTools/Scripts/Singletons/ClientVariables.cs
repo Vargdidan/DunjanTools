@@ -64,6 +64,11 @@ public class ClientVariables : Node
         Port = 31400;
         Username = "Incognito";
         DMRole = false;
+
+        ConnectedPlayers = new List<PlayerReference>();
+        InsertedTokens = new Dictionary<Int64, TokenReference>();
+        SelectedToken = "";
+        SelectedMap = "";
     }
 
     public void ResetVariables() {
