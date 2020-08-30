@@ -92,7 +92,7 @@ func _on_UPNP_toogled(button_pressed):
 	ClientVariables.use_upnp = button_pressed
 
 func _on_DM_toogled(button_pressed):
-	ClientVariables.dm = button_pressed
+	ClientVariables.DMRole = button_pressed
 
 #func _notification(what):
 	#if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:

@@ -84,6 +84,9 @@ public class ClientVariables : Node
         InsertedTokens.Clear();
         SelectedToken = "";
         SelectedMap = "";
+
+        // Restore latest settings
+        LoadMainMenu();
     }
 
     public void SaveMainMenu() {
@@ -107,14 +110,12 @@ public class ClientVariables : Node
         if (!loadMainMenu.FileExists(DataPath + "main_menu.dat")) return;
 
         loadMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Read);
-        Godot.Collections.Dictionary mainMenuData = 
-            (Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result;
+        var mainMenuData = 
+            new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result);
 
         IPAddress = mainMenuData["ip"].ToString();
-        Port = (Int64)mainMenuData["port"];
+        Port = mainMenuData["port"].ToString().ToInt();
         Username = mainMenuData["username"].ToString();
-        if (mainMenuData.Contains("dm")) {
-            DMRole = (Boolean)mainMenuData["dm"];
-        }
+        DMRole = (Boolean)mainMenuData["dm"];
     }
 }
