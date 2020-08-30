@@ -6,25 +6,21 @@ public class Global : Node
     public Node CurrentScene {get; set;}
     private Directory ImportantFolders;
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         OS.WindowMaximized = true;
 
         //Do directory stuff
         var ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         
-        if (ImportantFolders.Open(ClientVariables.TokenPath) != Godot.Error.Ok)
-        {
+        if (ImportantFolders.Open(ClientVariables.TokenPath) != Godot.Error.Ok) {
             ImportantFolders.MakeDir(ClientVariables.TokenPath);
         }
 
-        if (ImportantFolders.Open(ClientVariables.MapPath) != Godot.Error.Ok)
-        {
+        if (ImportantFolders.Open(ClientVariables.MapPath) != Godot.Error.Ok) {
             ImportantFolders.MakeDir(ClientVariables.MapPath);
         }
 
-        if (ImportantFolders.Open(ClientVariables.DataPath) != Godot.Error.Ok)
-        {
+        if (ImportantFolders.Open(ClientVariables.DataPath) != Godot.Error.Ok) {
             ImportantFolders.MakeDir(ClientVariables.DataPath);
         }
 
@@ -32,8 +28,7 @@ public class Global : Node
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
     }
 
-    public void GotoScene(string path)
-    {
+    public void GotoScene(string path) {
         // This function will usually be called from a signal callback,
         // or some other function from the current scene.
         // Deleting the current scene at this point is
@@ -46,8 +41,7 @@ public class Global : Node
         CallDeferred(nameof(DeferredGotoScene), path);
     }
 
-    public void DeferredGotoScene(string path)
-    {
+    public void DeferredGotoScene(string path) {
         // It is now safe to remove the current scene
         CurrentScene.Free();
 

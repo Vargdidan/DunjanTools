@@ -45,16 +45,15 @@ public class ClientVariables : Node
     public String IPAddress {get; set;}
     public Int64 Port {get; set;}
     public String Username {get; set;}
-    public Boolean DM {get; set;}
+    public Boolean DMRole {get; set;}
 
     // Session variables
-    public PlayerReference[] ConnectedPlayers {get; set;}
+    public List<PlayerReference> ConnectedPlayers {get; set;}
     public Dictionary<Int64, TokenReference> InsertedTokens {get; set;}
     public String SelectedToken {get; set;}
     public String SelectedMap {get; set;} 
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         TokenPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Tokens/");
         MapPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Maps/");
         DataPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Data/");
@@ -64,9 +63,53 @@ public class ClientVariables : Node
         IPAddress = "127.0.0.1";
         Port = 31400;
         Username = "Incognito";
+        DMRole = false;
     }
 
-    public void ResetVariables() 
-    {
+    public void ResetVariables() {
+        //Network
+        UseUPNP = false;
+        IPAddress = "127.0.0.1";
+        Port = 31400;
+        Username = "Incognito";
+        DMRole = false;
+
+        // Session
+        ConnectedPlayers.Clear();
+        InsertedTokens.Clear();
+        SelectedToken = "";
+        SelectedMap = "";
+    }
+
+    public void SaveMainMenu() {
+        // Is there a native way to store data I could use?
+        Godot.Collections.Dictionary<string, object> mainMenuData =
+            new Godot.Collections.Dictionary<string, object>() {
+                {"ip", IPAddress},
+                {"port", Port},
+                {"username", Username},
+                {"dm", DMRole}
+            };
+        
+        var saveMainMenu = new File();
+        saveMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Write);
+        saveMainMenu.StoreLine(JSON.Print(mainMenuData));
+        saveMainMenu.Close();
+    }
+
+    public void LoadMainMenu() {
+        var loadMainMenu = new File();
+        if (!loadMainMenu.FileExists(DataPath + "main_menu.dat")) return;
+
+        loadMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Read);
+        Godot.Collections.Dictionary mainMenuData = 
+            (Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result;
+
+        IPAddress = mainMenuData["ip"].ToString();
+        Port = (Int64)mainMenuData["port"];
+        Username = mainMenuData["username"].ToString();
+        if (mainMenuData.Contains("dm")) {
+            DMRole = (Boolean)mainMenuData["dm"];
+        }
     }
 }
