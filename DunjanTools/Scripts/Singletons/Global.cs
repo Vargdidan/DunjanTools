@@ -4,6 +4,8 @@ using System;
 public class Global : Node
 {
     public Node CurrentScene {get; set;}
+    [Signal]
+    delegate void ChangedMap();
 
     public override void _Ready() {
         OS.WindowMaximized = true;
@@ -56,5 +58,9 @@ public class Global : Node
 
         // Optionally, to make it compatible with the SceneTree.change_scene() API.
         GetTree().CurrentScene = CurrentScene;
+    }
+
+    public void ChangeMap() {
+        EmitSignal(nameof(ChangedMap));
     }
 }

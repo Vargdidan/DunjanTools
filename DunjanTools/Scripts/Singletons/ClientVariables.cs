@@ -43,13 +43,13 @@ public class ClientVariables : Node
     // Network variables (Should they be moved?)
     public Boolean UseUPNP {get; set;}
     public String IPAddress {get; set;}
-    public Int64 Port {get; set;}
+    public int Port {get; set;}
     public String Username {get; set;}
     public Boolean DMRole {get; set;}
 
     // Session variables
     public List<PlayerReference> ConnectedPlayers {get; set;}
-    public Dictionary<Int64, TokenReference> InsertedTokens {get; set;}
+    public List<TokenReference> InsertedTokens {get; set;}
     public String SelectedToken {get; set;}
     public String SelectedMap {get; set;} 
 
@@ -66,7 +66,7 @@ public class ClientVariables : Node
         DMRole = false;
 
         ConnectedPlayers = new List<PlayerReference>();
-        InsertedTokens = new Dictionary<Int64, TokenReference>();
+        InsertedTokens = new List<TokenReference>();
         SelectedToken = "";
         SelectedMap = "";
     }
