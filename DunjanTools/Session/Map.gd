@@ -14,7 +14,7 @@ func initialize(texture_name):
 
 func _process(_delta):
 	if (get_tree().get_network_peer() != null):
-		if ClientVariables.dm:
+		if ClientVariables.DMRole:
 			resize()
 	else:
 		resize()

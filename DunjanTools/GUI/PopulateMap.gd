@@ -2,7 +2,7 @@ extends VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	dir_contents(ClientVariables.map_path)
+	dir_contents(ClientVariables.MapPath)
 func dir_contents(path):
 	for child in get_children():
 		child.queue_free()

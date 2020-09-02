@@ -16,7 +16,7 @@ func _process(_delta):
 	update()
 	
 	if (get_tree().get_network_peer() != null):
-		if ClientVariables.dm:
+		if ClientVariables.DMRole:
 			move_mouse()
 			show_hide_map()
 	else:
@@ -66,9 +66,9 @@ func show_hide_map():
 	
 
 func _on_Timer_timeout():
-	if ((get_tree().get_network_peer() != null) && ClientVariables.dm):
+	if ((get_tree().get_network_peer() != null) && ClientVariables.DMRole):
 		rset_unreliable("changed_cells", get_used_cells())
-	elif((get_tree().get_network_peer() != null) && !ClientVariables.dm):
+	elif((get_tree().get_network_peer() != null) && !ClientVariables.DMRole):
 		clear()
 		for cell in changed_cells:
 			set_cell(cell.x, cell.y, 0)

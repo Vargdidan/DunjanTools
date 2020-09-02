@@ -25,7 +25,7 @@ config/windows_native_icon="res://Assets/DunjanTools.ico"
 
 ClientVariables="*res://Scripts/Singletons/ClientVariables.cs"
 Global="*res://Scripts/Singletons/Global.cs"
-Network="*res://Global/Network.gd"
+Network="*res://Scripts/Singletons/Network.cs"
 
 [display]
 

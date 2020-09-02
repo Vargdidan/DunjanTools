@@ -103,9 +103,18 @@ public class ClientVariables : Node
             };
 
         var saveMainMenu = new File();
-        saveMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Write);
-        saveMainMenu.StoreLine(JSON.Print(mainMenuData));
-        saveMainMenu.Close();
+        GD.Print(DataPath + "main_menu.dat");
+        Error result = saveMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Write);
+        if (result == Error.Ok)
+        {
+            saveMainMenu.StoreLine(JSON.Print(mainMenuData));
+            GD.Print("Saved this");
+            saveMainMenu.Close();
+        }
+        else
+        {
+            GD.Print("Failed, error code: " + result.ToString());
+        }
     }
 
     public void LoadMainMenu()
@@ -121,5 +130,6 @@ public class ClientVariables : Node
         Port = mainMenuData["port"].ToString().ToInt();
         Username = mainMenuData["username"].ToString();
         DMRole = (Boolean)mainMenuData["dm"];
+        loadMainMenu.Close();
     }
 }

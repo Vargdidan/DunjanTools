@@ -2,10 +2,10 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$UI/OnlinePanel/Host.connect("pressed", Network, "_on_Host_pressed")
-	$UI/OnlinePanel/Connect.connect("pressed", Network, "_on_Connect_pressed")
-	$UI/OnlinePanel/UPNP.connect("toggled", Network, "_on_UPNP_toogled")
-	$UI/OnlinePanel/DM.connect("toggled", Network, "_on_DM_toogled")
+	$UI/OnlinePanel/Host.connect("pressed", Network, "OnHostPressed")
+	$UI/OnlinePanel/Connect.connect("pressed", Network, "OnConnectPressed")
+	$UI/OnlinePanel/UPNP.connect("toggled", Network, "OnUPNPToggled")
+	$UI/OnlinePanel/DM.connect("toggled", Network, "OnDMToggled")
 	
 	ClientVariables.ResetVariables()
 	

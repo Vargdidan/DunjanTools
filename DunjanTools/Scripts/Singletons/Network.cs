@@ -91,7 +91,7 @@ public class Network : Node
     }
 
     // Main menu network controls:
-    public void _OnHostPressed()
+    public void OnHostPressed()
     {
         ClientVariables.SaveMainMenu();
         if (ClientVariables.UseUPNP)
@@ -113,19 +113,17 @@ public class Network : Node
                     upnp.AddPortMapping(ClientVariables.Port);
                 }
             }
-
-            NetworkedMultiplayerENet peer = new NetworkedMultiplayerENet();
-            Error result = peer.CreateServer(ClientVariables.Port);
-            if (result == Error.Ok)
-            {
-                Global.GotoScene("res://Session/Battlemap.tscn");
-                GetTree().NetworkPeer = peer;
-            }
         }
-
+        NetworkedMultiplayerENet peer = new NetworkedMultiplayerENet();
+        Error result = peer.CreateServer(ClientVariables.Port);
+        if (result == Error.Ok)
+        {
+            Global.GotoScene("res://Session/Battlemap.tscn");
+            GetTree().NetworkPeer = peer;
+        }
     }
 
-    public void _OnConnectPressed()
+    public void OnConnectPressed()
     {
         ClientVariables.SaveMainMenu();
         NetworkedMultiplayerENet peer = new NetworkedMultiplayerENet();
@@ -136,12 +134,12 @@ public class Network : Node
         }
     }
 
-    public void _OnUPNPToggled(Boolean buttonToggled)
+    public void OnUPNPToggled(Boolean buttonToggled)
     {
         ClientVariables.UseUPNP = buttonToggled;
     }
 
-    public void _OnDMToggled(Boolean buttonToggled)
+    public void OnDMToggled(Boolean buttonToggled)
     {
         ClientVariables.DMRole = buttonToggled;
     }
