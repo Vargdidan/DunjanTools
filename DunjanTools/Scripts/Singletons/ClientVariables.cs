@@ -50,7 +50,7 @@ public class ClientVariables : Node
     // Session variables
     public List<PlayerReference> ConnectedPlayers {get; set;}
     public List<TokenReference> InsertedTokens {get; set;}
-    public String SelectedToken {get; set;}
+    public Node SelectedToken {get; set;}
     public String SelectedMap {get; set;} 
 
     public override void _Ready() {
@@ -67,7 +67,7 @@ public class ClientVariables : Node
 
         ConnectedPlayers = new List<PlayerReference>();
         InsertedTokens = new List<TokenReference>();
-        SelectedToken = "";
+        SelectedToken = new Node();
         SelectedMap = "";
     }
 
@@ -82,7 +82,7 @@ public class ClientVariables : Node
         // Session
         ConnectedPlayers.Clear();
         InsertedTokens.Clear();
-        SelectedToken = "";
+        SelectedToken = new Node();
         SelectedMap = "";
 
         // Restore latest settings

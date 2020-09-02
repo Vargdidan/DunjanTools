@@ -66,6 +66,41 @@ public class Token : Node2D
 
     public override void _Draw()
     {
-        // Your draw commands here
+        if (ClientVariables.SelectedToken == this) {
+            DrawRect(TokenSprite.GetRect(), selectedColor, true);
+        }
+    }
+
+    public void CheckSelection() {
+        if (TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition()))) {
+            TokenName.Visible = true;
+            if (Input.IsActionJustReleased("ui_mouse_click")) {
+                ClientVariables.SelectedToken = this;
+            }
+        } else {
+            TokenName.Visible = false;
+        }
+    }
+
+    public void MoveWithKeys() {
+        if (Input.IsActionJustPressed("ui_move_left") ||
+            Input.IsActionJustPressed("ui_move_right") ||
+            Input.IsActionJustPressed("ui_move_up") ||
+            Input.IsActionJustPressed("ui_move_down")) {
+                int left = Convert.ToInt32(Input.IsActionJustPressed("ui_move_left"));
+                int right = Convert.ToInt32(Input.IsActionJustPressed("ui_move_right"));
+                int up = Convert.ToInt32(Input.IsActionJustPressed("ui_move_up"));
+                int down = Convert.ToInt32(Input.IsActionJustPressed("ui_move_down"));
+
+                Vector2 pos = TargetPosition;
+                pos.x += (-left + right)*tileSize;
+                pos.y += (-up + down)*tileSize;
+
+                if (GetTree().NetworkPeer != null) {
+                    //rpc("request_movement", pos)
+                } else {
+                    TargetPosition = pos;
+                }
+            }
     }
 }
