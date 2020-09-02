@@ -9,7 +9,7 @@
 centered = false
 script = ExtResource( 2 )
 
-[node name="token_name" type="Label" parent="."]
+[node name="TokenName" type="Label" parent="."]
 margin_top = -16.0
 margin_right = 40.0
 margin_bottom = 10.0
