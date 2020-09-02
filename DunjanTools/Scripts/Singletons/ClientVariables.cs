@@ -28,7 +28,7 @@ public struct TokenReference
 
     public Int64 Identity { get; }
     public String UniqueName { get; }
-    public String ImageFile {get;}
+    public String ImageFile { get; }
 
     public override string ToString() => $"({Identity}, {UniqueName})";
 }
@@ -36,24 +36,25 @@ public struct TokenReference
 public class ClientVariables : Node
 {
     // Important folders
-    public String TokenPath {get; set;}
-    public String MapPath {get; set;}
-    public String DataPath {get; set;}
-    
+    public String TokenPath { get; set; }
+    public String MapPath { get; set; }
+    public String DataPath { get; set; }
+
     // Network variables (Should they be moved?)
-    public Boolean UseUPNP {get; set;}
-    public String IPAddress {get; set;}
-    public int Port {get; set;}
-    public String Username {get; set;}
-    public Boolean DMRole {get; set;}
+    public Boolean UseUPNP { get; set; }
+    public String IPAddress { get; set; }
+    public int Port { get; set; }
+    public String Username { get; set; }
+    public Boolean DMRole { get; set; }
 
     // Session variables
-    public List<PlayerReference> ConnectedPlayers {get; set;}
-    public List<TokenReference> InsertedTokens {get; set;}
-    public Node SelectedToken {get; set;}
-    public String SelectedMap {get; set;} 
+    public List<PlayerReference> ConnectedPlayers { get; set; }
+    public List<TokenReference> InsertedTokens { get; set; }
+    public Node SelectedToken { get; set; }
+    public String SelectedMap { get; set; }
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         TokenPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Tokens/");
         MapPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Maps/");
         DataPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Data/");
@@ -71,7 +72,8 @@ public class ClientVariables : Node
         SelectedMap = "";
     }
 
-    public void ResetVariables() {
+    public void ResetVariables()
+    {
         //Network
         UseUPNP = false;
         IPAddress = "127.0.0.1";
@@ -89,7 +91,8 @@ public class ClientVariables : Node
         LoadMainMenu();
     }
 
-    public void SaveMainMenu() {
+    public void SaveMainMenu()
+    {
         // Is there a native way to store data I could use?
         Godot.Collections.Dictionary<string, object> mainMenuData =
             new Godot.Collections.Dictionary<string, object>() {
@@ -98,19 +101,20 @@ public class ClientVariables : Node
                 {"username", Username},
                 {"dm", DMRole}
             };
-        
+
         var saveMainMenu = new File();
         saveMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Write);
         saveMainMenu.StoreLine(JSON.Print(mainMenuData));
         saveMainMenu.Close();
     }
 
-    public void LoadMainMenu() {
+    public void LoadMainMenu()
+    {
         var loadMainMenu = new File();
         if (!loadMainMenu.FileExists(DataPath + "main_menu.dat")) return;
 
         loadMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Read);
-        var mainMenuData = 
+        var mainMenuData =
             new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result);
 
         IPAddress = mainMenuData["ip"].ToString();

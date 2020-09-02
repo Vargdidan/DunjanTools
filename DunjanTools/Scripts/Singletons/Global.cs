@@ -3,26 +3,30 @@ using System;
 
 public class Global : Node
 {
-    public Node CurrentScene {get; set;}
+    public Node CurrentScene { get; set; }
     [Signal]
     delegate void ChangedMap();
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         OS.WindowMaximized = true;
 
         //Do directory stuff
         ClientVariables clientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         Directory ImportantFolders = new Directory();
-        
-        if (ImportantFolders.Open(clientVariables.TokenPath) != Godot.Error.Ok) {
+
+        if (ImportantFolders.Open(clientVariables.TokenPath) != Godot.Error.Ok)
+        {
             ImportantFolders.MakeDir(clientVariables.TokenPath);
         }
 
-        if (ImportantFolders.Open(clientVariables.MapPath) != Godot.Error.Ok) {
+        if (ImportantFolders.Open(clientVariables.MapPath) != Godot.Error.Ok)
+        {
             ImportantFolders.MakeDir(clientVariables.MapPath);
         }
 
-        if (ImportantFolders.Open(clientVariables.DataPath) != Godot.Error.Ok) {
+        if (ImportantFolders.Open(clientVariables.DataPath) != Godot.Error.Ok)
+        {
             ImportantFolders.MakeDir(clientVariables.DataPath);
         }
 
@@ -30,7 +34,8 @@ public class Global : Node
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
     }
 
-    public void GotoScene(string path) {
+    public void GotoScene(string path)
+    {
         // This function will usually be called from a signal callback,
         // or some other function from the current scene.
         // Deleting the current scene at this point is
@@ -43,7 +48,8 @@ public class Global : Node
         CallDeferred(nameof(DeferredGotoScene), path);
     }
 
-    public void DeferredGotoScene(string path) {
+    public void DeferredGotoScene(string path)
+    {
         // It is now safe to remove the current scene
         CurrentScene.Free();
 
@@ -60,7 +66,8 @@ public class Global : Node
         GetTree().CurrentScene = CurrentScene;
     }
 
-    public void ChangeMap() {
+    public void ChangeMap()
+    {
         EmitSignal(nameof(ChangedMap));
     }
 }
