@@ -39,6 +39,7 @@ public class Token : Node2D
         else
         {
             //TODO: Notify user of missing image
+            GD.Print("Missing token. No token in this path: " + imagePath);
             Error resultSetDefault = image.Load("res://icon.png");
             if (resultSetDefault == Error.Ok)
             {
@@ -56,7 +57,7 @@ public class Token : Node2D
 
         if (GetTree().NetworkPeer != null && !GetTree().IsNetworkServer())
         {
-            //rpc("request_position_scale")
+            RpcId(1, nameof(RequestPostionAndScale));
         }
     }
 
@@ -70,6 +71,29 @@ public class Token : Node2D
     public override void _Process(float delta)
     {
         Update();
+
+        CheckSelection();
+        if (ClientVariables.SelectedToken == this)
+        {
+            Boolean dirty = false;
+            if (Input.IsActionJustPressed("ui_mouse_click"))
+            {
+                if (!TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
+                {
+                    ClientVariables.SelectedToken = null;
+                    dirty = true;
+                }
+            }
+            if (!dirty)
+            {
+                MoveWithMouse();
+                MoveWithKeys();
+                Resize();
+            }
+        }
+        TokenSprite.GlobalPosition = Lerp(TokenSprite.GlobalPosition, TargetPosition, 0.2f);
+        TokenSprite.Scale = Lerp(TokenSprite.Scale, TargetScale, 0.1f);
+        TokenName.SetGlobalPosition(TokenSprite.GlobalPosition);
     }
 
     public override void _Draw()
@@ -114,7 +138,7 @@ public class Token : Node2D
 
             if (GetTree().NetworkPeer != null)
             {
-                //rpc("request_movement", pos)
+                RpcId(1, nameof(RequestMovement), pos);
             }
             else
             {
@@ -123,11 +147,104 @@ public class Token : Node2D
         }
     }
 
-    public void moveWithMouse()
+    public void MoveWithMouse()
     {
         if (Input.IsActionJustReleased("ui_mouse_click"))
         {
-            
+            Vector2 targetPos = GetGlobalMousePosition();
+            Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
+            targetPos.x = targetPos.x - currentSize.x / 2;
+            targetPos.y = targetPos.y - currentSize.y / 2;
+
+            if (GetTree().NetworkPeer != null)
+            {
+                RpcId(1, nameof(RequestMovement), targetPos.Snapped(new Vector2(tileSize, tileSize)));
+            }
+            else
+            {
+                TargetPosition = targetPos.Snapped(new Vector2(tileSize, tileSize));
+            }
         }
+    }
+
+    public void Resize()
+    {
+        if (Input.IsActionJustReleased("ui_scroll_up") && Input.IsActionPressed("ui_control"))
+        {
+            Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
+            Vector2 sizeTo = new Vector2(currentSize.x + tileSize, currentSize.y + tileSize);
+            Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
+
+            if (GetTree().NetworkPeer != null)
+            {
+                RpcId(1, nameof(RequestScale), scale);
+            }
+            else
+            {
+                TargetScale = scale;
+            }
+        }
+
+        if (Input.IsActionJustReleased("ui_scroll_down") && Input.IsActionPressed("ui_control"))
+        {
+            Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
+            Vector2 sizeTo = new Vector2(currentSize.x - tileSize, currentSize.y - tileSize);
+
+            if (sizeTo.x > tileSize / 2)
+            {
+                Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
+                if (GetTree().NetworkPeer != null)
+                {
+                    RpcId(1, nameof(RequestScale), scale);
+                }
+                else
+                {
+                    TargetScale = scale;
+                }
+            }
+        }
+    }
+
+    float Lerp(float firstFloat, float secondFloat, float by)
+    {
+        return firstFloat * (1 - by) + secondFloat * by;
+    }
+
+    Vector2 Lerp(Vector2 firstVector, Vector2 secondVector, float by)
+    {
+        float retX = Lerp(firstVector.x, secondVector.x, by);
+        float retY = Lerp(firstVector.y, secondVector.y, by);
+        return new Vector2(retX, retY);
+    }
+
+    [Remote]
+    public void RequestMovement(Vector2 pos)
+    {
+        Rset(nameof(TargetPosition), pos);
+    }
+
+    [Remote]
+    public void RequestScale(Vector2 scale)
+    {
+        Rset(nameof(TargetScale), scale);
+    }
+
+    [Remote]
+    public void RequestPostionAndScale()
+    {
+        Rset(nameof(TargetPosition), TargetPosition);
+        Rset(nameof(TargetScale), TargetScale);
+    }
+
+    public Godot.Collections.Dictionary<string, object> SaveToken()
+    {
+        return new Godot.Collections.Dictionary<string, object>() {
+                {"name", this.Name},
+                {"image_path", ImagePath},
+                {"pos_x", TargetPosition.x},
+                {"pos_y", TargetPosition.y},
+                {"scale_x", TargetScale.x},
+                {"scale_y", TargetScale.y}
+            };
     }
 }
