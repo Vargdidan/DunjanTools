@@ -52,12 +52,15 @@ public class ClientVariables : Node
     public List<TokenReference> InsertedTokens { get; set; }
     public Node SelectedToken { get; set; }
     public String SelectedMap { get; set; }
+    public int TileSize { get; set; }
 
     public override void _Ready()
     {
         TokenPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Tokens/");
         MapPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Maps/");
         DataPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Data/");
+
+        TileSize = 64;
 
         // Network
         UseUPNP = false;

@@ -23,7 +23,7 @@ public class Network : Node
 
     public void _PlayerConnected(int id)
     {
-        if (GetTree().NetworkPeer != null && GetTree().IsNetworkServer())
+        if (GetTree().IsNetworkServer())
         {
             RpcId(id, nameof(RegisterPlayer), ClientVariables.InsertedTokens, ClientVariables.SelectedMap, ClientVariables.ConnectedPlayers);
         }
@@ -70,7 +70,7 @@ public class Network : Node
 
     public void _ConnectedOk()
     {
-        Global.GotoScene("res://Session/Battlemap.tscn");
+        Global.GotoScene("res://Session/Session.tscn");
     }
 
     public void _ConnectionFailed()
@@ -118,7 +118,7 @@ public class Network : Node
         Error result = peer.CreateServer(ClientVariables.Port);
         if (result == Error.Ok)
         {
-            Global.GotoScene("res://Session/Battlemap.tscn");
+            Global.GotoScene("res://Session/Session.tscn");
             GetTree().NetworkPeer = peer;
         }
     }

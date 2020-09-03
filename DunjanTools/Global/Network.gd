@@ -2,7 +2,7 @@ extends Node
 
 const MAX_PLAYERS = 10
 
-var battlemap_scene = preload("res://Session/Battlemap.tscn")
+var battlemap_scene = preload("res://Session/Session.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

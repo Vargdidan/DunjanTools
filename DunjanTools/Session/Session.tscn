@@ -2,15 +2,15 @@
 
 [ext_resource path="res://Session/TileMap.gd" type="Script" id=1]
 [ext_resource path="res://Session/Battlemap.gd" type="Script" id=2]
-[ext_resource path="res://Session/Camera.tscn" type="PackedScene" id=3]
-[ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Session/Map.gd" type="Script" id=3]
+[ext_resource path="res://Session/Ruler.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Fog.png" type="Texture" id=5]
-[ext_resource path="res://Session/Map.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=7]
-[ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=8]
-[ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=9]
+[ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Session/Camera.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=10]
-[ext_resource path="res://Session/Ruler.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=11]
 
 [sub_resource type="TileSet" id=1]
 resource_local_to_scene = true
@@ -60,12 +60,12 @@ hue_variation_random = 0.5
 [node name="Battlemap" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Camera" parent="." instance=ExtResource( 3 )]
+[node name="Camera" parent="." instance=ExtResource( 8 )]
 position = Vector2( 960, 540 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="TokenList" parent="UI" instance=ExtResource( 4 )]
+[node name="TokenList" parent="UI" instance=ExtResource( 9 )]
 margin_left = 1919.12
 margin_top = 0.440491
 margin_right = 1919.12
@@ -76,18 +76,18 @@ margin_left = 800.0
 margin_top = 8.0
 margin_right = 840.0
 margin_bottom = 34.0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapList" parent="UI" instance=ExtResource( 8 )]
+[node name="MapList" parent="UI" instance=ExtResource( 7 )]
 margin_left = 1512.0
 margin_top = 0.440491
 margin_right = 1512.0
 margin_bottom = 0.440491
 
-[node name="Controls" parent="UI" instance=ExtResource( 9 )]
+[node name="Controls" parent="UI" instance=ExtResource( 6 )]
 margin_top = 0.440491
 margin_right = -1024.0
 margin_bottom = -559.56
@@ -114,7 +114,7 @@ margin_top = 1043.18
 margin_right = 1918.38
 margin_bottom = 1078.18
 focus_mode = 0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 11 )
 enabled_focus_mode = 0
 text = "Go Back"
 __meta__ = {
@@ -123,7 +123,7 @@ __meta__ = {
 
 [node name="Map" type="Sprite" parent="."]
 centered = false
-script = ExtResource( 6 )
+script = ExtResource( 3 )
 
 [node name="Tokens" type="Node2D" parent="."]
 
@@ -133,13 +133,13 @@ format = 1
 script = ExtResource( 1 )
 
 [node name="Ruler" type="Node2D" parent="."]
-script = ExtResource( 11 )
+script = ExtResource( 4 )
 
 [node name="Length" type="Label" parent="Ruler"]
 visible = false
 margin_right = 40.0
 margin_bottom = 14.0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 11 )
 text = "0 ft"
 __meta__ = {
 "_edit_use_anchors_": false

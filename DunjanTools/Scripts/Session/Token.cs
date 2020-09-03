@@ -15,6 +15,7 @@ public class Token : Node2D
     public override void _Ready()
     {
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
+        tileSize = ClientVariables.TileSize;
         ImagePath = "";
         TokenName = (Label)GetNode("TokenName");
         TokenSprite = (Sprite)GetNode("Sprite");
@@ -55,7 +56,7 @@ public class Token : Node2D
         TargetPosition = position.Snapped(new Vector2(tileSize, tileSize));
         TokenSprite.GlobalPosition = TargetPosition;
 
-        if (GetTree().NetworkPeer != null && !GetTree().IsNetworkServer())
+        if (!GetTree().IsNetworkServer())
         {
             RpcId(1, nameof(RequestPostionAndScale));
         }
@@ -136,14 +137,7 @@ public class Token : Node2D
             pos.x += (-left + right) * tileSize;
             pos.y += (-up + down) * tileSize;
 
-            if (GetTree().NetworkPeer != null)
-            {
-                RpcId(1, nameof(RequestMovement), pos);
-            }
-            else
-            {
-                TargetPosition = pos;
-            }
+            RpcId(1, nameof(RequestMovement), pos);
         }
     }
 
@@ -156,14 +150,7 @@ public class Token : Node2D
             targetPos.x = targetPos.x - currentSize.x / 2;
             targetPos.y = targetPos.y - currentSize.y / 2;
 
-            if (GetTree().NetworkPeer != null)
-            {
-                RpcId(1, nameof(RequestMovement), targetPos.Snapped(new Vector2(tileSize, tileSize)));
-            }
-            else
-            {
-                TargetPosition = targetPos.Snapped(new Vector2(tileSize, tileSize));
-            }
+            RpcId(1, nameof(RequestMovement), targetPos.Snapped(new Vector2(tileSize, tileSize)));
         }
     }
 
@@ -175,14 +162,7 @@ public class Token : Node2D
             Vector2 sizeTo = new Vector2(currentSize.x + tileSize, currentSize.y + tileSize);
             Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
 
-            if (GetTree().NetworkPeer != null)
-            {
-                RpcId(1, nameof(RequestScale), scale);
-            }
-            else
-            {
-                TargetScale = scale;
-            }
+            RpcId(1, nameof(RequestScale), scale);
         }
 
         if (Input.IsActionJustReleased("ui_scroll_down") && Input.IsActionPressed("ui_control"))
@@ -193,14 +173,7 @@ public class Token : Node2D
             if (sizeTo.x > tileSize / 2)
             {
                 Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
-                if (GetTree().NetworkPeer != null)
-                {
-                    RpcId(1, nameof(RequestScale), scale);
-                }
-                else
-                {
-                    TargetScale = scale;
-                }
+                RpcId(1, nameof(RequestScale), scale);
             }
         }
     }

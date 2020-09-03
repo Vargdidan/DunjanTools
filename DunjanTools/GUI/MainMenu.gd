@@ -19,7 +19,7 @@ func _ready():
 
 
 func _on_Offline_pressed():
-	Global.goto_scene("res://Session/Battlemap.tscn")
+	Global.goto_scene("res://Session/Session.tscn")
 
 
 func _on_IP_text_changed(text):
