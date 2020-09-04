@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Session\Map.cs" />
+    <Compile Include="Scripts\Session\Session.cs" />
     <Compile Include="Scripts\Session\Token.cs" />
     <Compile Include="Scripts\Singletons\ClientVariables.cs" />
     <Compile Include="Scripts\Singletons\Global.cs" />

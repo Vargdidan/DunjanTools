@@ -32,7 +32,7 @@ public class Token : Node2D
         TokenName.Text = this.Name;
         ImagePath = imagePath;
         Image image = new Image();
-        Error result = image.Load(ClientVariables.TokenPath + imagePath);
+        Error result = image.Load(ClientVariables.TokenFolder + imagePath);
         if (result == Error.Ok)
         {
             SetImageOnSprite(image);

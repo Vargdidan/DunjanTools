@@ -14,7 +14,7 @@ func _ready():
 	if (get_tree().get_network_peer() != null):
 		get_node("UI/Players").set_visible(true)
 		var id = get_tree().get_network_unique_id()
-		#rpc("request_to_add_player", id, ClientVariables.Username)
+		rpc("request_to_add_player", id, ClientVariables.Username)
 		
 		if (!ClientVariables.DMRole):
 			get_node("UI/MapList").set_visible(false)
@@ -112,7 +112,7 @@ remotesync func add_player(id, name):
 	player.set_text(name)
 	player.add_font_override("font", load("res://Assets/Fonts/Default.tres"))
 	get_node("UI/Players").add_child(player)
-	ClientVariables.connected_players[id] = [id, name]
+	#ClientVariables.connected_players[id] = [id, name]
 	
 
 remotesync func remove_player(id):

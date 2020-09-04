@@ -93,7 +93,6 @@ margin_right = -1024.0
 margin_bottom = -559.56
 
 [node name="Players" type="VBoxContainer" parent="UI"]
-visible = false
 margin_left = 8.0
 margin_top = 858.0
 margin_right = 241.0

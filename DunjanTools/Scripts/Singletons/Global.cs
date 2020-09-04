@@ -15,19 +15,19 @@ public class Global : Node
         ClientVariables clientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         Directory ImportantFolders = new Directory();
 
-        if (ImportantFolders.Open(clientVariables.TokenPath) != Godot.Error.Ok)
+        if (ImportantFolders.Open(clientVariables.TokenFolder) != Godot.Error.Ok)
         {
-            ImportantFolders.MakeDir(clientVariables.TokenPath);
+            ImportantFolders.MakeDir(clientVariables.TokenFolder);
         }
 
-        if (ImportantFolders.Open(clientVariables.MapPath) != Godot.Error.Ok)
+        if (ImportantFolders.Open(clientVariables.MapFolder) != Godot.Error.Ok)
         {
-            ImportantFolders.MakeDir(clientVariables.MapPath);
+            ImportantFolders.MakeDir(clientVariables.MapFolder);
         }
 
-        if (ImportantFolders.Open(clientVariables.DataPath) != Godot.Error.Ok)
+        if (ImportantFolders.Open(clientVariables.DataFolder) != Godot.Error.Ok)
         {
-            ImportantFolders.MakeDir(clientVariables.DataPath);
+            ImportantFolders.MakeDir(clientVariables.DataFolder);
         }
 
         Viewport root = GetTree().Root;

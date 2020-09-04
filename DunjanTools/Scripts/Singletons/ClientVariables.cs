@@ -36,9 +36,9 @@ public struct TokenReference
 public class ClientVariables : Node
 {
     // Important folders
-    public String TokenPath { get; set; }
-    public String MapPath { get; set; }
-    public String DataPath { get; set; }
+    public String TokenFolder { get; set; }
+    public String MapFolder { get; set; }
+    public String DataFolder { get; set; }
 
     // Network variables (Should they be moved?)
     public Boolean UseUPNP { get; set; }
@@ -56,9 +56,9 @@ public class ClientVariables : Node
 
     public override void _Ready()
     {
-        TokenPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Tokens/");
-        MapPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Maps/");
-        DataPath = OS.GetExecutablePath().GetBaseDir().PlusFile("Data/");
+        TokenFolder = OS.GetExecutablePath().GetBaseDir().PlusFile("Tokens/");
+        MapFolder = OS.GetExecutablePath().GetBaseDir().PlusFile("Maps/");
+        DataFolder = OS.GetExecutablePath().GetBaseDir().PlusFile("Data/");
 
         TileSize = 64;
 
@@ -106,12 +106,11 @@ public class ClientVariables : Node
             };
 
         var saveMainMenu = new File();
-        GD.Print(DataPath + "main_menu.dat");
-        Error result = saveMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Write);
+        Error result = saveMainMenu.Open(DataFolder + "main_menu.dat", File.ModeFlags.Write);
         if (result == Error.Ok)
         {
             saveMainMenu.StoreLine(JSON.Print(mainMenuData));
-            GD.Print("Saved this");
+            GD.Print("Saved" + DataFolder + "main_menu.dat");
             saveMainMenu.Close();
         }
         else
@@ -123,9 +122,9 @@ public class ClientVariables : Node
     public void LoadMainMenu()
     {
         var loadMainMenu = new File();
-        if (!loadMainMenu.FileExists(DataPath + "main_menu.dat")) return;
+        if (!loadMainMenu.FileExists(DataFolder + "main_menu.dat")) return;
 
-        loadMainMenu.Open(DataPath + "main_menu.dat", File.ModeFlags.Read);
+        loadMainMenu.Open(DataFolder + "main_menu.dat", File.ModeFlags.Read);
         var mainMenuData =
             new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result);
 
