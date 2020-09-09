@@ -48,11 +48,9 @@ public class Network : Node
 
         if (!ClientVariables.DMRole)
         {
-            foreach (TokenReference token in tokens)
-            {
-                //Pass tokenreference (rework battlemap script)
-                //currentScene.CreateToken()
-            }
+            //Pass tokenreference (rework battlemap script)
+            //currentScene.CreateTokens()
+            
         }
 
         foreach (PlayerReference player in connectedPlayers)

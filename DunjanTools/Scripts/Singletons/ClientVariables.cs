@@ -134,4 +134,16 @@ public class ClientVariables : Node
         DMRole = (Boolean)mainMenuData["dm"];
         loadMainMenu.Close();
     }
+
+    public Nullable<TokenReference> FindTokenReferenceByName(String tokenName)
+    {
+        foreach (TokenReference tokenRef in InsertedTokens)
+        {
+            if (tokenRef.UniqueName == tokenName)
+            {
+                return tokenRef;
+            }
+        }
+        return null;
+    } 
 }
