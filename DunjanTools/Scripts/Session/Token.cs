@@ -21,8 +21,8 @@ public class Token : Node2D
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
         Vector2 sizeTo = new Vector2(tileSize, tileSize);
-        TargetScale = sizeTo / TokenSprite.GetRect().Size;
-
+        //TargetScale = sizeTo / TokenSprite.GetRect().Size;
+        TargetScale = new Vector2(1,1);
         RsetConfig(nameof(TargetPosition), Godot.MultiplayerAPI.RPCMode.Remotesync);
         RsetConfig(nameof(TargetScale), Godot.MultiplayerAPI.RPCMode.Remotesync);
     }
@@ -48,12 +48,15 @@ public class Token : Node2D
             }
         }
 
-        if (scale != null)
+        if (!scale.Equals(Vector2.Zero))
         {
             TargetScale = scale;
         }
 
         TargetPosition = position.Snapped(new Vector2(tileSize, tileSize));
+
+        GD.Print("Position: " + TargetPosition);
+        GD.Print("Position: " + TargetScale);
         TokenSprite.GlobalPosition = TargetPosition;
 
         if (!GetTree().IsNetworkServer())
@@ -190,19 +193,19 @@ public class Token : Node2D
         return new Vector2(retX, retY);
     }
 
-    [Remote]
+    [RemoteSync]
     public void RequestMovement(Vector2 pos)
     {
         Rset(nameof(TargetPosition), pos);
     }
 
-    [Remote]
+    [RemoteSync]
     public void RequestScale(Vector2 scale)
     {
         Rset(nameof(TargetScale), scale);
     }
 
-    [Remote]
+    [RemoteSync]
     public void RequestPostionAndScale()
     {
         Rset(nameof(TargetPosition), TargetPosition);

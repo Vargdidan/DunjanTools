@@ -153,10 +153,10 @@ func save_battlemap():
 
 func load_battlemap():
 	var battlemap = File.new()
-	if not battlemap.file_exists(ClientVariables.DataPath + ClientVariables.SelectedMap.split(".")[0] + ".dat"):
+	if not battlemap.file_exists(ClientVariables.DataFolder + ClientVariables.SelectedMap.split(".")[0] + ".dat"):
 		return
 	
-	battlemap.open(ClientVariables.DataPath + ClientVariables.SelectedMap.split(".")[0] + ".dat", File.READ)
+	battlemap.open(ClientVariables.DataFolder + ClientVariables.SelectedMap.split(".")[0] + ".dat", File.READ)
 	while(battlemap.get_position() < battlemap.get_len()):
 		var data = parse_json(battlemap.get_line())
 		

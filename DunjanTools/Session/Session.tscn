@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Session/TileMap.gd" type="Script" id=1]
-[ext_resource path="res://Session/Battlemap.gd" type="Script" id=2]
-[ext_resource path="res://Session/Map.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Session/Session.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Session/Map.cs" type="Script" id=3]
 [ext_resource path="res://Session/Ruler.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Fog.png" type="Texture" id=5]
 [ext_resource path="res://GUI/Controls.tscn" type="PackedScene" id=6]
@@ -57,7 +57,7 @@ color = Color( 0.0705882, 0.0901961, 0.772549, 1 )
 hue_variation = 0.5
 hue_variation_random = 0.5
 
-[node name="Battlemap" type="Node2D"]
+[node name="Session" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Camera" parent="." instance=ExtResource( 8 )]
@@ -157,5 +157,5 @@ speed_scale = 2.0
 visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
 process_material = SubResource( 2 )
-[connection signal="pressed" from="UI/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="UI/BackButton" to="." method="OnBackButtonPressed"]
 [connection signal="timeout" from="Timer" to="TileMap" method="_on_Timer_timeout"]

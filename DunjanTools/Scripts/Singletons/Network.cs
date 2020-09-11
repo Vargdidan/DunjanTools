@@ -73,6 +73,8 @@ public class Network : Node
 
     public void _ConnectionFailed()
     {
+        NetworkedMultiplayerENet peer = (NetworkedMultiplayerENet)GetTree().NetworkPeer;
+        peer.CloseConnection();
         GetTree().NetworkPeer = null;
     }
 
@@ -85,6 +87,8 @@ public class Network : Node
             //currentScene.save_battlemap();
         }
         Global.GotoScene("res://GUI/MainMenu.tscn");
+        NetworkedMultiplayerENet peer = (NetworkedMultiplayerENet)GetTree().NetworkPeer;
+        peer.CloseConnection();
         GetTree().NetworkPeer = null;
     }
 
@@ -112,12 +116,15 @@ public class Network : Node
                 }
             }
         }
-        NetworkedMultiplayerENet peer = new NetworkedMultiplayerENet();
+        var peer = new NetworkedMultiplayerENet();
         Error result = peer.CreateServer(ClientVariables.Port);
         if (result == Error.Ok)
         {
-            Global.GotoScene("res://Session/Session.tscn");
             GetTree().NetworkPeer = peer;
+            Global.GotoScene("res://Session/Session.tscn");
+        } else {
+            GD.Print(result);
+            GD.Print("On port:" + ClientVariables.Port);
         }
     }
 

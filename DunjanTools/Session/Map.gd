@@ -7,7 +7,7 @@ func initialize(texture_name):
 	rset_config("scale", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 	
 	var image = Image.new()
-	var loaded = image.load(ClientVariables.MapPath + texture_name)
+	var loaded = image.load(ClientVariables.MapFolder + texture_name)
 	if loaded == OK:
 		texture = ImageTexture.new()
 		texture.create_from_image(image, 0)

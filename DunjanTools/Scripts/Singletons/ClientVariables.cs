@@ -145,5 +145,17 @@ public class ClientVariables : Node
             }
         }
         return null;
+    }
+
+    public Nullable<PlayerReference> FindPlayerReferenceById(int id)
+    {
+        foreach (PlayerReference playerRef in ConnectedPlayers)
+        {
+            if (playerRef.Identity == id)
+            {
+                return playerRef;
+            }
+        }
+        return null;
     } 
 }
