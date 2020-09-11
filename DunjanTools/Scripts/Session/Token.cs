@@ -20,8 +20,6 @@ public class Token : Node2D
         TokenName = (Label)GetNode("TokenName");
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
-        Vector2 sizeTo = new Vector2(tileSize, tileSize);
-        //TargetScale = sizeTo / TokenSprite.GetRect().Size;
         TargetScale = new Vector2(1,1);
         RsetConfig(nameof(TargetPosition), Godot.MultiplayerAPI.RPCMode.Remotesync);
         RsetConfig(nameof(TargetScale), Godot.MultiplayerAPI.RPCMode.Remotesync);
@@ -52,12 +50,17 @@ public class Token : Node2D
         {
             TargetScale = scale;
         }
+        else
+        {
+            Vector2 sizeTo = new Vector2(tileSize, tileSize);
+            TargetScale = sizeTo / TokenSprite.GetRect().Size;
+        }
 
         TargetPosition = position.Snapped(new Vector2(tileSize, tileSize));
 
         GD.Print("Position: " + TargetPosition);
         GD.Print("Position: " + TargetScale);
-        TokenSprite.GlobalPosition = TargetPosition;
+        GlobalPosition = TargetPosition;
 
         if (!GetTree().IsNetworkServer())
         {
@@ -95,9 +98,8 @@ public class Token : Node2D
                 Resize();
             }
         }
-        TokenSprite.GlobalPosition = Lerp(TokenSprite.GlobalPosition, TargetPosition, 0.2f);
-        TokenSprite.Scale = Lerp(TokenSprite.Scale, TargetScale, 0.1f);
-        TokenName.SetGlobalPosition(TokenSprite.GlobalPosition);
+        GlobalPosition = Linear.Lerp(GlobalPosition, TargetPosition, 0.2f);
+        Scale = Linear.Lerp(Scale, TargetScale, 0.1f);
     }
 
     public override void _Draw()
@@ -179,18 +181,6 @@ public class Token : Node2D
                 RpcId(1, nameof(RequestScale), scale);
             }
         }
-    }
-
-    float Lerp(float firstFloat, float secondFloat, float by)
-    {
-        return firstFloat * (1 - by) + secondFloat * by;
-    }
-
-    Vector2 Lerp(Vector2 firstVector, Vector2 secondVector, float by)
-    {
-        float retX = Lerp(firstVector.x, secondVector.x, by);
-        float retY = Lerp(firstVector.y, secondVector.y, by);
-        return new Vector2(retX, retY);
     }
 
     [RemoteSync]

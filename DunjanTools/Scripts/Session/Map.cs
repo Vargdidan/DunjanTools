@@ -5,13 +5,15 @@ public class Map : Sprite
 {
     private int tileSize = 64;
     public String CurrentMap { set; get; }
+    public Vector2 TargetScale { set; get; }
     public ClientVariables ClientVariables { set; get; }
     public override void _Ready()
     {
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         tileSize = ClientVariables.TileSize;
         CurrentMap = "";
-        RsetConfig(nameof(Scale), MultiplayerAPI.RPCMode.Remotesync);
+        TargetScale = new Vector2(1,1);
+        RsetConfig(nameof(TargetScale), MultiplayerAPI.RPCMode.Remotesync);
     }
 
     public void SetMap(String mapPath, Vector2 scale)
@@ -27,7 +29,7 @@ public class Map : Sprite
         }
 
         //Set scale?
-        Scale = scale;
+        TargetScale = scale;
     }
 
      public override void _Process(float delta)
@@ -36,6 +38,8 @@ public class Map : Sprite
          {
              ResizeMap();
          }
+
+         Scale = Linear.Lerp(Scale, TargetScale, 0.2f);
      }
 
     public void ResizeMap()
@@ -52,7 +56,7 @@ public class Map : Sprite
             scaleTo.x += scaleFactor;
             scaleTo.y += scaleFactor;
         }
-        else if (Input.IsActionJustReleased("ui_scroll_up"))
+        else if (Input.IsActionJustReleased("ui_scroll_down"))
         {
             scaleTo.x -= scaleFactor;
             scaleTo.y -= scaleFactor;
@@ -60,8 +64,14 @@ public class Map : Sprite
 
         if(!scaleTo.Equals(Scale)) {
             //Should this be a request to server?
-            Rset(nameof(Scale), scaleTo);
+            RpcId(1, nameof(RequestScale), scaleTo);
         }
+    }
+
+    [RemoteSync]
+    public void RequestScale(Vector2 scale)
+    {
+        Rset(nameof(TargetScale), scale);
     }
 
     //Should this even be used? Or should one just get scale and use it in the save session?
