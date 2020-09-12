@@ -7,6 +7,7 @@ public class Token : Node2D
     private Color selectedColor = new Color(1, 0.2f, 0.2f, 0.2f);
     public String ImagePath { set; get; }
     public Label TokenName { set; get; }
+    public Node UI { set; get; }
     public Vector2 TargetPosition { set; get; }
     public Vector2 TargetScale { set; get; }
     public ClientVariables ClientVariables { set; get; }
@@ -17,7 +18,7 @@ public class Token : Node2D
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         tileSize = ClientVariables.TileSize;
         ImagePath = "";
-        TokenName = (Label)GetNode("TokenName");
+        TokenName = (Label)GetNode("UI/TokenName");
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
         TargetScale = new Vector2(1,1);
@@ -61,6 +62,7 @@ public class Token : Node2D
         GD.Print("Position: " + TargetPosition);
         GD.Print("Position: " + TargetScale);
         GlobalPosition = TargetPosition;
+        Scale = TargetScale;
 
         if (!GetTree().IsNetworkServer())
         {
@@ -99,6 +101,7 @@ public class Token : Node2D
             }
         }
         GlobalPosition = Linear.Lerp(GlobalPosition, TargetPosition, 0.2f);
+        TokenName.SetGlobalPosition(GlobalPosition);
         Scale = Linear.Lerp(Scale, TargetScale, 0.1f);
     }
 
@@ -148,7 +151,7 @@ public class Token : Node2D
 
     public void MoveWithMouse()
     {
-        if (Input.IsActionJustReleased("ui_mouse_click"))
+        if (Input.IsActionPressed("ui_mouse_click"))
         {
             Vector2 targetPos = GetGlobalMousePosition();
             Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
