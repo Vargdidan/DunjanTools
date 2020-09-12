@@ -5,13 +5,13 @@ using System.Collections.Generic;
 //Struct's
 public struct PlayerReference
 {
-    public PlayerReference(Int64 id, String name)
+    public PlayerReference(int id, String name)
     {
         Identity = id;
         Name = name;
     }
 
-    public Int64 Identity { get; }
+    public int Identity { get; }
     public String Name { get; }
 
     public override string ToString() => $"({Identity}, {Name})";

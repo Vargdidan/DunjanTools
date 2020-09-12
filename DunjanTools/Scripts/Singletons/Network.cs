@@ -32,12 +32,12 @@ public class Network : Node
     [Remote]
     public void RegisterPlayer(List<TokenReference> tokens, String map, List<PlayerReference> connectedPlayers)
     {
-        Node currentScene = Root.GetChild(Root.GetChildCount() - 1);
+        Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
         if (!map.Empty())
         {
             if (!ClientVariables.DMRole)
             {
-                //currentScene.change_map(map);
+                sessionScene.ChangeMap(map);
             }
             else
             {
@@ -48,22 +48,20 @@ public class Network : Node
 
         if (!ClientVariables.DMRole)
         {
-            //Pass tokenreference (rework battlemap script)
-            //currentScene.CreateTokens()
+            sessionScene.CreateTokens(tokens);
             
         }
 
         foreach (PlayerReference player in connectedPlayers)
         {
-            //Pass playerReference (rework battlemap script)
-            //currentScene.AddPlayer()
+            sessionScene.AddPlayer(player.Identity, player.Name);
         }
     }
 
     public void _PlayerDisconnected(int id)
     {
-        Node currentScene = Root.GetChild(Root.GetChildCount() - 1);
-        //current_scene.rpc("remove_player", id)
+        Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
+        sessionScene.Rpc("remove_player", id);
     }
 
     public void _ConnectedOk()
