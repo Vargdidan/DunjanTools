@@ -33,7 +33,7 @@ public class Network : Node
     public void RegisterPlayer(List<TokenReference> tokens, String map, List<PlayerReference> connectedPlayers)
     {
         Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
-        if (!map.Empty())
+        if (!"empty".Equals(map))
         {
             if (!ClientVariables.DMRole)
             {

@@ -72,7 +72,7 @@ public class ClientVariables : Node
         ConnectedPlayers = new List<PlayerReference>();
         InsertedTokens = new List<TokenReference>();
         SelectedToken = new Node();
-        SelectedMap = "";
+        SelectedMap = "empty";
     }
 
     public void ResetVariables()
@@ -88,7 +88,7 @@ public class ClientVariables : Node
         ConnectedPlayers.Clear();
         InsertedTokens.Clear();
         SelectedToken = new Node();
-        SelectedMap = "";
+        SelectedMap = "empty";
 
         // Restore latest settings
         LoadMainMenu();
