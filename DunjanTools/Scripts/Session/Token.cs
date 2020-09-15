@@ -4,7 +4,11 @@ using System;
 public class Token : Node2D
 {
     private int tileSize = 64;
+    private Boolean isDragging = false;
+    private Vector2 dragStartPosition = new Vector2();
+    private Vector2 dragEndPosition = new Vector2();
     private Color selectedColor = new Color(1, 0.2f, 0.2f, 0.2f);
+    private Color dragColor = new Color(1f, 1f, 1f, 1f);
     public String ImagePath { set; get; }
     public Label TokenName { set; get; }
     public Node UI { set; get; }
@@ -80,26 +84,18 @@ public class Token : Node2D
     public override void _Process(float delta)
     {
         Update();
-
         CheckSelection();
         if (ClientVariables.SelectedTokens.Contains(this))
         {
-            Boolean dirty = false;
-            if (Input.IsActionJustPressed("ui_mouse_click") && !Input.IsActionPressed("ui_control"))
-            {
-                if (!TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
-                {
-                    ClientVariables.SelectedTokens.Remove(this);
-                    dirty = true;
-                }
-            }
-            if (!dirty && !Input.IsActionPressed("ui_control"))
-            {
-                MoveWithMouse();
-                MoveWithKeys();
-                Resize();
-            }
+            MoveWithMouse();
+            MoveWithKeys();
+            Resize();
         }
+        else
+        {
+            isDragging = false;
+        }
+        
         GlobalPosition = Linear.Lerp(GlobalPosition, TargetPosition, 0.2f);
         TokenName.SetGlobalPosition(GlobalPosition);
         Scale = Linear.Lerp(Scale, TargetScale, 0.1f);
@@ -110,6 +106,15 @@ public class Token : Node2D
         if (ClientVariables.SelectedTokens.Contains(this))
         {
             DrawRect(TokenSprite.GetRect(), selectedColor, true);
+
+            if (Input.IsActionPressed("ui_mouse_click"))
+            {
+                Vector2 distanceToMove = dragEndPosition - dragStartPosition;
+                Vector2 finalPosition = TargetPosition + distanceToMove;
+                Vector2 start = ToLocal(new Vector2(TargetPosition.x + tileSize / 2, TargetPosition.y + tileSize / 2));
+                finalPosition = ToLocal(new Vector2(finalPosition.x + tileSize / 2, finalPosition.y + tileSize / 2));
+                DrawLine(start, finalPosition, dragColor, 10, true);
+            }
         }
     }
 
@@ -118,13 +123,24 @@ public class Token : Node2D
         if (TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
         {
             TokenName.Visible = true;
-            if (Input.IsActionJustReleased("ui_mouse_click"))
+            if (Input.IsActionJustPressed("ui_mouse_click"))
             {
                 if (Input.IsActionPressed("ui_control"))
                 {
-                    ClientVariables.SelectedTokens.Add(this);
+                    if (ClientVariables.SelectedTokens.Contains(this))
+                    {
+                        ClientVariables.SelectedTokens.Remove(this);
+                    }
+                    else
+                    {
+                        ClientVariables.SelectedTokens.Add(this);
+                    }
                 }
-                else
+            }
+
+            if (Input.IsActionJustReleased("ui_mouse_click"))
+            {
+                if (!Input.IsActionPressed("ui_control"))
                 {
                     ClientVariables.SelectedTokens.Clear();
                     ClientVariables.SelectedTokens.Add(this);
@@ -161,12 +177,24 @@ public class Token : Node2D
     {
         if (Input.IsActionPressed("ui_mouse_click"))
         {
-            Vector2 targetPos = GetGlobalMousePosition();
-            Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
-            targetPos.x = targetPos.x - currentSize.x / 2;
-            targetPos.y = targetPos.y - currentSize.y / 2;
+            if (!isDragging)
+            {
+                dragStartPosition = GetGlobalMousePosition();
+                dragEndPosition = dragStartPosition;
+                isDragging = true;
+            }
+            dragEndPosition = GetGlobalMousePosition();
+        }
 
-            RpcId(1, nameof(RequestMovement), targetPos.Snapped(new Vector2(tileSize, tileSize)));
+        if (Input.IsActionJustReleased("ui_mouse_click"))
+        {
+            isDragging = false;
+            Vector2 distanceToMove = dragEndPosition - dragStartPosition;
+            Vector2 finalPosition = TargetPosition + distanceToMove;
+
+            RpcId(1, nameof(RequestMovement), finalPosition.Snapped(new Vector2(tileSize, tileSize)));
+            dragStartPosition = TargetPosition;
+            dragEndPosition = TargetPosition;
         }
     }
 

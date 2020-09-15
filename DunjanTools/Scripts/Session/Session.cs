@@ -33,6 +33,11 @@ public class Session : Node2D
 
     public override void _Process(float delta)
     {
+        if (Input.IsActionJustReleased("ui_esc"))
+        {
+            ClientVariables.SelectedTokens.Clear();
+        }
+
         if (Input.IsActionJustPressed("delete"))
         {
             foreach (Node token in ClientVariables.SelectedTokens)
