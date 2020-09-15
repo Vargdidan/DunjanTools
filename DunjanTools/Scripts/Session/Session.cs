@@ -35,7 +35,10 @@ public class Session : Node2D
     {
         if (Input.IsActionJustPressed("delete"))
         {
-            Rpc(nameof(RemoveToken), ClientVariables.SelectedToken.Name);
+            foreach (Node token in ClientVariables.SelectedTokens)
+            {
+                Rpc(nameof(RemoveToken), token.Name);
+            }
         }
 
         if (Input.IsActionJustPressed("ping"))

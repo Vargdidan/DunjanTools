@@ -36,7 +36,7 @@ func _draw():
 			draw_line(Vector2(x * tilemap_cell_size.x, 0), Vector2(x * tilemap_cell_size.x, map.get_rect().size.y*map.scale.y), color)
 
 func move_mouse():
-	if (Input.is_action_pressed("ui_mouse_click") && Input.is_action_pressed("ui_control")):
+	if (Input.is_action_pressed("ui_mouse_click") && Input.is_action_pressed("ui_alt")):
 		var target_pos = get_global_mouse_position()
 		target_pos.x = stepify(target_pos.x-tilemap_cell_size.x/2, tilemap_cell_size.x)
 		target_pos.y = stepify(target_pos.y-tilemap_cell_size.y/2, tilemap_cell_size.y)

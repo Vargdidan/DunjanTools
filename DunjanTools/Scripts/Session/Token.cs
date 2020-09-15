@@ -82,18 +82,18 @@ public class Token : Node2D
         Update();
 
         CheckSelection();
-        if (ClientVariables.SelectedToken == this)
+        if (ClientVariables.SelectedTokens.Contains(this))
         {
             Boolean dirty = false;
-            if (Input.IsActionJustPressed("ui_mouse_click"))
+            if (Input.IsActionJustPressed("ui_mouse_click") && !Input.IsActionPressed("ui_control"))
             {
                 if (!TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
                 {
-                    ClientVariables.SelectedToken = null;
+                    ClientVariables.SelectedTokens.Remove(this);
                     dirty = true;
                 }
             }
-            if (!dirty)
+            if (!dirty && !Input.IsActionPressed("ui_control"))
             {
                 MoveWithMouse();
                 MoveWithKeys();
@@ -107,7 +107,7 @@ public class Token : Node2D
 
     public override void _Draw()
     {
-        if (ClientVariables.SelectedToken == this)
+        if (ClientVariables.SelectedTokens.Contains(this))
         {
             DrawRect(TokenSprite.GetRect(), selectedColor, true);
         }
@@ -120,7 +120,15 @@ public class Token : Node2D
             TokenName.Visible = true;
             if (Input.IsActionJustReleased("ui_mouse_click"))
             {
-                ClientVariables.SelectedToken = this;
+                if (Input.IsActionPressed("ui_control"))
+                {
+                    ClientVariables.SelectedTokens.Add(this);
+                }
+                else
+                {
+                    ClientVariables.SelectedTokens.Clear();
+                    ClientVariables.SelectedTokens.Add(this);
+                }
             }
         }
         else

@@ -50,7 +50,7 @@ public class ClientVariables : Node
     // Session variables
     public List<PlayerReference> ConnectedPlayers { get; set; }
     public List<TokenReference> InsertedTokens { get; set; }
-    public Node SelectedToken { get; set; }
+    public List<Node> SelectedTokens { get; set; }
     public String SelectedMap { get; set; }
     public int TileSize { get; set; }
 
@@ -71,7 +71,7 @@ public class ClientVariables : Node
 
         ConnectedPlayers = new List<PlayerReference>();
         InsertedTokens = new List<TokenReference>();
-        SelectedToken = new Node();
+        SelectedTokens = new List<Node>();
         SelectedMap = "empty";
     }
 
@@ -87,7 +87,7 @@ public class ClientVariables : Node
         // Session
         ConnectedPlayers.Clear();
         InsertedTokens.Clear();
-        SelectedToken = new Node();
+        SelectedTokens.Clear();
         SelectedMap = "empty";
 
         // Restore latest settings
