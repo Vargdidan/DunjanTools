@@ -40,7 +40,7 @@ public class Map : Sprite
              ResizeMap();
          }
 
-         Scale = Linear.Lerp(Scale, TargetScale, 0.2f);
+         Scale = MathUtil.Lerp(Scale, TargetScale, 0.2f);
      }
 
     public void ResizeMap()

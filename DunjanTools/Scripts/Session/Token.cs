@@ -96,9 +96,9 @@ public class Token : Node2D
             isDragging = false;
         }
         
-        GlobalPosition = Linear.Lerp(GlobalPosition, TargetPosition, 0.2f);
+        GlobalPosition = MathUtil.Lerp(GlobalPosition, TargetPosition, 0.2f);
         TokenName.SetGlobalPosition(GlobalPosition);
-        Scale = Linear.Lerp(Scale, TargetScale, 0.1f);
+        Scale = MathUtil.Lerp(Scale, TargetScale, 0.1f);
     }
 
     public override void _Draw()

@@ -66,7 +66,7 @@
     <Compile Include="Scripts\Singletons\ClientVariables.cs"/>
     <Compile Include="Scripts\Singletons\Global.cs"/>
     <Compile Include="Scripts\Singletons\Network.cs"/>
-    <Compile Include="Scripts\Util\Linear.cs"/>
+    <Compile Include="Scripts\Util\MathUtil.cs"/>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/>
 </Project>
