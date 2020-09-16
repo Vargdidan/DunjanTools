@@ -30,6 +30,7 @@ public class Map : Sprite
 
         //Set scale?
         TargetScale = scale;
+        RpcId(1, nameof(GetMapScale));
     }
 
      public override void _Process(float delta)
@@ -63,7 +64,6 @@ public class Map : Sprite
         }
 
         if(!scaleTo.Equals(Scale)) {
-            //Should this be a request to server?
             RpcId(1, nameof(RequestScale), scaleTo);
         }
     }
@@ -72,6 +72,12 @@ public class Map : Sprite
     public void RequestScale(Vector2 scale)
     {
         Rset(nameof(TargetScale), scale);
+    }
+
+    [RemoteSync]
+    public void GetMapScale()
+    {
+        Rset(nameof(TargetScale), TargetScale);
     }
 
     //Should this even be used? Or should one just get scale and use it in the save session?

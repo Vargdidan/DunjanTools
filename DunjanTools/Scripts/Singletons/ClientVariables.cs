@@ -11,8 +11,8 @@ public struct PlayerReference
         Name = name;
     }
 
-    public int Identity { get; }
-    public String Name { get; }
+    public int Identity { get; set; }
+    public String Name { get; set; }
 
     public override string ToString() => $"({Identity}, {Name})";
 }
@@ -26,9 +26,9 @@ public struct TokenReference
         ImageFile = image;
     }
 
-    public Int64 Identity { get; }
-    public String UniqueName { get; }
-    public String ImageFile { get; }
+    public Int64 Identity { get; set; }
+    public String UniqueName { get; set; }
+    public String ImageFile { get; set; }
 
     public override string ToString() => $"({Identity}, {UniqueName})";
 }
@@ -85,7 +85,6 @@ public class ClientVariables : Node
         DMRole = false;
 
         // Session
-        ConnectedPlayers.Clear();
         InsertedTokens.Clear();
         SelectedTokens.Clear();
         SelectedMap = "empty";

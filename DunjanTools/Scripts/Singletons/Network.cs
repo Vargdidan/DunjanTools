@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class Network : Node
 {
@@ -25,14 +26,19 @@ public class Network : Node
     {
         if (GetTree().IsNetworkServer())
         {
-            RpcId(id, nameof(RegisterPlayer), ClientVariables.InsertedTokens, ClientVariables.SelectedMap, ClientVariables.ConnectedPlayers);
+            String tokens = JsonConvert.SerializeObject(ClientVariables.InsertedTokens);
+            String players = JsonConvert.SerializeObject(ClientVariables.ConnectedPlayers);
+            RpcId(id, nameof(RegisterPlayer), tokens, ClientVariables.SelectedMap, players);
         }
     }
 
     [Remote]
-    public void RegisterPlayer(List<TokenReference> tokens, String map, List<PlayerReference> connectedPlayers)
+    public void RegisterPlayer(String jsonTokens, String map, String jsonPlayers)
     {
         Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
+        List<TokenReference> tokens = JsonConvert.DeserializeObject<List<TokenReference>>(jsonTokens);
+        List<PlayerReference> connectedPlayers = JsonConvert.DeserializeObject<List<PlayerReference>>(jsonPlayers);
+
         if (!"empty".Equals(map))
         {
             if (!ClientVariables.DMRole)
@@ -49,7 +55,6 @@ public class Network : Node
         if (!ClientVariables.DMRole)
         {
             sessionScene.CreateTokens(tokens);
-            
         }
 
         foreach (PlayerReference player in connectedPlayers)
@@ -61,7 +66,7 @@ public class Network : Node
     public void _PlayerDisconnected(int id)
     {
         Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
-        sessionScene.Rpc("remove_player", id);
+        sessionScene.Rpc("RemovePlayer", id);
     }
 
     public void _ConnectedOk()

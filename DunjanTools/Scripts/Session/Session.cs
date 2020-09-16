@@ -22,7 +22,6 @@ public class Session : Node2D
         Ping = (Particles2D)GetNode("Ping");
         Global = (Global)GetNode("/root/Global");
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
-        Rset(nameof(TokenCounter), MultiplayerAPI.RPCMode.Remotesync);
 
         // Connect signals
         Global.Connect("ChangedMap", this, nameof(RecievedChangeMap));
@@ -50,22 +49,24 @@ public class Session : Node2D
         {
             Rpc(nameof(PingMap), GetGlobalMousePosition());
         }
+    }
 
-        //Rset on counter necessary?
+    [RemoteSync]
+    public void RequestCreateToken(String tokenName, String tokenFilePath, Vector2 position, Vector2 scale)
+    {
+        String name = tokenName + "_" + TokenCounter;
+        TokenCounter += 1;
+        Rpc(nameof(CreateToken), name, tokenFilePath, position, scale);
     }
 
     [RemoteSync]
     public void CreateToken(String tokenName, String tokenFilePath, Vector2 position, Vector2 scale)
     {
-        //This one should be synced
-        //However maybe we should use a request to createToken so that only the server has to count
-        //and make unique names
         Token token = (Token)TokenScene.Instance();
-        token.Name = tokenName + "_" + TokenCounter;
+        token.Name = tokenName;
         Tokens.AddChild(token);
         token.InitializeToken(tokenFilePath, position, scale);
         ClientVariables.InsertedTokens.Add(new TokenReference(TokenCounter, token.Name, tokenFilePath));
-        TokenCounter += 1; //Should this be synced?
     }
 
     public void CreateTokens(List<TokenReference> tokenReferences)
@@ -139,7 +140,7 @@ public class Session : Node2D
             }
             Vector2 dropPosition = GetGlobalMousePosition();
 
-            Rpc(nameof(CreateToken), fileName, relativePath, dropPosition, Vector2.Zero);
+            RpcId(1, nameof(RequestCreateToken), fileName, relativePath, dropPosition, Vector2.Zero);
         }
     }
 
