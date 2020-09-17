@@ -158,3 +158,4 @@ visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
 process_material = SubResource( 2 )
 [connection signal="pressed" from="UI/BackButton" to="." method="OnBackButtonPressed"]
+[connection signal="timeout" from="Timer" to="TileMap" method="OnTimerTimeout"]

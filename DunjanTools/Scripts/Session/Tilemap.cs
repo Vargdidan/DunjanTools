@@ -25,17 +25,23 @@ public class Tilemap : TileMap
 
     public override void _Process(float delta)
     {
-        //Schedule redrawing for a set interval (optimizing GPU usage)
-        Update();
-
         if (ClientVariables.NetworkOptions.DMRole)
         {
+            if (Input.IsActionPressed("ui_mouse_click") && (Input.IsActionPressed("ui_alt") || Input.IsActionPressed("ui_shift")))
+            {
+                DrawFog();
+            }
 
+            if (Input.IsActionJustPressed("ui_hide"))
+            {
+                ToggleFog();
+            }
         }
 
         if (Input.IsActionJustPressed("ui_show_grid"))
         {
             ShowGrid = !ShowGrid;
+            Update();
         }
     }
 
@@ -58,6 +64,70 @@ public class Tilemap : TileMap
             {
                 DrawLine(new Vector2(0, y*CellSize.y), new Vector2(mapEndX, y*CellSize.y), gridColor);
                 y++;
+            }
+        }
+    }
+
+    public void DrawFog()
+    {
+        int tile = 1;
+
+        Vector2 target = GetGlobalMousePosition();
+        target.x = target.x - CellSize.x/2;
+        target.y = target.y - CellSize.y/2;
+        target = target.Snapped(CellSize);
+
+        if (Input.IsActionPressed("ui_shift"))
+        {
+            tile = -1;
+        }
+        SetCell((int)target.x/(int)CellSize.x, (int)target.y/(int)CellSize.y, tile);
+    }
+
+    public void ToggleFog()
+    {
+        if (ShowingMap)
+        {
+            int tilesX = ((int)(Map.GetRect().Size.x*Map.Scale.x) / (int)CellSize.x)+1;
+            int tilesY = ((int)(Map.GetRect().Size.y*Map.Scale.y) / (int)CellSize.y)+1;
+
+            for (int x = 0; x < tilesX; x++)
+            {
+                for (int y = 0; y < tilesY; y++)
+                {
+                    SetCell(x, y, 1);
+                }
+            }
+            ShowingMap = false;
+        }
+        else
+        {
+            int tilesX = (int)GetUsedRect().Size.x;
+            int tilesY = (int)GetUsedRect().Size.y;
+
+            for (int x = 0; x < tilesX; x++)
+            {
+                for (int y = 0; y < tilesY; y++)
+                {
+                    SetCell(x, y, -1);
+                }
+            }
+            ShowingMap = true;
+        }
+    }
+
+    public void OnTimerTimeout()
+    {
+        if (ClientVariables.NetworkOptions.DMRole)
+        {
+            RsetUnreliable(nameof(UsedCells), GetUsedCells());
+        }
+        else
+        {
+            Clear();
+            foreach (Vector2 usedCell in UsedCells)
+            {
+                SetCell((int)usedCell.x, (int)usedCell.y, 0);
             }
         }
     }
