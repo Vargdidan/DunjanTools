@@ -13,8 +13,6 @@ public struct PlayerReference
 
     public int Identity { get; set; }
     public String Name { get; set; }
-
-    public override string ToString() => $"({Identity}, {Name})";
 }
 
 public struct TokenReference
@@ -29,8 +27,24 @@ public struct TokenReference
     public Int64 Identity { get; set; }
     public String UniqueName { get; set; }
     public String ImageFile { get; set; }
+}
 
-    public override string ToString() => $"({Identity}, {UniqueName})";
+public class NetworkOptions
+{
+    public Boolean UseUPNP { get; set; }
+    public String IPAddress { get; set; }
+    public int Port { get; set; }
+    public String Username { get; set; }
+    public Boolean DMRole { get; set; }
+
+    public NetworkOptions()
+    {
+        UseUPNP = false;
+        IPAddress = "127.0.0.1";
+        Port = 31400;
+        Username = "Incognito";
+        DMRole = false;
+    }
 }
 
 public class ClientVariables : Node
@@ -40,12 +54,7 @@ public class ClientVariables : Node
     public String MapFolder { get; set; }
     public String DataFolder { get; set; }
 
-    // Network variables (Should they be moved?)
-    public Boolean UseUPNP { get; set; }
-    public String IPAddress { get; set; }
-    public int Port { get; set; }
-    public String Username { get; set; }
-    public Boolean DMRole { get; set; }
+    public NetworkOptions NetworkOptions { get; set; } 
 
     // Session variables
     public List<PlayerReference> ConnectedPlayers { get; set; }
@@ -62,12 +71,7 @@ public class ClientVariables : Node
 
         TileSize = 64;
 
-        // Network
-        UseUPNP = false;
-        IPAddress = "127.0.0.1";
-        Port = 31400;
-        Username = "Incognito";
-        DMRole = false;
+        NetworkOptions = new NetworkOptions();
 
         ConnectedPlayers = new List<PlayerReference>();
         InsertedTokens = new List<TokenReference>();
@@ -77,12 +81,7 @@ public class ClientVariables : Node
 
     public void ResetVariables()
     {
-        //Network
-        UseUPNP = false;
-        IPAddress = "127.0.0.1";
-        Port = 31400;
-        Username = "Incognito";
-        DMRole = false;
+        NetworkOptions = new NetworkOptions();
 
         // Session
         InsertedTokens.Clear();
@@ -98,10 +97,10 @@ public class ClientVariables : Node
         // Is there a native way to store data I could use?
         Godot.Collections.Dictionary<string, object> mainMenuData =
             new Godot.Collections.Dictionary<string, object>() {
-                {"ip", IPAddress},
-                {"port", Port},
-                {"username", Username},
-                {"dm", DMRole}
+                {"ip", NetworkOptions.IPAddress},
+                {"port", NetworkOptions.Port},
+                {"username", NetworkOptions.Username},
+                {"dm", NetworkOptions.DMRole}
             };
 
         var saveMainMenu = new File();
@@ -127,10 +126,10 @@ public class ClientVariables : Node
         var mainMenuData =
             new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result);
 
-        IPAddress = mainMenuData["ip"].ToString();
-        Port = mainMenuData["port"].ToString().ToInt();
-        Username = mainMenuData["username"].ToString();
-        DMRole = (Boolean)mainMenuData["dm"];
+        NetworkOptions.IPAddress = mainMenuData["ip"].ToString();
+        NetworkOptions.Port = mainMenuData["port"].ToString().ToInt();
+        NetworkOptions.Username = mainMenuData["username"].ToString();
+        NetworkOptions.DMRole = (Boolean)mainMenuData["dm"];
         loadMainMenu.Close();
     }
 

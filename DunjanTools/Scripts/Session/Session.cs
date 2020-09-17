@@ -27,7 +27,7 @@ public class Session : Node2D
         Global.Connect("ChangedMap", this, nameof(RecievedChangeMap));
         GetTree().Connect("files_dropped", this, nameof(OnDropped));
 
-        Rpc(nameof(AddPlayer), GetTree().GetNetworkUniqueId(), ClientVariables.Username);
+        Rpc(nameof(AddPlayer), GetTree().GetNetworkUniqueId(), ClientVariables.NetworkOptions.Username);
     }
 
     public override void _Process(float delta)
@@ -98,7 +98,7 @@ public class Session : Node2D
 
     public void RecievedChangeMap()
     {
-        if (ClientVariables.DMRole)
+        if (ClientVariables.NetworkOptions.DMRole)
         {
             //SaveSession()
             //Load session data from DM

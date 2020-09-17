@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Fonts/Heading.tres" type="DynamicFont" id=1]
-[ext_resource path="res://GUI/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/GUI/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=4]
 
@@ -45,26 +45,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Offline" type="Button" parent="UI"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1184.0
-margin_top = 504.0
-margin_right = -463.0
-margin_bottom = -525.0
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
-text = "Enter offline"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="OnlinePanel" type="Panel" parent="UI"]
 self_modulate = Color( 1, 1, 1, 0.490196 )
-margin_left = 448.0
-margin_top = 320.0
-margin_right = 1056.0
-margin_bottom = 744.0
+margin_left = 663.886
+margin_top = 300.951
+margin_right = 1271.89
+margin_bottom = 724.951
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -83,16 +69,16 @@ __meta__ = {
 [node name="Host" type="Button" parent="UI/OnlinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 159.361
+margin_left = 152.997
 margin_top = 352.0
-margin_right = -261.639
+margin_right = -241.003
 margin_bottom = -25.0
 grow_horizontal = 0
 grow_vertical = 0
 hint_tooltip = "Host a game from your current IP address. Google \"what's my IP?\" to find external address."
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
-text = "Host a game"
+text = "Host a session"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -100,10 +86,10 @@ __meta__ = {
 [node name="UPNP" type="CheckBox" parent="UI/OnlinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 344.0
-margin_top = 352.0
-margin_right = -151.0
-margin_bottom = -23.0
+margin_left = 367.811
+margin_top = 353.587
+margin_right = -127.189
+margin_bottom = -21.4126
 hint_tooltip = "Attempts to portforward the current port. (Not guaranteed to work with all routers. Would recommend portforwarding manually)"
 focus_mode = 0
 custom_fonts/font = ExtResource( 3 )
@@ -136,14 +122,14 @@ __meta__ = {
 [node name="Connect" type="Button" parent="UI/OnlinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 160.0
-margin_top = 288.0
-margin_right = -175.0
-margin_bottom = -89.0
+margin_left = 152.997
+margin_top = 283.049
+margin_right = -155.003
+margin_bottom = -93.9512
 hint_tooltip = "Connect to the entered IP and Port."
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
-text = "Connect to a game"
+text = "Connect to a session"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -190,7 +176,6 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="UI/Offline" to="." method="_on_Offline_pressed"]
-[connection signal="text_changed" from="UI/OnlinePanel/Username" to="." method="_on_Username_text_changed"]
-[connection signal="text_changed" from="UI/OnlinePanel/IP" to="." method="_on_IP_text_changed"]
-[connection signal="text_changed" from="UI/OnlinePanel/Port" to="." method="_on_Port_text_changed"]
+[connection signal="text_changed" from="UI/OnlinePanel/Username" to="." method="OnUsernameTextChanged"]
+[connection signal="text_changed" from="UI/OnlinePanel/IP" to="." method="OnIpTextChanged"]
+[connection signal="text_changed" from="UI/OnlinePanel/Port" to="." method="OnPortTextChanged"]

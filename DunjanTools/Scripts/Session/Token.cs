@@ -63,8 +63,6 @@ public class Token : Node2D
 
         TargetPosition = position.Snapped(new Vector2(tileSize, tileSize));
 
-        GD.Print("Position: " + TargetPosition);
-        GD.Print("Position: " + TargetScale);
         GlobalPosition = TargetPosition;
         Scale = TargetScale;
 

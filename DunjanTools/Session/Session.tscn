@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Session/TileMap.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Session/Tilemap.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Session/Session.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Session/Map.cs" type="Script" id=3]
 [ext_resource path="res://Session/Ruler.gd" type="Script" id=4]
@@ -158,4 +158,3 @@ visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
 process_material = SubResource( 2 )
 [connection signal="pressed" from="UI/BackButton" to="." method="OnBackButtonPressed"]
-[connection signal="timeout" from="Timer" to="TileMap" method="_on_Timer_timeout"]

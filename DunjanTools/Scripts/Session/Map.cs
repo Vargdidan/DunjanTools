@@ -35,7 +35,7 @@ public class Map : Sprite
 
      public override void _Process(float delta)
      {
-         if (ClientVariables.DMRole && Input.IsActionPressed("ui_shift"))
+         if (ClientVariables.NetworkOptions.DMRole && Input.IsActionPressed("ui_shift"))
          {
              ResizeMap();
          }

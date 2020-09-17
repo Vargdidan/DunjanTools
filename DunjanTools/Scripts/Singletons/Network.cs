@@ -41,7 +41,7 @@ public class Network : Node
 
         if (!"empty".Equals(map))
         {
-            if (!ClientVariables.DMRole)
+            if (!ClientVariables.NetworkOptions.DMRole)
             {
                 sessionScene.ChangeMap(map);
             }
@@ -52,7 +52,7 @@ public class Network : Node
             }
         }
 
-        if (!ClientVariables.DMRole)
+        if (!ClientVariables.NetworkOptions.DMRole)
         {
             sessionScene.CreateTokens(tokens);
         }
@@ -83,7 +83,7 @@ public class Network : Node
 
     public void _ServerDisconnected()
     {
-        if (ClientVariables.DMRole)
+        if (ClientVariables.NetworkOptions.DMRole)
         {
             Node currentScene = Root.GetChild(Root.GetChildCount() - 1);
             //TODO: port battlemap
@@ -99,14 +99,14 @@ public class Network : Node
     public void OnHostPressed()
     {
         ClientVariables.SaveMainMenu();
-        if (ClientVariables.UseUPNP)
+        if (ClientVariables.NetworkOptions.UseUPNP)
         {
             UPNP upnp = new UPNP();
             UPNP.UPNPResult resultV4 = (UPNP.UPNPResult)upnp.Discover(2000, 2, "InternetGatewayDevice");
             if (resultV4 == UPNP.UPNPResult.Success)
             {
                 GD.Print("Will attempt to add port-forward with upnp ip v4");
-                upnp.AddPortMapping(ClientVariables.Port);
+                upnp.AddPortMapping(ClientVariables.NetworkOptions.Port);
             }
             else
             {
@@ -115,19 +115,19 @@ public class Network : Node
                 if (resultV6 == UPNP.UPNPResult.Success)
                 {
                     GD.Print("Will attemt to add port-forward with upnp ip v6");
-                    upnp.AddPortMapping(ClientVariables.Port);
+                    upnp.AddPortMapping(ClientVariables.NetworkOptions.Port);
                 }
             }
         }
         var peer = new NetworkedMultiplayerENet();
-        Error result = peer.CreateServer(ClientVariables.Port);
+        Error result = peer.CreateServer(ClientVariables.NetworkOptions.Port);
         if (result == Error.Ok)
         {
             GetTree().NetworkPeer = peer;
             Global.GotoScene("res://Session/Session.tscn");
         } else {
             GD.Print(result);
-            GD.Print("On port:" + ClientVariables.Port);
+            GD.Print("On port:" + ClientVariables.NetworkOptions.Port);
         }
     }
 
@@ -135,7 +135,7 @@ public class Network : Node
     {
         ClientVariables.SaveMainMenu();
         NetworkedMultiplayerENet peer = new NetworkedMultiplayerENet();
-        Error result = peer.CreateClient(ClientVariables.IPAddress, ClientVariables.Port);
+        Error result = peer.CreateClient(ClientVariables.NetworkOptions.IPAddress, ClientVariables.NetworkOptions.Port);
         if (result == Error.Ok)
         {
             GetTree().NetworkPeer = peer;
@@ -144,12 +144,12 @@ public class Network : Node
 
     public void OnUPNPToggled(Boolean buttonToggled)
     {
-        ClientVariables.UseUPNP = buttonToggled;
+        ClientVariables.NetworkOptions.UseUPNP = buttonToggled;
     }
 
     public void OnDMToggled(Boolean buttonToggled)
     {
-        ClientVariables.DMRole = buttonToggled;
+        ClientVariables.NetworkOptions.DMRole = buttonToggled;
     }
 
 }
