@@ -42,6 +42,9 @@ public class MainMenu : Node2D
         
         CheckBox dm = (CheckBox)OnlinePanel.GetNode("DM");
         dm.Pressed = ClientVariables.NetworkOptions.DMRole;
+    
+        CheckBox upnp = (CheckBox)OnlinePanel.GetNode("UPNP");
+        upnp.Pressed = ClientVariables.NetworkOptions.UseUPNP;
     }
 
     public void OnIpTextChanged(String text)
@@ -51,7 +54,14 @@ public class MainMenu : Node2D
 
     public void OnPortTextChanged(String text)
     {
-        ClientVariables.NetworkOptions.Port = text.ToInt();
+        if (!"".Equals(text))
+        {
+            ClientVariables.NetworkOptions.Port = text.ToInt();
+        }
+        else 
+        {
+            ClientVariables.NetworkOptions.Port = 31400;
+        }
     }
 
     public void OnUsernameTextChanged(String text)

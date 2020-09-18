@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 //Struct's
 public struct PlayerReference
@@ -97,43 +98,26 @@ public class ClientVariables : Node
 
     public void SaveMainMenu()
     {
-        // Is there a native way to store data I could use?
-        Godot.Collections.Dictionary<string, object> mainMenuData =
-            new Godot.Collections.Dictionary<string, object>() {
-                {"ip", NetworkOptions.IPAddress},
-                {"port", NetworkOptions.Port},
-                {"username", NetworkOptions.Username},
-                {"dm", NetworkOptions.DMRole}
-            };
-
-        var saveMainMenu = new File();
-        Error result = saveMainMenu.Open(DataFolder + "main_menu.dat", File.ModeFlags.Write);
-        if (result == Error.Ok)
-        {
-            saveMainMenu.StoreLine(JSON.Print(mainMenuData));
-            GD.Print("Saved" + DataFolder + "main_menu.dat");
-            saveMainMenu.Close();
-        }
-        else
-        {
-            GD.Print("Failed, error code: " + result.ToString());
-        }
+        String networkOptions = JsonConvert.SerializeObject(NetworkOptions, Formatting.Indented);
+        System.IO.File.WriteAllText(DataFolder + "main_menu.json", networkOptions);
     }
 
     public void LoadMainMenu()
     {
-        var loadMainMenu = new File();
-        if (!loadMainMenu.FileExists(DataFolder + "main_menu.dat")) return;
-
-        loadMainMenu.Open(DataFolder + "main_menu.dat", File.ModeFlags.Read);
-        var mainMenuData =
-            new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(loadMainMenu.GetLine()).Result);
-
-        NetworkOptions.IPAddress = mainMenuData["ip"].ToString();
-        NetworkOptions.Port = mainMenuData["port"].ToString().ToInt();
-        NetworkOptions.Username = mainMenuData["username"].ToString();
-        NetworkOptions.DMRole = (Boolean)mainMenuData["dm"];
-        loadMainMenu.Close();
+        try
+        {
+            String networkOptions = System.IO.File.ReadAllText(DataFolder + "main_menu.json");
+            NetworkOptions = JsonConvert.DeserializeObject<NetworkOptions>(networkOptions);
+        }
+        catch (System.IO.DirectoryNotFoundException)
+        {
+            GD.Print("Could not find the directory to the main_menu file.");
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+            GD.Print("Could not find the main_menu file.");
+        }
+        
     }
 
     public Nullable<TokenReference> FindTokenReferenceByName(String tokenName)
