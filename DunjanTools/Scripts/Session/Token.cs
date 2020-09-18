@@ -44,11 +44,7 @@ public class Token : Node2D
         {
             //TODO: Notify user of missing image
             GD.Print("Missing token. No token in this path: " + imagePath);
-            Error resultSetDefault = image.Load("res://icon.png");
-            if (resultSetDefault == Error.Ok)
-            {
-                SetImageOnSprite(image);
-            }
+            TokenSprite.Texture = (Godot.Texture)ResourceLoader.Load("res://icon.png");
         }
 
         if (!scale.Equals(Vector2.Zero))
