@@ -58,14 +58,14 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/Panel/ControlsContainer"]
-margin_right = 509.0
-margin_bottom = 821.0
+margin_right = 573.0
+margin_bottom = 887.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="explain" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 29.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
@@ -74,7 +74,7 @@ align = 1
 
 [node name="seperator" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 33.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 62.0
 custom_fonts/font = ExtResource( 3 )
 text = "---------"
@@ -82,7 +82,7 @@ align = 1
 
 [node name="Label" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 66.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 95.0
 custom_fonts/font = ExtResource( 3 )
 text = "Show grid: G"
@@ -90,7 +90,7 @@ align = 1
 
 [node name="Label16" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 99.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 128.0
 custom_fonts/font = ExtResource( 3 )
 text = "Ping map: P"
@@ -98,7 +98,7 @@ align = 1
 
 [node name="Label15" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 132.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 161.0
 custom_fonts/font = ExtResource( 3 )
 text = "Ruler: space + mouse movement"
@@ -106,7 +106,7 @@ align = 1
 
 [node name="Label17" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 165.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 194.0
 custom_fonts/font = ExtResource( 3 )
 text = "AoE line: space + X + mouse movement"
@@ -114,7 +114,7 @@ align = 1
 
 [node name="Label18" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 198.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 227.0
 custom_fonts/font = ExtResource( 3 )
 text = "AoE cone: space + V + mouse movement"
@@ -122,7 +122,7 @@ align = 1
 
 [node name="Label19" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 231.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 260.0
 custom_fonts/font = ExtResource( 3 )
 text = "AoE box/cube: space + B + mouse movement"
@@ -130,7 +130,7 @@ align = 1
 
 [node name="Label20" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 264.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 293.0
 custom_fonts/font = ExtResource( 3 )
 text = "AoE circle: space + C + mouse movement"
@@ -138,7 +138,7 @@ align = 1
 
 [node name="Label21" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 297.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 326.0
 custom_fonts/font = ExtResource( 3 )
 text = "AoE circle(self): space + ctrl + C + mouse movement"
@@ -146,7 +146,7 @@ align = 1
 
 [node name="Label2" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 330.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 359.0
 custom_fonts/font = ExtResource( 3 )
 text = "Zoom: Scroll wheel"
@@ -154,7 +154,7 @@ align = 1
 
 [node name="Label8" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 363.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 392.0
 custom_fonts/font = ExtResource( 3 )
 text = "Move camera: arrows"
@@ -162,7 +162,7 @@ align = 1
 
 [node name="Label6" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 396.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 425.0
 custom_fonts/font = ExtResource( 3 )
 text = "Pan camera: right-click + mouse movement"
@@ -170,7 +170,7 @@ align = 1
 
 [node name="Label7" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 429.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 458.0
 custom_fonts/font = ExtResource( 3 )
 text = "Reset camera position: ctrl + 0"
@@ -178,7 +178,7 @@ align = 1
 
 [node name="Label3" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 462.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 491.0
 rect_pivot_offset = Vector2( -712, -357 )
 custom_fonts/font = ExtResource( 3 )
@@ -187,86 +187,104 @@ align = 1
 
 [node name="Label23" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 495.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 524.0
 rect_pivot_offset = Vector2( -712, -357 )
 custom_fonts/font = ExtResource( 3 )
 text = "Multiselect token: ctrl + mouse click"
 align = 1
 
-[node name="Label22" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
+[node name="Label24" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 528.0
-margin_right = 509.0
+margin_right = 573.0
 margin_bottom = 557.0
+rect_pivot_offset = Vector2( -712, -357 )
+custom_fonts/font = ExtResource( 3 )
+text = "Selection box: hold shift + mouse hold/release"
+align = 1
+
+[node name="Label25" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
+margin_top = 561.0
+margin_right = 573.0
+margin_bottom = 590.0
+rect_pivot_offset = Vector2( -712, -357 )
+custom_fonts/font = ExtResource( 3 )
+text = "Deselect token: esc"
+align = 1
+
+[node name="Label22" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
+margin_top = 594.0
+margin_right = 573.0
+margin_bottom = 623.0
 rect_pivot_offset = Vector2( -712, -357 )
 custom_fonts/font = ExtResource( 3 )
 text = "Resize selected token: ctrl+scroll"
 align = 1
 
 [node name="Label9" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 561.0
-margin_right = 509.0
-margin_bottom = 590.0
+margin_top = 627.0
+margin_right = 573.0
+margin_bottom = 656.0
 custom_fonts/font = ExtResource( 3 )
 text = "Move selected token: Hold and drag + left-click"
 align = 1
 
 [node name="Label14" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 594.0
-margin_right = 509.0
-margin_bottom = 623.0
+margin_top = 660.0
+margin_right = 573.0
+margin_bottom = 689.0
 custom_fonts/font = ExtResource( 3 )
 text = "Move selected token: WASD"
 align = 1
 
 [node name="Label13" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 627.0
-margin_right = 509.0
-margin_bottom = 656.0
+margin_top = 693.0
+margin_right = 573.0
+margin_bottom = 722.0
 custom_fonts/font = ExtResource( 3 )
 text = "Insert token on mouse: Drop from explorer"
 align = 1
 
 [node name="Label4" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 660.0
-margin_right = 509.0
-margin_bottom = 689.0
+margin_top = 726.0
+margin_right = 573.0
+margin_bottom = 755.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Resize map: shift + scroll"
 align = 1
 
 [node name="Label5" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 693.0
-margin_right = 509.0
-margin_bottom = 722.0
+margin_top = 759.0
+margin_right = 573.0
+margin_bottom = 788.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Resize map(Fine tune): shift+space+scroll"
 align = 1
 
 [node name="Label10" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 726.0
-margin_right = 509.0
-margin_bottom = 755.0
+margin_top = 792.0
+margin_right = 573.0
+margin_bottom = 821.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Show/hide map: H"
 align = 1
 
 [node name="Label11" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 759.0
-margin_right = 509.0
-margin_bottom = 788.0
+margin_top = 825.0
+margin_right = 573.0
+margin_bottom = 854.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Hide square: alt + left-click"
 align = 1
 
 [node name="Label12" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 792.0
-margin_right = 509.0
-margin_bottom = 821.0
+margin_top = 858.0
+margin_right = 573.0
+margin_bottom = 887.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Show square: shift + left-click"
