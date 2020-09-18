@@ -62,6 +62,7 @@ public class ClientVariables : Node
     public List<Node> SelectedTokens { get; set; }
     public String SelectedMap { get; set; }
     public int TileSize { get; set; }
+    public Rect2 SelectionBox { get; set; }
 
     public override void _Ready()
     {
@@ -77,6 +78,8 @@ public class ClientVariables : Node
         InsertedTokens = new List<TokenReference>();
         SelectedTokens = new List<Node>();
         SelectedMap = "empty";
+
+        SelectionBox = new Rect2();
     }
 
     public void ResetVariables()

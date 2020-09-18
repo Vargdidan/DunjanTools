@@ -14,8 +14,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	update()
-	
 	if (Input.is_action_pressed("ui_space") && !Input.is_action_pressed("ui_shift")):
 		var mouse_position = get_global_mouse_position()
 		var pos_x = stepify(mouse_position.x-32, 64)
@@ -26,19 +24,20 @@ func _process(_delta):
 			start_pos_raw = mouse_position
 			pos_is_set = true
 			global_position = mouse_position
+			length_label.set_visible(true)
+			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		length_label.set_global_position(mouse_position)
+		update()
 		
 	
 	if (Input.is_action_just_released("ui_space")):
 		pos_is_set = false
 		length_label.set_visible(false)
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		update()
 
 func _draw():
 	if (pos_is_set):
-		length_label.set_visible(true)
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-		
 		var center_start = to_local(Vector2(start_pos.x*64+32,start_pos.y*64+32))
 		var center_end = to_local(Vector2(end_pos.x*64+32, end_pos.y*64+32))
 		var center_length = get_distance(center_start, center_end)

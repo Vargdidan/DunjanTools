@@ -149,6 +149,14 @@ public class Token : Node2D
         {
             TokenName.Visible = false;
         }
+
+        if (Input.IsActionJustReleased("ui_mouse_click") && Input.IsActionPressed("ui_shift"))
+        {
+            if (ClientVariables.SelectionBox.Intersects(new Rect2(GlobalPosition, TokenSprite.GetRect().Size*Scale)))
+            {
+                ClientVariables.SelectedTokens.Add(this);
+            }
+        }
     }
 
     public void MoveWithKeys()

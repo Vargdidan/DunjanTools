@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/Session/Tilemap.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Session/Session.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Scripts/Session/SelectionBox.cs" type="Script" id=12]
 
 [sub_resource type="TileSet" id=1]
 resource_local_to_scene = true
@@ -151,11 +152,14 @@ autostart = true
 [node name="Ping" type="Particles2D" parent="."]
 emitting = false
 amount = 1000
-lifetime = 0.5
+lifetime = 0.25
 one_shot = true
 speed_scale = 2.0
 visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
 process_material = SubResource( 2 )
+
+[node name="SelectionBox" type="Node2D" parent="."]
+script = ExtResource( 12 )
 [connection signal="pressed" from="UI/BackButton" to="." method="OnBackButtonPressed"]
 [connection signal="timeout" from="Timer" to="TileMap" method="OnTimerTimeout"]
