@@ -11,7 +11,7 @@ public class Map : Sprite
     {
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         tileSize = ClientVariables.TileSize;
-        CurrentMap = "";
+        CurrentMap = "empty";
         TargetScale = new Vector2(1,1);
         RsetConfig(nameof(TargetScale), MultiplayerAPI.RPCMode.Remotesync);
     }
@@ -28,7 +28,6 @@ public class Map : Sprite
             Texture = imageTexture;
         }
 
-        //Set scale?
         TargetScale = scale;
         RpcId(1, nameof(GetMapScale));
     }

@@ -20,6 +20,7 @@ public class MainMenu : Node2D
         OnlinePanel.GetNode("DM").Connect("toggled", Network, "OnDMToggled");
 
         ClientVariables.ResetVariables();
+        ClientVariables.ConnectedPlayers.Clear();
 
         if (ClientVariables.NetworkOptions.Username != "Incognito")
         {

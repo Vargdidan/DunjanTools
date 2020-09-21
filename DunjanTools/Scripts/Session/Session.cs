@@ -1,6 +1,18 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
+public class SessionData {
+
+    public SessionData() {
+        Tokens = new List<TokenReference>();
+        MapScale = new Vector2(1,1);
+    }
+
+    public List<TokenReference> Tokens { get; set; }
+    public Vector2 MapScale { get; set; }
+}
 
 public class Session : Node2D
 {
@@ -66,7 +78,7 @@ public class Session : Node2D
         token.Name = tokenName;
         Tokens.AddChild(token);
         token.InitializeToken(tokenFilePath, position, scale);
-        ClientVariables.InsertedTokens.Add(new TokenReference(TokenCounter, token.Name, tokenFilePath));
+        ClientVariables.InsertedTokens.Add(new TokenReference(token.Name, tokenFilePath));
     }
 
     public void CreateTokens(List<TokenReference> tokenReferences)
@@ -89,39 +101,42 @@ public class Session : Node2D
             Node token = Tokens.GetNode(tokenName);
             token.QueueFree();
 
-            TokenReference? tokenReference = ClientVariables.FindTokenReferenceByName(tokenName);
-            if (tokenReference.HasValue) {
-                ClientVariables.InsertedTokens.Remove(tokenReference.Value);
+            TokenReference tokenReference = ClientVariables.FindTokenReferenceByName(tokenName);
+            if (tokenReference != null) {
+                ClientVariables.InsertedTokens.Remove(tokenReference);
             }
         }
     }
 
-    public void RecievedChangeMap()
-    {
-        if (ClientVariables.NetworkOptions.DMRole)
-        {
-            //SaveSession()
-            //Load session data from DM
-            Rpc(nameof(ChangeMap), ClientVariables.SelectedMap); //Use session data?
-        }
-    }
-
     [RemoteSync]
-    public void ChangeMap(String map)//TODO session data from dm
+    public void ClearTokens()
     {
-        ClientVariables.ResetVariables();
-        ClientVariables.SelectedMap = map;
         TokenCounter = 0;
-
         foreach (Node token in Tokens.GetChildren())
         {
             token.QueueFree();
         }
+        ClientVariables.ResetVariables();
+    }
+    public void RecievedChangeMap()
+    {
+        if (ClientVariables.NetworkOptions.DMRole)
+        {
+            SaveSession();
+            String map = ClientVariables.SelectedMap;
+            Map.Scale = new Vector2(1,1);
+            Rpc(nameof(ClearTokens));
+            ClientVariables.SelectedMap = map;
+            LoadSession();
+            Rpc(nameof(ChangeMap), ClientVariables.SelectedMap, Map.Scale); //Use session data?
+        }
+    }
 
-        //Set map based on session data
-        Map.SetMap(map, new Vector2(1,1));
-
-        //Populate tokens based on sessionData
+    [RemoteSync]
+    public void ChangeMap(String map, Vector2 scale)//TODO session data from dm
+    {
+        ClientVariables.SelectedMap = map;
+        Map.SetMap(map, scale);
     }
 
     public void OnDropped(String[] files, int droppedFrom)
@@ -176,11 +191,71 @@ public class Session : Node2D
 
     public void OnBackButtonPressed()
     {
-        //Save battlemap
+        if (ClientVariables.NetworkOptions.DMRole)
+        {
+            SaveSession();
+        }
+        
         NetworkedMultiplayerENet peer = (NetworkedMultiplayerENet)GetTree().NetworkPeer;
         peer.CloseConnection();
         GetTree().NetworkPeer = null;
 
         Global.GotoScene("res://GUI/MainMenu.tscn");
+    }
+
+    public void SaveSession()
+    {
+        if (Map.CurrentMap.Equals("empty")) { return; }
+
+        SessionData session = new SessionData();
+        session.MapScale = Map.Scale;
+
+        foreach (TokenReference token in ClientVariables.InsertedTokens)
+        {
+            Token tokenNode = (Token)Tokens.GetNode(token.UniqueName);
+            TokenReference tokenRef = new TokenReference(token.UniqueName.Split("_")[0], token.ImageFile, tokenNode.GlobalPosition, tokenNode.Scale);
+            session.Tokens.Add(tokenRef);
+        }
+
+        String sessionData = JsonConvert.SerializeObject(session, Formatting.Indented);
+        System.IO.File.WriteAllText(ClientVariables.DataFolder + Map.CurrentMap.Split(".")[0] + ".json", sessionData);
+    }
+
+    public void LoadSession()
+    {
+        try
+        {
+            String sessionData = System.IO.File.ReadAllText(ClientVariables.DataFolder + ClientVariables.SelectedMap.Split(".")[0] + ".json");
+            SessionData session = JsonConvert.DeserializeObject<SessionData>(sessionData);
+            Map.Scale = session.MapScale;
+
+            foreach (TokenReference tokenRef in session.Tokens)
+            {
+                RpcId(1, nameof(RequestCreateToken), tokenRef.UniqueName, tokenRef.ImageFile, tokenRef.Position, tokenRef.Scale);
+            }
+        }
+        catch (System.IO.DirectoryNotFoundException)
+        {
+            GD.Print("Could not find the directory to the session file.");
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+            GD.Print("Could not find the session file.");
+        }
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == MainLoop.NotificationWmQuitRequest)
+        {
+            NetworkedMultiplayerENet peer = (NetworkedMultiplayerENet)GetTree().NetworkPeer;
+            peer.CloseConnection();
+            GetTree().NetworkPeer = null;
+
+            if (ClientVariables.NetworkOptions.DMRole)
+            {
+                SaveSession();
+            }
+        }
     }
 }

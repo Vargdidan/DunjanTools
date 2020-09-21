@@ -43,7 +43,7 @@ public class Network : Node
         {
             if (!ClientVariables.NetworkOptions.DMRole)
             {
-                sessionScene.ChangeMap(map);
+                sessionScene.ChangeMap(map, new Vector2(1,1));
             }
             else
             {

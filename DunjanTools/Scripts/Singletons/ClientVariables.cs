@@ -16,18 +16,29 @@ public struct PlayerReference
     public String Name { get; set; }
 }
 
-public struct TokenReference
+public class TokenReference
 {
-    public TokenReference(Int64 id, String name, String image)
+    public TokenReference(String name, String image)
     {
-        Identity = id;
         UniqueName = name;
         ImageFile = image;
+        Position = new Vector2(0,0);
+        Scale = new Vector2(0,0);
     }
 
-    public Int64 Identity { get; set; }
+    [JsonConstructor]
+    public TokenReference(String name, String image, Vector2 position, Vector2 scale)
+    {
+        UniqueName = name;
+        ImageFile = image;
+        Position = position;
+        Scale = scale;
+    }
+
     public String UniqueName { get; set; }
     public String ImageFile { get; set; }
+    public Vector2 Position { get; set; }
+    public Vector2 Scale { get; set; }
 }
 
 public class NetworkOptions
@@ -117,10 +128,9 @@ public class ClientVariables : Node
         {
             GD.Print("Could not find the main_menu file.");
         }
-        
     }
 
-    public Nullable<TokenReference> FindTokenReferenceByName(String tokenName)
+    public TokenReference FindTokenReferenceByName(String tokenName)
     {
         foreach (TokenReference tokenRef in InsertedTokens)
         {
