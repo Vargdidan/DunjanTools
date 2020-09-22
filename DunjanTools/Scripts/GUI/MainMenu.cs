@@ -55,7 +55,7 @@ public class MainMenu : Node2D
 
     public void OnPortTextChanged(String text)
     {
-        if (!"".Equals(text))
+        if (!"".Equals(text) && text.IsValidInteger())
         {
             ClientVariables.NetworkOptions.Port = text.ToInt();
         }

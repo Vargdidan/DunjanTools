@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Fonts/Heading.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/GUI/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=5]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 2 )
@@ -14,7 +14,7 @@ script = ExtResource( 2 )
 margin_right = 1920.0
 margin_bottom = 63.0
 custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color = Color( 0.964706, 0.576471, 0.239216, 1 )
+custom_colors/font_color = Color( 0.956863, 0.635294, 0.380392, 1 )
 text = "DunjanTools"
 align = 1
 __meta__ = {
@@ -27,6 +27,7 @@ margin_top = 64.0
 margin_right = 1922.52
 margin_bottom = 105.0
 custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
 text = "Explore dungeons with the wizard's tools from the school of computing"
 align = 1
 __meta__ = {
@@ -38,7 +39,7 @@ margin_left = 1812.3
 margin_top = 1048.0
 margin_right = 1916.3
 margin_bottom = 1077.0
-custom_fonts/font = ExtResource( 4 )
+theme = ExtResource( 5 )
 text = "v0.3 Alpha"
 align = 1
 __meta__ = {
@@ -46,7 +47,7 @@ __meta__ = {
 }
 
 [node name="OnlinePanel" type="Panel" parent="UI"]
-self_modulate = Color( 1, 1, 1, 0.490196 )
+self_modulate = Color( 0.164706, 0.615686, 0.560784, 0.0666667 )
 margin_left = 663.886
 margin_top = 300.951
 margin_right = 1271.89
@@ -60,6 +61,7 @@ margin_left = 80.0
 margin_right = 515.0
 margin_bottom = 41.0
 custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
 text = "Connecting to the astral plane:"
 align = 1
 __meta__ = {
@@ -76,8 +78,7 @@ margin_bottom = -25.0
 grow_horizontal = 0
 grow_vertical = 0
 hint_tooltip = "Host a game from your current IP address. Google \"what's my IP?\" to find external address."
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+theme = ExtResource( 5 )
 text = "Host a session"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -92,8 +93,7 @@ margin_right = -127.189
 margin_bottom = -21.4126
 hint_tooltip = "Attempts to portforward the current port. (Not guaranteed to work with all routers. Would recommend portforwarding manually)"
 focus_mode = 0
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+theme = ExtResource( 5 )
 enabled_focus_mode = 0
 text = "UPNP"
 align = 1
@@ -110,8 +110,7 @@ margin_right = -264.0
 margin_bottom = -149.0
 hint_tooltip = "Are you the DM of this session? Needless to say, there should only be one DM at a time."
 focus_mode = 0
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+theme = ExtResource( 5 )
 enabled_focus_mode = 0
 text = "DM"
 align = 1
@@ -127,8 +126,10 @@ margin_top = 283.049
 margin_right = -155.003
 margin_bottom = -93.9512
 hint_tooltip = "Connect to the entered IP and Port."
+theme = ExtResource( 5 )
 custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_hover = Color( 0.862745, 0.72549, 0, 1 )
+custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
+custom_colors/font_color_hover = Color( 0.905882, 0.435294, 0.317647, 1 )
 text = "Connect to a session"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -140,7 +141,7 @@ margin_top = 48.0
 margin_right = 472.0
 margin_bottom = 99.0
 hint_tooltip = "Name displayed in the player list."
-custom_fonts/font = ExtResource( 3 )
+theme = ExtResource( 5 )
 align = 1
 max_length = 26
 placeholder_text = "Enter Username"
@@ -155,7 +156,7 @@ margin_top = 104.0
 margin_right = 472.0
 margin_bottom = 155.0
 hint_tooltip = "Not used by the host. Type in the external address of the one hosting the game. Default: (127.0.0.1)"
-custom_fonts/font = ExtResource( 3 )
+theme = ExtResource( 5 )
 align = 1
 placeholder_text = "Enter IP"
 caret_blink = true
@@ -169,7 +170,7 @@ margin_top = 160.0
 margin_right = 472.0
 margin_bottom = 211.0
 hint_tooltip = "Port to connect to. Default: (31400)"
-custom_fonts/font = ExtResource( 3 )
+theme = ExtResource( 5 )
 align = 1
 placeholder_text = "Enter Port"
 caret_blink = true

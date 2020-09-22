@@ -18,6 +18,7 @@ _global_script_class_icons={
 config/name="DunjanTools"
 run/main_scene="res://GUI/MainMenu.tscn"
 boot_splash/image="res://Assets/Splash.png"
+boot_splash/bg_color=Color( 0.14902, 0.27451, 0.32549, 1 )
 config/icon="res://Assets/Splash.png"
 config/windows_native_icon="res://Assets/DunjanTools.ico"
 
@@ -190,12 +191,16 @@ ui_esc={
 
 file_logging/enable_file_logging=true
 
+[network]
+
+limits/tcp/connect_timeout_seconds=60
+
 [rendering]
 
 quality/2d/use_nvidia_rect_flicker_workaround=true
 quality/2d/use_pixel_snap=true
 quality/filters/use_nearest_mipmap_filter=true
-environment/default_clear_color=Color( 0.262745, 0.231373, 0.192157, 1 )
+environment/default_clear_color=Color( 0.14902, 0.27451, 0.32549, 1 )
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
 quality/2d/gles2_use_nvidia_rect_flicker_workaround=true

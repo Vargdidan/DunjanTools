@@ -2,7 +2,7 @@
 
 [ext_resource path="res://GUI/MapButton.gd" type="Script" id=1]
 [ext_resource path="res://GUI/PopulateMap.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=3]
 
 [node name="MapList" type="Control"]
 grow_horizontal = 2
@@ -14,7 +14,7 @@ __meta__ = {
 }
 
 [node name="VSplitContainer" type="VSplitContainer" parent="."]
-margin_right = 200.0
+margin_right = 400.0
 margin_bottom = 1080.0
 grow_horizontal = 0
 dragger_visibility = 1
@@ -23,12 +23,11 @@ __meta__ = {
 }
 
 [node name="MapButton" type="Button" parent="VSplitContainer"]
-margin_right = 200.0
-margin_bottom = 35.0
+margin_right = 400.0
+margin_bottom = 41.0
 focus_mode = 0
 size_flags_vertical = 0
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_pressed = Color( 0.419608, 0.419608, 0.419608, 1 )
+theme = ExtResource( 3 )
 toggle_mode = true
 enabled_focus_mode = 0
 text = "Change Map"
@@ -38,8 +37,8 @@ __meta__ = {
 }
 
 [node name="MapContainer" type="ScrollContainer" parent="VSplitContainer"]
-margin_top = 47.0
-margin_right = 200.0
+margin_top = 53.0
+margin_right = 400.0
 margin_bottom = 1080.0
 grow_horizontal = 0
 size_flags_horizontal = 3
@@ -50,10 +49,11 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/MapContainer"]
-margin_right = 200.0
-margin_bottom = 1033.0
+margin_right = 400.0
+margin_bottom = 1027.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 3 )
 script = ExtResource( 2 )
 [connection signal="pressed" from="VSplitContainer/MapButton" to="VSplitContainer/MapButton" method="_on_TokenButton_pressed"]

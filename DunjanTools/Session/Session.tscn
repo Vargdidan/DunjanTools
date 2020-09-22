@@ -9,7 +9,7 @@
 [ext_resource path="res://GUI/MapList.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Session/Camera.tscn" type="PackedScene" id=8]
 [ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=10]
 [ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Scripts/Session/SelectionBox.cs" type="Script" id=12]
 
@@ -67,9 +67,9 @@ position = Vector2( 960, 540 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="TokenList" parent="UI" instance=ExtResource( 9 )]
-margin_left = 1919.12
+margin_left = 1920.12
 margin_top = 0.440491
-margin_right = 1919.12
+margin_right = 1920.12
 margin_bottom = 0.440491
 
 [node name="InsertToken" type="Label" parent="UI"]
@@ -83,9 +83,9 @@ __meta__ = {
 }
 
 [node name="MapList" parent="UI" instance=ExtResource( 7 )]
-margin_left = 1512.0
+margin_left = 1320.0
 margin_top = 0.440491
-margin_right = 1512.0
+margin_right = 1320.0
 margin_bottom = 0.440491
 
 [node name="Controls" parent="UI" instance=ExtResource( 6 )]
@@ -94,27 +94,29 @@ margin_right = -1024.0
 margin_bottom = -559.56
 
 [node name="Players" type="VBoxContainer" parent="UI"]
-margin_left = 8.0
-margin_top = 858.0
-margin_right = 241.0
-margin_bottom = 1077.0
+margin_left = 1.0
+margin_top = 861.0
+margin_right = 234.0
+margin_bottom = 1080.0
+theme = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="UI/Players"]
 margin_right = 233.0
-margin_bottom = 41.0
-custom_fonts/font = ExtResource( 10 )
+margin_bottom = 29.0
+theme = ExtResource( 10 )
+custom_colors/font_color = Color( 0.956863, 0.635294, 0.380392, 1 )
 text = "Players:"
 
 [node name="BackButton" type="Button" parent="UI"]
-margin_left = 1826.38
-margin_top = 1043.18
-margin_right = 1918.38
-margin_bottom = 1078.18
+margin_left = 1770.0
+margin_top = 1039.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 focus_mode = 0
-custom_fonts/font = ExtResource( 11 )
+theme = ExtResource( 10 )
 enabled_focus_mode = 0
 text = "Go Back"
 __meta__ = {
