@@ -16,6 +16,7 @@ public class Token : Node2D
     public Vector2 TargetScale { set; get; }
     public ClientVariables ClientVariables { set; get; }
     public Sprite TokenSprite { set; get; }
+    public PopupMenu PopupMenu { set; get; }
 
     public override void _Ready()
     {
@@ -23,6 +24,7 @@ public class Token : Node2D
         tileSize = ClientVariables.TileSize;
         ImagePath = "";
         TokenName = (Label)GetNode("UI/TokenName");
+        PopupMenu = (PopupMenu)GetNode("UI/PopupMenu");
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
         TargetScale = new Vector2(1,1);
@@ -92,6 +94,7 @@ public class Token : Node2D
         
         GlobalPosition = MathUtil.Lerp(GlobalPosition, TargetPosition, 0.2f);
         TokenName.SetGlobalPosition(GlobalPosition);
+        PopupMenu.SetGlobalPosition(GlobalPosition);
         Scale = MathUtil.Lerp(Scale, TargetScale, 0.1f);
     }
 
@@ -132,8 +135,14 @@ public class Token : Node2D
                 }
             }
 
+            if (Input.IsActionJustReleased("ui_right_click"))
+            {
+                PopupMenu.Visible = true;
+            }
+
             if (Input.IsActionJustReleased("ui_mouse_click"))
             {
+                PopupMenu.Visible = false;
                 if (!Input.IsActionPressed("ui_control"))
                 {
                     ClientVariables.SelectedTokens.Clear();
@@ -143,6 +152,10 @@ public class Token : Node2D
         }
         else
         {
+            if (Input.IsActionJustReleased("ui_mouse_click") || Input.IsActionJustReleased("ui_right_click"))
+            {
+                PopupMenu.Visible = false;
+            }
             TokenName.Visible = false;
         }
 
@@ -253,5 +266,15 @@ public class Token : Node2D
                 {"scale_x", TargetScale.x},
                 {"scale_y", TargetScale.y}
             };
+    }
+
+    public void OnMoveUpPressed()
+    {
+        GetParent().MoveChild(this, GetParent().GetChildCount()-1);
+    }
+
+    public void OnMoveBackPressed()
+    {
+        GetParent().MoveChild(this, 0);
     }
 }

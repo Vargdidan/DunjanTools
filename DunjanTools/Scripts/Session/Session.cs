@@ -39,6 +39,12 @@ public class Session : Node2D
         Global.Connect("ChangedMap", this, nameof(RecievedChangeMap));
         GetTree().Connect("files_dropped", this, nameof(OnDropped));
 
+        if (ClientVariables.NetworkOptions.DMRole)
+        {
+            Control mapList = (Control)GetNode("UI/MapList");
+            mapList.Visible = true;
+        }
+
         Rpc(nameof(AddPlayer), GetTree().GetNetworkUniqueId(), ClientVariables.NetworkOptions.Username);
     }
 

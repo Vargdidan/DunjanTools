@@ -23,3 +23,41 @@ text = "Took"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PopupMenu" type="PopupMenu" parent="UI"]
+margin_right = 20.0
+margin_bottom = 20.0
+rect_scale = Vector2( 0.5, 0.5 )
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="UI/PopupMenu"]
+margin_right = 208.0
+margin_bottom = 94.0
+dragger_visibility = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveUp" type="Button" parent="UI/PopupMenu/VSplitContainer"]
+margin_right = 208.0
+margin_bottom = 41.0
+theme = ExtResource( 2 )
+text = "Move to front"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveBack" type="Button" parent="UI/PopupMenu/VSplitContainer"]
+margin_top = 53.0
+margin_right = 208.0
+margin_bottom = 94.0
+theme = ExtResource( 2 )
+text = "Move to back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="UI/PopupMenu/VSplitContainer/MoveUp" to="." method="OnMoveUpPressed"]
+[connection signal="pressed" from="UI/PopupMenu/VSplitContainer/MoveBack" to="." method="OnMoveBackPressed"]
