@@ -270,10 +270,22 @@ public class Token : Node2D
 
     public void OnMoveUpPressed()
     {
-        GetParent().MoveChild(this, GetParent().GetChildCount()-1);
+        Rpc(nameof(MoveToFront));
     }
 
     public void OnMoveBackPressed()
+    {
+        Rpc(nameof(MoveToBack));
+    }
+
+    [RemoteSync]
+    public void MoveToFront()
+    {
+        GetParent().MoveChild(this, GetParent().GetChildCount()-1);
+    }
+
+    [RemoteSync]
+    public void MoveToBack()
     {
         GetParent().MoveChild(this, 0);
     }
