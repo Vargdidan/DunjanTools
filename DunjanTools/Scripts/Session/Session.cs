@@ -45,7 +45,7 @@ public class Session : Node2D
             mapList.Visible = true;
         }
 
-        Rpc(nameof(AddPlayer), GetTree().GetNetworkUniqueId(), ClientVariables.NetworkOptions.Username);
+        RpcId(1, nameof(RequestAddMe), GetTree().GetNetworkUniqueId(), ClientVariables.NetworkOptions.Username);
     }
 
     public override void _Process(float delta)
@@ -81,10 +81,9 @@ public class Session : Node2D
     public void CreateToken(String tokenName, String tokenFilePath, Vector2 position, Vector2 scale)
     {
         Token token = (Token)TokenScene.Instance();
-        token.Name = tokenName;
         Tokens.AddChild(token);
-        token.InitializeToken(tokenFilePath, position, scale);
-        ClientVariables.InsertedTokens.Add(new TokenReference(token.Name, tokenFilePath));
+        token.InitializeToken(tokenName, tokenFilePath, position, scale);
+        ClientVariables.InsertedTokens.Add(new TokenReference(tokenName, tokenFilePath));
     }
 
     public void CreateTokens(List<TokenReference> tokenReferences)
@@ -92,9 +91,8 @@ public class Session : Node2D
         foreach (TokenReference tokenRef in tokenReferences)
         {
             Token token = (Token)TokenScene.Instance();
-            token.Name = tokenRef.UniqueName;
             Tokens.AddChild(token);
-            token.InitializeToken(tokenRef.ImageFile, Vector2.Zero, Vector2.Zero);
+            token.InitializeToken(tokenRef.UniqueName, tokenRef.ImageFile, Vector2.Zero, Vector2.Zero);
             ClientVariables.InsertedTokens.Add(tokenRef);
         }
     }
@@ -115,14 +113,23 @@ public class Session : Node2D
     }
 
     [RemoteSync]
-    public void ClearTokens()
+    public void ClearTokensForNewMap()
     {
+        String map = ClientVariables.SelectedMap;
+
         TokenCounter = 0;
         foreach (Node token in Tokens.GetChildren())
         {
-            token.QueueFree();
+            token.Free();
         }
         ClientVariables.ResetVariables();
+
+        if (ClientVariables.NetworkOptions.DMRole)
+        {
+            ClientVariables.SelectedMap = map;
+            LoadSession();
+            Rpc(nameof(ChangeMap), ClientVariables.SelectedMap, Map.Scale);
+        }
     }
     public void RecievedChangeMap()
     {
@@ -131,10 +138,7 @@ public class Session : Node2D
             SaveSession();
             String map = ClientVariables.SelectedMap;
             Map.Scale = new Vector2(1,1);
-            Rpc(nameof(ClearTokens));
-            ClientVariables.SelectedMap = map;
-            LoadSession();
-            Rpc(nameof(ChangeMap), ClientVariables.SelectedMap, Map.Scale); //Use session data?
+            Rpc(nameof(ClearTokensForNewMap));
         }
     }
 
@@ -149,20 +153,29 @@ public class Session : Node2D
     {
         foreach (String absoluteFilePath in files)
         {
-            int pos = absoluteFilePath.RFindN("Tokens\\");
-            String relativePath = absoluteFilePath.Right(pos + 7);
-
-            String fileName = relativePath.Split(".")[0];
-            int index = fileName.RFindN("\\");
-            if (index != -1) 
+            if (absoluteFilePath.Contains("Tokens"))
             {
-                //Remove file extention from name
-                fileName = fileName.Right(index+1);
-            }
-            Vector2 dropPosition = GetGlobalMousePosition();
+                int pos = absoluteFilePath.RFindN("Tokens\\");
+                String relativePath = absoluteFilePath.Right(pos + 7);
 
-            RpcId(1, nameof(RequestCreateToken), fileName, relativePath, dropPosition, Vector2.Zero);
+                String fileName = relativePath.Split(".")[0];
+                int index = fileName.RFindN("\\");
+                if (index != -1) 
+                {
+                    //Remove file extention from name
+                    fileName = fileName.Right(index+1);
+                }
+                Vector2 dropPosition = GetGlobalMousePosition();
+
+                RpcId(1, nameof(RequestCreateToken), fileName, relativePath, dropPosition, Vector2.Zero);
+            }
         }
+    }
+
+    [RemoteSync]
+    public void RequestAddMe(int id, string name)
+    {
+        Rpc(nameof(AddPlayer), id, name);
     }
 
     [RemoteSync]
@@ -184,8 +197,11 @@ public class Session : Node2D
         PlayerReference? playerReference = ClientVariables.FindPlayerReferenceById(id);
         if (playerReference.HasValue) {
             ClientVariables.ConnectedPlayers.Remove(playerReference.Value);
+            if (GetNode("UI/Players").GetNodeOrNull(id.ToString()) != null)
+            {
+                GetNode("UI/Players").GetNode(id.ToString()).QueueFree();
+            }
         }
-        GetNode("UI/Players").GetNode(id.ToString()).QueueFree();
     }
 
     [RemoteSync]

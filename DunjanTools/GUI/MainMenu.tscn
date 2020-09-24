@@ -35,10 +35,10 @@ __meta__ = {
 }
 
 [node name="Label6" type="Label" parent="UI"]
-margin_left = 1812.3
-margin_top = 1048.0
-margin_right = 1916.3
-margin_bottom = 1077.0
+margin_left = 1768.0
+margin_top = 1039.0
+margin_right = 1918.0
+margin_bottom = 1080.0
 theme = ExtResource( 5 )
 text = "v0.3 Alpha"
 align = 1

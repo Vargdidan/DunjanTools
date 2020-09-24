@@ -85,9 +85,8 @@ public class Network : Node
     {
         if (ClientVariables.NetworkOptions.DMRole)
         {
-            Node currentScene = Root.GetChild(Root.GetChildCount() - 1);
-            //TODO: port battlemap
-            //currentScene.save_battlemap();
+            Session sessionScene = (Session)Root.GetChild(Root.GetChildCount() - 1);
+            sessionScene.SaveSession();
         }
         Global.GotoScene("res://GUI/MainMenu.tscn");
         NetworkedMultiplayerENet peer = (NetworkedMultiplayerENet)GetTree().NetworkPeer;

@@ -11,7 +11,6 @@ func _ready():
 	
 
 func _process(delta):
-	move()
 	zoom()
 	position += speed * move_direction * delta
 	move_direction = Vector2()
@@ -26,15 +25,6 @@ func _input(event):
 		
 	if Input.is_action_pressed("ui_control") && Input.is_action_just_pressed("zero_camera"):
 		global_position = Vector2(960, 540)
-	
-
-func move():
-	var LEFT = Input.is_action_pressed("ui_left")
-	var RIGHT = Input.is_action_pressed("ui_right")
-	var UP = Input.is_action_pressed("ui_up")
-	var DOWN = Input.is_action_pressed("ui_down")
-	move_direction.x += (-int(LEFT) + int(RIGHT))
-	move_direction.y += (-int(UP) + int(DOWN))
 
 func zoom():
 	if (!Input.is_action_pressed("ui_control") && !Input.is_action_pressed("ui_shift") && Input.is_action_just_released("ui_scroll_up")):

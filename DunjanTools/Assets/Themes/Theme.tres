@@ -1,7 +1,6 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Fonts/Heading2.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.105882, 0.2, 0.235294, 1 )
@@ -71,10 +70,10 @@ Label/colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
 Label/colors/font_color_shadow = Color( 0.360784, 0.301961, 0.160784, 1 )
 Label/colors/font_outline_modulate = Color( 0.956863, 0.635294, 0.380392, 0 )
 Label/constants/line_spacing = 3
-Label/constants/shadow_as_outline = 1
+Label/constants/shadow_as_outline = 2
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
-Label/fonts/font = ExtResource( 2 )
+Label/fonts/font = null
 Label/styles/normal = SubResource( 8 )
 LineEdit/colors/clear_button_color = Color( 0.0470588, 0.0313726, 0.0313726, 1 )
 LineEdit/colors/clear_button_color_pressed = Color( 1, 1, 1, 1 )

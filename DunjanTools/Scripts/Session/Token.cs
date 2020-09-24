@@ -32,8 +32,9 @@ public class Token : Node2D
         RsetConfig(nameof(TargetScale), Godot.MultiplayerAPI.RPCMode.Remotesync);
     }
 
-    public void InitializeToken(String imagePath, Vector2 position, Vector2 scale)
+    public void InitializeToken(String tokenName, String imagePath, Vector2 position, Vector2 scale)
     {
+        this.Name = tokenName;
         TokenName.Text = this.Name;
         ImagePath = imagePath;
         Image image = new Image();
@@ -170,15 +171,15 @@ public class Token : Node2D
 
     public void MoveWithKeys()
     {
-        if (Input.IsActionJustPressed("ui_move_left") ||
-            Input.IsActionJustPressed("ui_move_right") ||
-            Input.IsActionJustPressed("ui_move_up") ||
-            Input.IsActionJustPressed("ui_move_down"))
+        if (Input.IsActionJustPressed("ui_move_left") || Input.IsActionJustPressed("ui_left") ||
+            Input.IsActionJustPressed("ui_move_right") || Input.IsActionJustPressed("ui_right") ||
+            Input.IsActionJustPressed("ui_move_up") || Input.IsActionJustPressed("ui_up") ||
+            Input.IsActionJustPressed("ui_move_down") || Input.IsActionJustPressed("ui_down"))
         {
-            int left = Convert.ToInt32(Input.IsActionJustPressed("ui_move_left"));
-            int right = Convert.ToInt32(Input.IsActionJustPressed("ui_move_right"));
-            int up = Convert.ToInt32(Input.IsActionJustPressed("ui_move_up"));
-            int down = Convert.ToInt32(Input.IsActionJustPressed("ui_move_down"));
+            int left = Convert.ToInt32(Input.IsActionJustPressed("ui_move_left")) + Convert.ToInt32(Input.IsActionJustPressed("ui_left"));
+            int right = Convert.ToInt32(Input.IsActionJustPressed("ui_move_right")) + Convert.ToInt32(Input.IsActionJustPressed("ui_right"));
+            int up = Convert.ToInt32(Input.IsActionJustPressed("ui_move_up")) + Convert.ToInt32(Input.IsActionJustPressed("ui_up"));
+            int down = Convert.ToInt32(Input.IsActionJustPressed("ui_move_down")) + Convert.ToInt32(Input.IsActionJustPressed("ui_down"));
 
             Vector2 pos = TargetPosition;
             pos.x += (-left + right) * tileSize;
