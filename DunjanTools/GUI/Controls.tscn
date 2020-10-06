@@ -60,7 +60,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/Panel/ControlsContainer"]
 margin_right = 737.0
-margin_bottom = 1211.0
+margin_bottom = 1256.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -226,42 +226,49 @@ margin_bottom = 986.0
 text = "Insert token on mouse: Drop from explorer"
 align = 1
 
-[node name="Label4" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
+[node name="Label27" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
 margin_top = 990.0
 margin_right = 737.0
 margin_bottom = 1031.0
+text = "Delete selected tokens: press delete"
+align = 1
+
+[node name="Label4" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
+margin_top = 1035.0
+margin_right = 737.0
+margin_bottom = 1076.0
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Resize map: shift + scroll"
 align = 1
 
 [node name="Label5" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 1035.0
+margin_top = 1080.0
 margin_right = 737.0
-margin_bottom = 1076.0
+margin_bottom = 1121.0
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Resize map(Fine tune): shift+space+scroll"
 align = 1
 
 [node name="Label10" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 1080.0
+margin_top = 1125.0
 margin_right = 737.0
-margin_bottom = 1121.0
+margin_bottom = 1166.0
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Show/hide map: H"
 align = 1
 
 [node name="Label11" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 1125.0
+margin_top = 1170.0
 margin_right = 737.0
-margin_bottom = 1166.0
+margin_bottom = 1211.0
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Hide square: alt + left-click"
 align = 1
 
 [node name="Label12" type="Label" parent="VSplitContainer/Panel/ControlsContainer/VBoxContainer"]
-margin_top = 1170.0
+margin_top = 1215.0
 margin_right = 737.0
-margin_bottom = 1211.0
+margin_bottom = 1256.0
 custom_colors/font_color = Color( 0.862745, 0.72549, 0, 1 )
 text = "Show square: alt + shift + left-click"
 align = 1
