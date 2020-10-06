@@ -27,7 +27,7 @@ public class Tilemap : TileMap
     {
         if (ClientVariables.NetworkOptions.DMRole)
         {
-            if (Input.IsActionPressed("ui_mouse_click") && (Input.IsActionPressed("ui_alt") || Input.IsActionPressed("ui_shift")))
+            if (Input.IsActionPressed("ui_mouse_click") && (Input.IsActionPressed("ui_alt")))
             {
                 DrawFog();
             }
@@ -77,10 +77,11 @@ public class Tilemap : TileMap
         target.y = target.y - CellSize.y/2;
         target = target.Snapped(CellSize);
 
-        if (Input.IsActionPressed("ui_shift"))
+        if (Input.IsActionPressed("ui_shift") && Input.IsActionPressed("ui_alt"))
         {
             tile = -1;
         }
+
         SetCell((int)target.x/(int)CellSize.x, (int)target.y/(int)CellSize.y, tile);
     }
 

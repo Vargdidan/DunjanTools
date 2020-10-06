@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Session/Tilemap.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Session/Session.cs" type="Script" id=2]
@@ -43,20 +43,6 @@ resource_local_to_scene = true
 1/shape_one_way_margin = 0.0
 1/shapes = [  ]
 1/z_index = 0
-
-[sub_resource type="ParticlesMaterial" id=2]
-emission_shape = 1
-emission_sphere_radius = 32.0
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-angular_velocity = 5.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 3.0
-color = Color( 0.0705882, 0.0901961, 0.772549, 1 )
-hue_variation = 0.5
-hue_variation_random = 0.5
 
 [node name="Session" type="Node2D"]
 script = ExtResource( 2 )
@@ -106,7 +92,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="UI/Players"]
 margin_right = 233.0
-margin_bottom = 29.0
+margin_bottom = 41.0
 theme = ExtResource( 10 )
 custom_colors/font_color = Color( 0.956863, 0.635294, 0.380392, 1 )
 text = "Players:"
@@ -152,15 +138,22 @@ __meta__ = {
 wait_time = 0.5
 autostart = true
 
-[node name="Ping" type="Particles2D" parent="."]
+[node name="Ping" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 1000
 lifetime = 0.25
 one_shot = true
 speed_scale = 2.0
-visibility_rect = Rect2( 0, 0, 64, 64 )
 local_coords = false
-process_material = SubResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 32.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 5.0
+scale_amount = 3.0
+color = Color( 0.0705882, 0.0901961, 0.772549, 1 )
+hue_variation = 0.5
+hue_variation_random = 0.5
 
 [node name="SelectionBox" type="Node2D" parent="."]
 script = ExtResource( 12 )

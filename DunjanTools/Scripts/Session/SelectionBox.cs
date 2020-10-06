@@ -27,7 +27,7 @@ public class SelectionBox : Node2D
             {
                 endHoldPos = GetGlobalMousePosition();
                 
-                if (Input.IsActionPressed("ui_shift"))
+                if (Input.IsActionPressed("ui_shift") && !Input.IsActionPressed("ui_alt"))
                 {
                     float distanceX = endHoldPos.x - startHoldPos.x;
                     float distanceY = endHoldPos.y - startHoldPos.y;

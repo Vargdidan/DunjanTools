@@ -20,7 +20,7 @@ public class Session : Node2D
     public int TokenCounter { get; set; }
     public Node2D Tokens { get; set; }
     public Map Map { get; set; }
-    public Particles2D Ping { get; set; }
+    public CPUParticles2D Ping { get; set; }
     public Global Global { get; set; }
     public ClientVariables ClientVariables { get; set; }
 
@@ -31,7 +31,7 @@ public class Session : Node2D
         TokenCounter = 0;
         Tokens = (Node2D)GetNode("Tokens");
         Map = (Map)GetNode("Map");
-        Ping = (Particles2D)GetNode("Ping");
+        Ping = (CPUParticles2D)GetNode("Ping");
         Global = (Global)GetNode("/root/Global");
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
 
