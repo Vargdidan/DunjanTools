@@ -29,9 +29,12 @@ public class SelectionBox : Node2D
                 
                 if (Input.IsActionPressed("ui_shift") && !Input.IsActionPressed("ui_alt"))
                 {
-                    float distanceX = endHoldPos.x - startHoldPos.x;
-                    float distanceY = endHoldPos.y - startHoldPos.y;
-                    ClientVariables.SelectionBox = new Rect2(startHoldPos, distanceX, distanceY);
+                    float distanceX = Math.Abs(endHoldPos.x - startHoldPos.x);
+                    float distanceY = Math.Abs(endHoldPos.y - startHoldPos.y);
+
+                    //Important that the origin is set at the rectangle's left upper corner for collision detection to work
+                    Vector2 origin = new Vector2(Math.Min(startHoldPos.x, endHoldPos.x), Math.Min(startHoldPos.y, endHoldPos.y));
+                    ClientVariables.SelectionBox = new Rect2(origin, distanceX, distanceY);
                     Update();
                 }
             }
