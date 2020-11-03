@@ -10,9 +10,23 @@ script = ExtResource( 2 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="UI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 120
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer"]
 margin_right = 1920.0
-margin_bottom = 63.0
+margin_bottom = 111.0
+
+[node name="Label" type="Label" parent="UI/VBoxContainer/VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 66.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.956863, 0.635294, 0.380392, 1 )
 text = "DunjanTools"
@@ -21,11 +35,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label3" type="Label" parent="UI"]
-margin_left = 2.52002
-margin_top = 64.0
-margin_right = 1922.52
-margin_bottom = 105.0
+[node name="Label3" type="Label" parent="UI/VBoxContainer/VBoxContainer"]
+margin_top = 70.0
+margin_right = 1920.0
+margin_bottom = 111.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
 text = "Explore dungeons with the wizard's tools from the school of computing"
@@ -34,31 +47,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label6" type="Label" parent="UI"]
-margin_left = 1724.0
-margin_top = 1039.0
-margin_right = 1916.0
-margin_bottom = 1080.0
-theme = ExtResource( 5 )
-text = "v0.3.2 Omega"
-align = 1
+[node name="CenterContainer" type="CenterContainer" parent="UI/VBoxContainer"]
+margin_top = 231.0
+margin_right = 1920.0
+margin_bottom = 542.0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OnlinePanel" type="Panel" parent="UI"]
-self_modulate = Color( 0.164706, 0.615686, 0.560784, 0.0666667 )
-margin_left = 663.886
-margin_top = 300.951
-margin_right = 1271.89
-margin_bottom = 724.951
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="OnlineContainer" type="VBoxContainer" parent="UI/VBoxContainer/CenterContainer"]
+margin_left = 742.0
+margin_right = 1177.0
+margin_bottom = 311.0
 
-[node name="ConnectLabel" type="Label" parent="UI/OnlinePanel"]
-margin_left = 80.0
-margin_right = 515.0
+[node name="ConnectLabel" type="Label" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_right = 435.0
 margin_bottom = 41.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
@@ -68,78 +74,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Host" type="Button" parent="UI/OnlinePanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 152.997
-margin_top = 352.0
-margin_right = -241.003
-margin_bottom = -25.0
-grow_horizontal = 0
-grow_vertical = 0
-hint_tooltip = "Host a game from your current IP address. Google \"what's my IP?\" to find external address."
-theme = ExtResource( 5 )
-text = "Host a session"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="UPNP" type="CheckBox" parent="UI/OnlinePanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 367.811
-margin_top = 353.587
-margin_right = -127.189
-margin_bottom = -21.4126
-hint_tooltip = "Attempts to portforward the current port. (Not guaranteed to work with all routers. Would recommend portforwarding manually)"
-focus_mode = 0
-theme = ExtResource( 5 )
-enabled_focus_mode = 0
-text = "UPNP"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DM" type="CheckBox" parent="UI/OnlinePanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 264.0
-margin_top = 226.0
-margin_right = -264.0
-margin_bottom = -149.0
-hint_tooltip = "Are you the DM of this session? Needless to say, there should only be one DM at a time."
-focus_mode = 0
-theme = ExtResource( 5 )
-enabled_focus_mode = 0
-text = "DM"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Connect" type="Button" parent="UI/OnlinePanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 152.997
-margin_top = 283.049
-margin_right = -155.003
-margin_bottom = -93.9512
-hint_tooltip = "Connect to the entered IP and Port."
-theme = ExtResource( 5 )
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
-custom_colors/font_color_hover = Color( 0.905882, 0.435294, 0.317647, 1 )
-text = "Connect to a session"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Username" type="LineEdit" parent="UI/OnlinePanel"]
-margin_left = 128.0
-margin_top = 48.0
-margin_right = 472.0
-margin_bottom = 99.0
+[node name="Username" type="LineEdit" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_top = 45.0
+margin_right = 435.0
+margin_bottom = 86.0
 hint_tooltip = "Name displayed in the player list."
 theme = ExtResource( 5 )
 align = 1
@@ -150,11 +88,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IP" type="LineEdit" parent="UI/OnlinePanel"]
-margin_left = 128.0
-margin_top = 104.0
-margin_right = 472.0
-margin_bottom = 155.0
+[node name="IP" type="LineEdit" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_top = 90.0
+margin_right = 435.0
+margin_bottom = 131.0
 hint_tooltip = "Not used by the host. Type in the external address of the one hosting the game. Default: (127.0.0.1)"
 theme = ExtResource( 5 )
 align = 1
@@ -164,11 +101,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Port" type="LineEdit" parent="UI/OnlinePanel"]
-margin_left = 128.0
-margin_top = 160.0
-margin_right = 472.0
-margin_bottom = 211.0
+[node name="Port" type="LineEdit" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_top = 135.0
+margin_right = 435.0
+margin_bottom = 176.0
 hint_tooltip = "Port to connect to. Default: (31400)"
 theme = ExtResource( 5 )
 align = 1
@@ -177,6 +113,83 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="text_changed" from="UI/OnlinePanel/Username" to="." method="OnUsernameTextChanged"]
-[connection signal="text_changed" from="UI/OnlinePanel/IP" to="." method="OnIpTextChanged"]
-[connection signal="text_changed" from="UI/OnlinePanel/Port" to="." method="OnPortTextChanged"]
+
+[node name="DM" type="CheckBox" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_left = 181.0
+margin_top = 180.0
+margin_right = 253.0
+margin_bottom = 221.0
+hint_tooltip = "Are you the DM of this session? Needless to say, there should only be one DM at a time."
+focus_mode = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource( 5 )
+enabled_focus_mode = 0
+text = "DM"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connect" type="Button" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_top = 225.0
+margin_right = 435.0
+margin_bottom = 266.0
+hint_tooltip = "Connect to the entered IP and Port."
+theme = ExtResource( 5 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
+custom_colors/font_color_hover = Color( 0.905882, 0.435294, 0.317647, 1 )
+text = "Connect to a session"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/CenterContainer/OnlineContainer"]
+margin_top = 270.0
+margin_right = 435.0
+margin_bottom = 311.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Host" type="Button" parent="UI/VBoxContainer/CenterContainer/OnlineContainer/HBoxContainer"]
+margin_right = 326.0
+margin_bottom = 41.0
+hint_tooltip = "Host a game from your current IP address. Google \"what's my IP?\" to find external address."
+size_flags_horizontal = 3
+theme = ExtResource( 5 )
+text = "Host a session"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UPNP" type="CheckBox" parent="UI/VBoxContainer/CenterContainer/OnlineContainer/HBoxContainer"]
+margin_left = 330.0
+margin_right = 435.0
+margin_bottom = 41.0
+hint_tooltip = "Attempts to portforward the current port. (Not guaranteed to work with all routers. Would recommend portforwarding manually)"
+focus_mode = 0
+theme = ExtResource( 5 )
+enabled_focus_mode = 0
+text = "UPNP"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Version" type="Label" parent="UI/VBoxContainer"]
+margin_top = 1039.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+theme = ExtResource( 5 )
+text = "v0.3.2 Omega"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="text_changed" from="UI/VBoxContainer/CenterContainer/OnlineContainer/Username" to="." method="OnUsernameTextChanged"]
+[connection signal="text_changed" from="UI/VBoxContainer/CenterContainer/OnlineContainer/IP" to="." method="OnIpTextChanged"]
+[connection signal="text_changed" from="UI/VBoxContainer/CenterContainer/OnlineContainer/Port" to="." method="OnPortTextChanged"]

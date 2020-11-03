@@ -41,7 +41,7 @@ public class Session : Node2D
 
         if (ClientVariables.NetworkOptions.DMRole)
         {
-            Control mapList = (Control)GetNode("UI/MapList");
+            Control mapList = (Control)GetNode("UI/HBoxContainer/MapList");
             mapList.Visible = true;
         }
 
@@ -185,7 +185,7 @@ public class Session : Node2D
         playerLabel.Name = id.ToString();
         playerLabel.Text = name;
         playerLabel.AddFontOverride("font", (Font)GD.Load("res://Assets/Fonts/Default.tres"));
-        GetNode("UI/Players").AddChild(playerLabel);
+        GetNode("UI/VBoxContainer/Players").AddChild(playerLabel);
 
         PlayerReference playerReference = new PlayerReference(id, name);
         ClientVariables.ConnectedPlayers.Add(playerReference);
@@ -197,9 +197,9 @@ public class Session : Node2D
         PlayerReference? playerReference = ClientVariables.FindPlayerReferenceById(id);
         if (playerReference.HasValue) {
             ClientVariables.ConnectedPlayers.Remove(playerReference.Value);
-            if (GetNode("UI/Players").GetNodeOrNull(id.ToString()) != null)
+            if (GetNode("UI/VBoxContainer/Players").GetNodeOrNull(id.ToString()) != null)
             {
-                GetNode("UI/Players").GetNode(id.ToString()).QueueFree();
+                GetNode("UI/VBoxContainer/Players").GetNode(id.ToString()).QueueFree();
             }
         }
     }

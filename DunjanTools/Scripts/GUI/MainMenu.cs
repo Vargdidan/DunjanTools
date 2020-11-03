@@ -3,7 +3,7 @@ using System;
 
 public class MainMenu : Node2D
 {
-    public Panel OnlinePanel { set; get; }
+    public VBoxContainer OnlineContainer { set; get; }
     public ClientVariables ClientVariables { set; get; }
     public Global Global { set; get; }
     public Network Network { set; get; }
@@ -12,39 +12,39 @@ public class MainMenu : Node2D
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
         Global = (Global)GetNode("/root/Global");
         Network = (Network)GetNode("/root/Network");
-        OnlinePanel = (Panel)GetNode("UI/OnlinePanel");
+        OnlineContainer = (VBoxContainer)GetNode("UI/VBoxContainer/CenterContainer/OnlineContainer");
 
-        OnlinePanel.GetNode("Host").Connect("pressed", Network, "OnHostPressed");
-        OnlinePanel.GetNode("Connect").Connect("pressed", Network, "OnConnectPressed");
-        OnlinePanel.GetNode("UPNP").Connect("toggled", Network, "OnUPNPToggled");
-        OnlinePanel.GetNode("DM").Connect("toggled", Network, "OnDMToggled");
+        OnlineContainer.GetNode("HBoxContainer/Host").Connect("pressed", Network, "OnHostPressed");
+        OnlineContainer.GetNode("Connect").Connect("pressed", Network, "OnConnectPressed");
+        OnlineContainer.GetNode("HBoxContainer/UPNP").Connect("toggled", Network, "OnUPNPToggled");
+        OnlineContainer.GetNode("DM").Connect("toggled", Network, "OnDMToggled");
 
         ClientVariables.ResetVariables();
         ClientVariables.ConnectedPlayers.Clear();
 
         if (ClientVariables.NetworkOptions.Username != "Incognito")
         {
-            LineEdit username = (LineEdit)OnlinePanel.GetNode("Username");
+            LineEdit username = (LineEdit)OnlineContainer.GetNode("Username");
             username.Text = ClientVariables.NetworkOptions.Username;
         }
 
         if (ClientVariables.NetworkOptions.IPAddress != "127.0.0.1")
         {
-            LineEdit ip = (LineEdit)OnlinePanel.GetNode("IP");
+            LineEdit ip = (LineEdit)OnlineContainer.GetNode("IP");
             ip.Text = ClientVariables.NetworkOptions.IPAddress;
         }
 
         if (ClientVariables.NetworkOptions.Port != 31400)
         {
-            LineEdit port = (LineEdit)OnlinePanel.GetNode("Port");
+            LineEdit port = (LineEdit)OnlineContainer.GetNode("Port");
             port.Text = ClientVariables.NetworkOptions.Port.ToString();
         }
 
         
-        CheckBox dm = (CheckBox)OnlinePanel.GetNode("DM");
+        CheckBox dm = (CheckBox)OnlineContainer.GetNode("DM");
         dm.Pressed = ClientVariables.NetworkOptions.DMRole;
     
-        CheckBox upnp = (CheckBox)OnlinePanel.GetNode("UPNP");
+        CheckBox upnp = (CheckBox)OnlineContainer.GetNode("HBoxContainer/UPNP");
         upnp.Pressed = ClientVariables.NetworkOptions.UseUPNP;
     }
 

@@ -52,56 +52,75 @@ position = Vector2( 960, 540 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="TokenList" parent="UI" instance=ExtResource( 9 )]
-margin_left = 1920.12
-margin_top = 0.440491
-margin_right = 1920.12
-margin_bottom = 0.440491
-
-[node name="InsertToken" type="Label" parent="UI"]
-margin_left = 800.0
-margin_top = 8.0
-margin_right = 840.0
-margin_bottom = 34.0
-custom_fonts/font = ExtResource( 11 )
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapList" parent="UI" instance=ExtResource( 7 )]
-visible = false
-margin_left = 1320.0
-margin_top = 0.440491
-margin_right = 1320.0
-margin_bottom = 0.440491
+[node name="Controls" parent="UI/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1920.0
+margin_bottom = 1036.0
 
-[node name="Controls" parent="UI" instance=ExtResource( 6 )]
-margin_top = 0.440491
-margin_right = -1024.0
-margin_bottom = -559.56
-
-[node name="Players" type="VBoxContainer" parent="UI"]
-margin_left = 1.0
-margin_top = 861.0
-margin_right = 234.0
-margin_bottom = 1080.0
+[node name="Players" type="VBoxContainer" parent="UI/VBoxContainer"]
+margin_top = 1040.0
+margin_right = 1920.0
+margin_bottom = 1081.0
 theme = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="UI/Players"]
-margin_right = 233.0
+[node name="Label" type="Label" parent="UI/VBoxContainer/Players"]
+margin_right = 1920.0
 margin_bottom = 41.0
 theme = ExtResource( 10 )
 custom_colors/font_color = Color( 0.956863, 0.635294, 0.380392, 1 )
 text = "Players:"
 
-[node name="BackButton" type="Button" parent="UI"]
-margin_left = 1770.0
-margin_top = 1039.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 1.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapList" parent="UI/HBoxContainer" instance=ExtResource( 7 )]
+margin_right = 478.0
+margin_bottom = 1081.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer"]
+margin_left = 482.0
+margin_right = 960.0
+margin_bottom = 1081.0
+size_flags_horizontal = 3
+
+[node name="TokenList" parent="UI/HBoxContainer/VBoxContainer" instance=ExtResource( 9 )]
+margin_right = 478.0
+grow_vertical = 0
+size_flags_vertical = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HBoxContainer/VBoxContainer"]
+margin_top = 45.0
+margin_right = 478.0
+margin_bottom = 1036.0
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="UI/HBoxContainer/VBoxContainer"]
+margin_top = 1040.0
+margin_right = 478.0
+margin_bottom = 1081.0
 focus_mode = 0
 theme = ExtResource( 10 )
 enabled_focus_mode = 0
@@ -157,5 +176,5 @@ hue_variation_random = 0.5
 
 [node name="SelectionBox" type="Node2D" parent="."]
 script = ExtResource( 12 )
-[connection signal="pressed" from="UI/BackButton" to="." method="OnBackButtonPressed"]
+[connection signal="pressed" from="UI/HBoxContainer/VBoxContainer/BackButton" to="." method="OnBackButtonPressed"]
 [connection signal="timeout" from="Timer" to="TileMap" method="OnTimerTimeout"]

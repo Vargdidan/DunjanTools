@@ -4,28 +4,19 @@
 [ext_resource path="res://GUI/PopulateMap.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=3]
 
-[node name="MapList" type="Control"]
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSplitContainer" type="VSplitContainer" parent="."]
+[node name="MapList" type="VSplitContainer"]
 margin_right = 400.0
 margin_bottom = 1080.0
-grow_horizontal = 0
 dragger_visibility = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapButton" type="Button" parent="VSplitContainer"]
+[node name="MapButton" type="Button" parent="."]
 margin_right = 400.0
 margin_bottom = 41.0
 focus_mode = 0
+size_flags_horizontal = 3
 size_flags_vertical = 0
 theme = ExtResource( 3 )
 toggle_mode = true
@@ -36,7 +27,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapContainer" type="ScrollContainer" parent="VSplitContainer"]
+[node name="MapContainer" type="ScrollContainer" parent="."]
 margin_top = 53.0
 margin_right = 400.0
 margin_bottom = 1080.0
@@ -48,7 +39,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/MapContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MapContainer"]
 margin_right = 400.0
 margin_bottom = 1027.0
 grow_horizontal = 0
@@ -56,4 +47,4 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
-[connection signal="pressed" from="VSplitContainer/MapButton" to="VSplitContainer/MapButton" method="_on_TokenButton_pressed"]
+[connection signal="pressed" from="MapButton" to="MapButton" method="_on_TokenButton_pressed"]
