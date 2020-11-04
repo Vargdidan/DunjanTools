@@ -5,9 +5,8 @@ public class Token : Node2D
 {
     private int tileSize = 64;
     private Boolean isDragging = false;
-    private Vector2 dragStartPosition = new Vector2();
-    private Vector2 dragEndPosition = new Vector2();
-    private Color selectedColor = new Color(1, 0.2f, 0.2f, 0.2f);
+    public Vector2 DragStartPosition { set; get; }
+    public Vector2 DragEndPosition { set; get; }
     private Color dragColor = new Color(1f, 1f, 1f, 1f);
     public String ImagePath { set; get; }
     public Label TokenName { set; get; }
@@ -21,6 +20,8 @@ public class Token : Node2D
     public override void _Ready()
     {
         ClientVariables = (ClientVariables)GetNode("/root/ClientVariables");
+        DragStartPosition = new Vector2();
+        DragEndPosition = new Vector2();
         tileSize = ClientVariables.TileSize;
         ImagePath = "";
         TokenName = (Label)GetNode("UI/TokenName");
@@ -80,7 +81,6 @@ public class Token : Node2D
 
     public override void _Process(float delta)
     {
-        Update();
         CheckSelection();
         if (ClientVariables.SelectedTokens.Contains(this))
         {
@@ -97,23 +97,6 @@ public class Token : Node2D
         TokenName.SetGlobalPosition(GlobalPosition);
         PopupMenu.SetGlobalPosition(GlobalPosition);
         Scale = MathUtil.Lerp(Scale, TargetScale, 0.1f);
-    }
-
-    public override void _Draw()
-    {
-        if (ClientVariables.SelectedTokens.Contains(this))
-        {
-            DrawRect(TokenSprite.GetRect(), selectedColor, true);
-
-            if (Input.IsActionPressed("ui_mouse_click"))
-            {
-                Vector2 distanceToMove = dragEndPosition - dragStartPosition;
-                Vector2 finalPosition = TargetPosition + distanceToMove;
-                Vector2 start = ToLocal(new Vector2(TargetPosition.x + tileSize / 2, TargetPosition.y + tileSize / 2));
-                finalPosition = ToLocal(new Vector2(finalPosition.x + tileSize / 2, finalPosition.y + tileSize / 2));
-                DrawLine(start, finalPosition, dragColor, 10, true);
-            }
-        }
     }
 
     public void CheckSelection()
@@ -191,26 +174,26 @@ public class Token : Node2D
 
     public void MoveWithMouse()
     {
-        if (Input.IsActionPressed("ui_mouse_click"))
+        if (Input.IsActionPressed("ui_mouse_click")  && !Input.IsActionPressed("ui_shift"))
         {
             if (!isDragging)
             {
-                dragStartPosition = GetGlobalMousePosition();
-                dragEndPosition = dragStartPosition;
+                DragStartPosition = GetGlobalMousePosition();
+                DragEndPosition = DragStartPosition;
                 isDragging = true;
             }
-            dragEndPosition = GetGlobalMousePosition();
+            DragEndPosition = GetGlobalMousePosition();
         }
 
         if (Input.IsActionJustReleased("ui_mouse_click"))
         {
             isDragging = false;
-            Vector2 distanceToMove = dragEndPosition - dragStartPosition;
+            Vector2 distanceToMove = DragEndPosition - DragStartPosition;
             Vector2 finalPosition = TargetPosition + distanceToMove;
 
             RpcId(1, nameof(RequestMovement), finalPosition.Snapped(new Vector2(tileSize, tileSize)));
-            dragStartPosition = TargetPosition;
-            dragEndPosition = TargetPosition;
+            DragStartPosition = TargetPosition;
+            DragEndPosition = TargetPosition;
         }
     }
 

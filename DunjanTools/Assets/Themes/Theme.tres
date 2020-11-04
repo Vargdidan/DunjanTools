@@ -24,7 +24,7 @@ bg_color = Color( 0.6, 0.6, 0.6, 0 )
 bg_color = Color( 0.14902, 0.27451, 0.32549, 0 )
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.14902, 0.27451, 0.32549, 0.0470588 )
+bg_color = Color( 0.14902, 0.27451, 0.32549, 0 )
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.117647, 0.227451, 0.270588, 1 )
@@ -38,7 +38,7 @@ bg_color = Color( 0.0980392, 0.184314, 0.219608, 0.470588 )
 [resource]
 default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.913725, 0.768627, 0.415686, 1 )
-Button/colors/font_color_disabled = Color( 0.913725, 0.768627, 0.415686, 0.666667 )
+Button/colors/font_color_disabled = Color( 0.913725, 0.768627, 0.415686, 0.196078 )
 Button/colors/font_color_hover = Color( 0.905882, 0.435294, 0.317647, 1 )
 Button/colors/font_color_pressed = Color( 0.945098, 0.635294, 0.392157, 0.254902 )
 Button/constants/hseparation = 2

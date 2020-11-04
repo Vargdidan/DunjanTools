@@ -43,6 +43,11 @@ public class Tilemap : TileMap
             ShowGrid = !ShowGrid;
             Update();
         }
+
+        if (Input.IsActionPressed("ui_shift"))
+        {
+            Update();
+        }
     }
 
     public override void _Draw()

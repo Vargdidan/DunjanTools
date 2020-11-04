@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Session/Tilemap.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Session/Session.cs" type="Script" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Session/Camera.tscn" type="PackedScene" id=8]
 [ext_resource path="res://GUI/TokenList.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=10]
-[ext_resource path="res://Assets/Fonts/Default.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Scripts/Session/SelectionBox.cs" type="Script" id=12]
 
 [sub_resource type="TileSet" id=1]
@@ -145,9 +144,9 @@ script = ExtResource( 4 )
 
 [node name="Length" type="Label" parent="Ruler"]
 visible = false
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 11 )
+margin_right = 44.0
+margin_bottom = 41.0
+theme = ExtResource( 10 )
 text = "0 ft"
 __meta__ = {
 "_edit_use_anchors_": false

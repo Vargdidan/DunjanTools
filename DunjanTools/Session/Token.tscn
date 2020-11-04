@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Session/Token.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/Theme.tres" type="Theme" id=2]
+[ext_resource path="res://Session/TokenOverlay.cs" type="Script" id=3]
 
 [node name="Token" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,6 +11,9 @@ script = ExtResource( 1 )
 centered = false
 
 [node name="UI" type="Node" parent="."]
+
+[node name="TokenOverlay" type="Node2D" parent="UI"]
+script = ExtResource( 3 )
 
 [node name="TokenName" type="Label" parent="UI"]
 margin_top = -18.0
