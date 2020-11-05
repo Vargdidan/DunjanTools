@@ -67,6 +67,18 @@ public class Session : Node2D
         {
             Rpc(nameof(PingMap), GetGlobalMousePosition());
         }
+
+        if (Input.IsActionJustPressed("ui_duplicate")) {
+            foreach (Node token in ClientVariables.SelectedTokens)
+            {
+                Token tokenNode = (Token)token;
+                TokenReference tokenReference = ClientVariables.FindTokenReferenceByName(token.Name);
+                if (tokenReference != null)
+                {
+                    Rpc(nameof(RequestCreateToken), tokenReference.UniqueName.Split("_")[0], tokenReference.ImageFile, tokenNode.GlobalPosition, tokenNode.Scale);
+                }
+            }
+        }
     }
 
     [RemoteSync]
