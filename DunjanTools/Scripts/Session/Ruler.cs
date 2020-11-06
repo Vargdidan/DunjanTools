@@ -50,6 +50,7 @@ public class Ruler : Node2D
 
     public override void _Draw()
     {
+        //TODO: need to port the Ruler.gd
         if (posIsSet)
         {
             Vector2 centerStart = ToLocal(new Vector2(startPos.x-halfTile, startPos.y-halfTile));

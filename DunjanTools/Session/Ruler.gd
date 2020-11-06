@@ -12,7 +12,7 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# TODO: My plan is to port this code into Ruler.cs, where we also clean this code up a bunch.
 func _process(_delta):
 	if (Input.is_action_pressed("ui_space") && !Input.is_action_pressed("ui_shift")):
 		var mouse_position = get_global_mouse_position()
