@@ -8,6 +8,3 @@ Sometimes I have had an issue with opening the project when I swapped computers.
 
 ### Trello:
 https://trello.com/b/HMsWSU4w/tabledungeon
-
-### Color palette (I'm not a great designer, but I love consistency):
-https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
