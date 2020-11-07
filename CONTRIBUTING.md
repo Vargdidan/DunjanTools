@@ -9,3 +9,7 @@ DunjanTools were ment as a supplement to dice-rollers, discord/chat programs and
 I am a "old-fashioned" programmer, I have been used to and molded by C/C++. GDScript is a awesome prototype language, but to be frank, I need the structure and capabilities of a widespread programming language. This does not mean that you cannot contribute with GDScripts! Even though we are building with mono/C#, GDScripts can cooexist. If you are only used to GDScript projects, building this project might throw you off for a couple of minutes. But the tradeoff is in my eyes worth it.
 
 BeIndie explains and goes through the process in a good way I think, so watch this and read the Godot docs for C#. https://www.youtube.com/watch?v=ra-BJ-fJ6Qo&t=241s
+
+### Color palette
+
+https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
