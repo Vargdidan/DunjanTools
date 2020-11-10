@@ -185,7 +185,7 @@ margin_top = 1039.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 theme = ExtResource( 5 )
-text = "v0.3.3"
+text = "v0.3.4"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false

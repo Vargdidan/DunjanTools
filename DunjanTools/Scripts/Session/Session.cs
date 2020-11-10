@@ -75,7 +75,7 @@ public class Session : Node2D
                 TokenReference tokenReference = ClientVariables.FindTokenReferenceByName(token.Name);
                 if (tokenReference != null)
                 {
-                    Rpc(nameof(RequestCreateToken), tokenReference.UniqueName.Split("_")[0], tokenReference.ImageFile, tokenNode.GlobalPosition, tokenNode.Scale);
+                    RpcId(1, nameof(RequestCreateToken), tokenReference.UniqueName.Split("_")[0], tokenReference.ImageFile, tokenNode.GlobalPosition, tokenNode.Scale);
                 }
             }
         }
