@@ -56,6 +56,11 @@ public class Token : Node2D
         if (!scale.Equals(Vector2.Zero))
         {
             TargetScale = scale;
+            
+            //Update collisionBox
+            float sizeTo = scale.x * TokenSprite.GetRect().Size.x;
+            float scaleTo = sizeTo / tileSize;
+            CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
         }
         else
         {
@@ -89,10 +94,12 @@ public class Token : Node2D
             MoveWithMouse();
             MoveWithKeys();
             Resize();
+            TokenName.Visible = true;
         }
         else
         {
             isDragging = false;
+            TokenName.Visible = false;
         }
         
         GlobalPosition = MathUtil.Lerp(GlobalPosition, TargetPosition, 0.2f);
@@ -104,46 +111,12 @@ public class Token : Node2D
 
     public void CheckSelection()
     {
-        if (TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
-        {
-            TokenName.Visible = true;
-            if (Input.IsActionJustPressed("ui_mouse_click"))
-            {
-                if (Input.IsActionPressed("ui_control"))
-                {
-                    if (ClientVariables.SelectedTokens.Contains(this))
-                    {
-                        ClientVariables.SelectedTokens.Remove(this);
-                    }
-                    else
-                    {
-                        ClientVariables.SelectedTokens.Add(this);
-                    }
-                }
-            }
-
-            if (Input.IsActionJustReleased("ui_right_click"))
-            {
-                PopupMenu.Visible = true;
-            }
-
-            if (Input.IsActionJustReleased("ui_mouse_click"))
-            {
-                PopupMenu.Visible = false;
-                if (!Input.IsActionPressed("ui_control"))
-                {
-                    ClientVariables.SelectedTokens.Clear();
-                    ClientVariables.SelectedTokens.Add(this);
-                }
-            }
-        }
-        else
+        if (!TokenSprite.GetRect().HasPoint(ToLocal(GetGlobalMousePosition())))
         {
             if (Input.IsActionJustReleased("ui_mouse_click") || Input.IsActionJustReleased("ui_right_click"))
             {
                 PopupMenu.Visible = false;
             }
-            TokenName.Visible = false;
         }
 
         if (Input.IsActionJustReleased("ui_mouse_click") && Input.IsActionPressed("ui_shift"))
@@ -210,8 +183,7 @@ public class Token : Node2D
             RpcId(1, nameof(RequestScale), scale);
 
             //Update collisionBox
-            float collisionSizeTo = (tileSize * CollisionBox.Scale.x) + tileSize;
-            float scaleTo = collisionSizeTo / tileSize;
+            float scaleTo = sizeTo.x / tileSize;
             CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
         }
 
@@ -226,8 +198,7 @@ public class Token : Node2D
                 RpcId(1, nameof(RequestScale), scale);
 
                 //Update collisionBox
-                float collisionSizeTo = (tileSize * CollisionBox.Scale.x) - tileSize;
-                float scaleTo = collisionSizeTo / tileSize;
+                float scaleTo = sizeTo.x / tileSize;
                 CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
             }
         }

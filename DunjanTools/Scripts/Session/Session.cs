@@ -83,7 +83,7 @@ public class Session : Node2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if (Input.IsActionJustPressed("ui_mouse_click") && !Input.IsActionPressed("ui_shift")) 
+        if ((Input.IsActionJustPressed("ui_mouse_click") || Input.IsActionJustPressed("ui_right_click")) && !Input.IsActionPressed("ui_shift")) 
         {
             Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
             Godot.Collections.Array result = spaceState.IntersectPoint(GetGlobalMousePosition(), 32, null, 1, false, true);
@@ -94,8 +94,67 @@ public class Session : Node2D
             }
             else
             {
-                // Rework selection of tokens
-                //GD.Print(result);
+                Dictionary<int, Node> tokenDictionary = new Dictionary<int, Node>();
+                int topIndex = 0;
+                foreach (Godot.Collections.Dictionary hit in result)
+                {
+                    if (hit.Contains("collider")) { 
+                        if (hit["collider"].GetType().Name == "Area2D") 
+                        {
+                            Area2D collider = (Area2D)hit["collider"];
+                            Node token = collider.GetParent().GetParent();
+                            tokenDictionary.Add(token.GetIndex(), token);
+
+                            if (topIndex < token.GetIndex()) {
+                                topIndex = token.GetIndex();
+                            }
+                        }
+                    }
+                }
+
+                if (tokenDictionary.Count > 0)
+                {
+                    Node pressedToken = tokenDictionary[topIndex];
+                    if (Input.IsActionPressed("ui_control"))
+                    {
+                        if (ClientVariables.SelectedTokens.Contains(pressedToken))
+                        {
+                            ClientVariables.SelectedTokens.Remove(pressedToken);
+                        }
+                        else
+                        {
+                            ClientVariables.SelectedTokens.Add(pressedToken);
+                        }
+                    }
+                    else
+                    {
+                        bool found = false;
+                        foreach (Node selectedToken in ClientVariables.SelectedTokens)
+                        {
+                            if (tokenDictionary.ContainsValue(selectedToken))
+                            {
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            ClientVariables.SelectedTokens.Clear();
+                            ClientVariables.SelectedTokens.Add(pressedToken);
+                        }
+                    }
+
+                    if (Input.IsActionJustPressed("ui_right_click"))
+                    {
+                        Token token = (Token)pressedToken;
+                        token.PopupMenu.Visible = true;
+                    }
+
+                    if (Input.IsActionJustPressed("ui_mouse_click"))
+                    {
+                        Token token = (Token)pressedToken;
+                        token.PopupMenu.Visible = false;
+                    }
+                }
             }
         }
         
