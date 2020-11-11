@@ -16,6 +16,7 @@ public class Token : Node2D
     public ClientVariables ClientVariables { set; get; }
     public Sprite TokenSprite { set; get; }
     public PopupMenu PopupMenu { set; get; }
+    public Area2D CollisionBox { set; get; }
 
     public override void _Ready()
     {
@@ -26,6 +27,7 @@ public class Token : Node2D
         ImagePath = "";
         TokenName = (Label)GetNode("UI/TokenName");
         PopupMenu = (PopupMenu)GetNode("UI/PopupMenu");
+        CollisionBox = (Area2D)GetNode("Collision/Area2D");
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
         TargetScale = new Vector2(1,1);
@@ -96,6 +98,7 @@ public class Token : Node2D
         GlobalPosition = MathUtil.Lerp(GlobalPosition, TargetPosition, 0.2f);
         TokenName.SetGlobalPosition(GlobalPosition);
         PopupMenu.SetGlobalPosition(GlobalPosition);
+        CollisionBox.GlobalPosition = GlobalPosition;
         Scale = MathUtil.Lerp(Scale, TargetScale, 0.1f);
     }
 
@@ -205,6 +208,12 @@ public class Token : Node2D
             Vector2 sizeTo = new Vector2(currentSize.x + tileSize, currentSize.y + tileSize);
             Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
 
+            //Update collisionBox
+            float currentSizeCollision = tileSize * CollisionBox.Scale.x;
+            float collisionSizeTo = currentSizeCollision + tileSize;
+            float scaleTo = collisionSizeTo / tileSize;
+            CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
+
             RpcId(1, nameof(RequestScale), scale);
         }
 
@@ -217,6 +226,12 @@ public class Token : Node2D
             {
                 Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
                 RpcId(1, nameof(RequestScale), scale);
+
+                //Update collisionBox
+                float currentSizeCollision = tileSize * CollisionBox.Scale.x;
+                float collisionSizeTo = currentSizeCollision - tileSize;
+                float scaleTo = collisionSizeTo / tileSize;
+                CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
             }
         }
     }
