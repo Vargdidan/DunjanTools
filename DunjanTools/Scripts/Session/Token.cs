@@ -207,14 +207,12 @@ public class Token : Node2D
             Vector2 currentSize = TokenSprite.GetRect().Size * TargetScale;
             Vector2 sizeTo = new Vector2(currentSize.x + tileSize, currentSize.y + tileSize);
             Vector2 scale = sizeTo / TokenSprite.GetRect().Size;
+            RpcId(1, nameof(RequestScale), scale);
 
             //Update collisionBox
-            float currentSizeCollision = tileSize * CollisionBox.Scale.x;
-            float collisionSizeTo = currentSizeCollision + tileSize;
+            float collisionSizeTo = (tileSize * CollisionBox.Scale.x) + tileSize;
             float scaleTo = collisionSizeTo / tileSize;
             CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
-
-            RpcId(1, nameof(RequestScale), scale);
         }
 
         if (Input.IsActionJustReleased("ui_scroll_down") && Input.IsActionPressed("ui_control"))
@@ -228,8 +226,7 @@ public class Token : Node2D
                 RpcId(1, nameof(RequestScale), scale);
 
                 //Update collisionBox
-                float currentSizeCollision = tileSize * CollisionBox.Scale.x;
-                float collisionSizeTo = currentSizeCollision - tileSize;
+                float collisionSizeTo = (tileSize * CollisionBox.Scale.x) - tileSize;
                 float scaleTo = collisionSizeTo / tileSize;
                 CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
             }

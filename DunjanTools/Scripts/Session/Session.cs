@@ -81,6 +81,26 @@ public class Session : Node2D
         }
     }
 
+    public override void _PhysicsProcess(float delta)
+    {
+        if (Input.IsActionJustPressed("ui_mouse_click") && !Input.IsActionPressed("ui_shift")) 
+        {
+            Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+            Godot.Collections.Array result = spaceState.IntersectPoint(GetGlobalMousePosition(), 32, null, 1, false, true);
+            
+            if (result.Count == 0) 
+            {
+                ClientVariables.SelectedTokens.Clear();
+            }
+            else
+            {
+                // Rework selection of tokens
+                //GD.Print(result);
+            }
+        }
+        
+    }
+
     [RemoteSync]
     public void RequestCreateToken(String tokenName, String tokenFilePath, Vector2 position, Vector2 scale)
     {
