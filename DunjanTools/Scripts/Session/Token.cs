@@ -13,6 +13,7 @@ public class Token : Node2D
     public Node UI { set; get; }
     public Vector2 TargetPosition { set; get; }
     public Vector2 TargetScale { set; get; }
+    public Vector2 TargetCollisionScale { set; get; }
     public ClientVariables ClientVariables { set; get; }
     public Sprite TokenSprite { set; get; }
     public PopupMenu PopupMenu { set; get; }
@@ -31,8 +32,10 @@ public class Token : Node2D
         TokenSprite = (Sprite)GetNode("Sprite");
         TargetPosition = new Vector2();
         TargetScale = new Vector2(1,1);
+        TargetCollisionScale = new Vector2();
         RsetConfig(nameof(TargetPosition), Godot.MultiplayerAPI.RPCMode.Remotesync);
         RsetConfig(nameof(TargetScale), Godot.MultiplayerAPI.RPCMode.Remotesync);
+        RsetConfig(nameof(TargetCollisionScale), Godot.MultiplayerAPI.RPCMode.Remotesync);
     }
 
     public void InitializeToken(String tokenName, String imagePath, Vector2 position, Vector2 scale)
@@ -60,18 +63,21 @@ public class Token : Node2D
             //Update collisionBox
             float sizeTo = scale.x * TokenSprite.GetRect().Size.x;
             float scaleTo = sizeTo / tileSize;
-            CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
+            TargetCollisionScale = new Vector2(scaleTo, scaleTo);
         }
         else
         {
             Vector2 sizeTo = new Vector2(tileSize, tileSize);
             TargetScale = sizeTo / TokenSprite.GetRect().Size;
+            float scaleTo = sizeTo.x / tileSize;
+            TargetCollisionScale = new Vector2(scaleTo, scaleTo);
         }
 
         TargetPosition = position.Snapped(new Vector2(tileSize, tileSize));
 
         GlobalPosition = TargetPosition;
         Scale = TargetScale;
+        CollisionBox.Scale = TargetCollisionScale;
 
         if (!GetTree().IsNetworkServer())
         {
@@ -107,6 +113,7 @@ public class Token : Node2D
         PopupMenu.SetGlobalPosition(GlobalPosition);
         CollisionBox.GlobalPosition = GlobalPosition;
         Scale = MathUtil.Lerp(Scale, TargetScale, 0.1f);
+        CollisionBox.Scale = MathUtil.Lerp(CollisionBox.Scale, TargetCollisionScale, 0.1f);
     }
 
     public void CheckSelection()
@@ -184,7 +191,7 @@ public class Token : Node2D
 
             //Update collisionBox
             float scaleTo = sizeTo.x / tileSize;
-            CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
+            RpcId(1, nameof(RequestCollisionScale), new Vector2(scaleTo, scaleTo));
         }
 
         if (Input.IsActionJustReleased("ui_scroll_down") && Input.IsActionPressed("ui_control"))
@@ -199,7 +206,7 @@ public class Token : Node2D
 
                 //Update collisionBox
                 float scaleTo = sizeTo.x / tileSize;
-                CollisionBox.Scale = new Vector2(scaleTo, scaleTo);
+                RpcId(1, nameof(RequestCollisionScale), new Vector2(scaleTo, scaleTo));
             }
         }
     }
@@ -217,10 +224,17 @@ public class Token : Node2D
     }
 
     [RemoteSync]
+    public void RequestCollisionScale(Vector2 scale)
+    {
+        Rset(nameof(TargetCollisionScale), scale);
+    }
+
+    [RemoteSync]
     public void RequestPostionAndScale()
     {
         Rset(nameof(TargetPosition), TargetPosition);
         Rset(nameof(TargetScale), TargetScale);
+        Rset(nameof(TargetCollisionScale), TargetCollisionScale);
     }
 
     public Godot.Collections.Dictionary<string, object> SaveToken()
