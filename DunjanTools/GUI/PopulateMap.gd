@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+var refresh = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	dir_contents(ClientVariables.MapFolder)
@@ -19,6 +21,14 @@ func dir_contents(path):
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
+
+func _process(delta):
+	if (get_parent().visible && refresh):
+		dir_contents(ClientVariables.MapFolder)
+		refresh = false
+	
+	if (!get_parent().visible):
+		refresh = true
 
 func create_map(name, file_name):
 	var token = Button.new()

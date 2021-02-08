@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.IO;
+using System.IO.Compression;
 
 public class Token : Node2D
 {
@@ -51,9 +53,9 @@ public class Token : Node2D
         }
         else
         {
-            //TODO: Notify user of missing image
-            GD.Print("Missing token. No token in this path: " + imagePath);
             TokenSprite.Texture = (Godot.Texture)ResourceLoader.Load("res://icon.png");
+            int id = GetTree().NetworkPeer.GetUniqueId();
+            Rpc(nameof(RequestImageData), id, this.Name, imagePath);
         }
 
         if (!scale.Equals(Vector2.Zero))
@@ -78,11 +80,12 @@ public class Token : Node2D
         GlobalPosition = TargetPosition;
         Scale = TargetScale;
         CollisionBox.Scale = TargetCollisionScale;
-
+/*
         if (!GetTree().IsNetworkServer())
         {
             RpcId(1, nameof(RequestPostionAndScale));
         }
+*/
     }
 
     public void SetImageOnSprite(Image image)
@@ -235,6 +238,56 @@ public class Token : Node2D
         Rset(nameof(TargetPosition), TargetPosition);
         Rset(nameof(TargetScale), TargetScale);
         Rset(nameof(TargetCollisionScale), TargetCollisionScale);
+    }
+
+    [RemoteSync]
+    public void RequestImageData(int id, String tokenName, String imagePath)
+    {
+        Image image = new Image();
+        Error result = image.Load(ClientVariables.TokenFolder + imagePath);
+        if (result == Error.Ok)
+        {
+            byte[] imageData = Compress(image.GetData());
+            int height = image.GetHeight();
+            int width = image.GetWidth();
+            Image.Format format = image.GetFormat();
+            int senderId = GetTree().NetworkPeer.GetUniqueId();
+            RpcId(id, nameof(RecieveImageData), tokenName, senderId, height, width, format, imageData);
+            
+        }
+    }
+
+    [RemoteSync]
+    public void RecieveImageData(String tokenName, int senderId, int height, int width, Image.Format format, byte[] imageData)
+    {
+        if (this.Name == tokenName)
+        {
+            Image image = new Image();
+            image.CreateFromData(width, height, false, format, Decompress(imageData));
+            SetImageOnSprite(image);
+            RpcId(senderId, nameof(RequestPostionAndScale));
+        }
+    }
+
+    public static byte[] Compress(byte[] data)
+    {
+        MemoryStream output = new MemoryStream();
+        using (DeflateStream dstream = new DeflateStream(output, CompressionLevel.Optimal))
+        {
+            dstream.Write(data, 0, data.Length);
+        }
+        return output.ToArray();
+    }
+
+    public static byte[] Decompress(byte[] data)
+    {
+        MemoryStream input = new MemoryStream(data);
+        MemoryStream output = new MemoryStream();
+        using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress))
+        {
+            dstream.CopyTo(output);
+        }
+        return output.ToArray();
     }
 
     public Godot.Collections.Dictionary<string, object> SaveToken()

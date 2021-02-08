@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.IO;
+using System.IO.Compression;
 
 public class Map : Sprite
 {
@@ -26,6 +28,11 @@ public class Map : Sprite
             ImageTexture imageTexture = new ImageTexture();
             imageTexture.CreateFromImage(mapImage, 0);
             Texture = imageTexture;
+        }
+        else
+        {
+            int id = GetTree().NetworkPeer.GetUniqueId();
+            Rpc(nameof(RequestMapImageData), id, mapPath);
         }
 
         TargetScale = scale;
@@ -65,6 +72,53 @@ public class Map : Sprite
         if(!scaleTo.Equals(Scale)) {
             RpcId(1, nameof(RequestScale), scaleTo);
         }
+    }
+
+    [RemoteSync]
+    public void RequestMapImageData(int id, String imagePath)
+    {
+        Image image = new Image();
+        Error result = image.Load(ClientVariables.MapFolder + imagePath);
+        if (result == Error.Ok)
+        {
+            byte[] imageData = Compress(image.GetData());
+            int height = image.GetHeight();
+            int width = image.GetWidth();
+            Image.Format format = image.GetFormat();
+            RpcId(id, nameof(RecieveMapImageData), height, width, format, imageData);
+            
+        }
+    }
+
+    [RemoteSync]
+    public void RecieveMapImageData(int height, int width, Image.Format format, byte[] imageData)
+    {
+        Image image = new Image();
+        image.CreateFromData(width, height, false, format, Decompress(imageData));
+        ImageTexture imageTexture = new ImageTexture();
+        imageTexture.CreateFromImage(image, 0);
+        Texture = imageTexture;
+    }
+
+    public static byte[] Compress(byte[] data)
+    {
+        MemoryStream output = new MemoryStream();
+        using (DeflateStream dstream = new DeflateStream(output, CompressionLevel.Optimal))
+        {
+            dstream.Write(data, 0, data.Length);
+        }
+        return output.ToArray();
+    }
+
+    public static byte[] Decompress(byte[] data)
+    {
+        MemoryStream input = new MemoryStream(data);
+        MemoryStream output = new MemoryStream();
+        using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress))
+        {
+            dstream.CopyTo(output);
+        }
+        return output.ToArray();
     }
 
     [RemoteSync]
